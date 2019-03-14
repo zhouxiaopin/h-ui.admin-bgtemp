@@ -1,4 +1,4 @@
-package cn.sk.huiadminbgtemp.utils;
+package cn.sk.huiadminbgtemp.sys.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;

@@ -1,4 +1,4 @@
-package cn.sk.huiadminbgtemp.utils;
+package cn.sk.huiadminbgtemp.sys.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

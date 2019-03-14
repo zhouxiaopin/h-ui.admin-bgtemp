@@ -1,4 +1,4 @@
-package cn.sk.huiadminbgtemp.common;
+package cn.sk.huiadminbgtemp.sys.common;
 
 
 

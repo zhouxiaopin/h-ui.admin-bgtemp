@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 //扫描 mybatis dao 包路径
-@MapperScan(basePackages = {"cn.sk.huiadminbgtemp.mapper"})
+@MapperScan(basePackages = {"cn.sk.huiadminbgtemp.sys.mapper","cn.sk.huiadminbgtemp.business.mapper"})
 //扫描 所有需要的包, 包含一些自用的工具类包 所在的路径
 @ComponentScan(basePackages= {"cn.sk"})
 @EnableTransactionManagement

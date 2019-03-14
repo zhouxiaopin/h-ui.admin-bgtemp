@@ -1,0 +1,29 @@
+package cn.sk.huiadminbgtemp.base.service;
+
+import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import com.github.pagehelper.PageInfo;
+
+/**
+ * 基本Service
+ * @param <T>   实体扩展类
+ * @param <V>   实体包装类
+ */
+public interface IBaseService<T,V> {
+    //添加单个对象
+    ServerResponse<T> insert(T entityCustom);
+
+    //修改单个对象
+    ServerResponse<T> update(T entityCustom);
+
+    //修改多个个对象
+    ServerResponse<T> updateInIds(String[] ids);
+
+    //删除单个对象
+    ServerResponse<T> delete(T entityCustom);
+
+    //查询单个对象
+    ServerResponse<T> queryObj(T entityCustom);
+
+    //分页查询数据列表
+    ServerResponse<PageInfo> queryObjsByPage(V entityQueryVo);
+}

@@ -17,7 +17,9 @@
     <!-- 配置别名 -->
     <typeAliases>
         <!-- 批量扫描别名 :首字母小写或大写的类名-->
-        <package name="cn.sk.huiadminbgtemp.pojo"/>
+        <package name="cn.sk.huiadminbgtemp.base.pojo"/>
+        <package name="cn.sk.huiadminbgtemp.sys.pojo"/>
+        <package name="cn.sk.huiadminbgtemp.business.pojo"/>
 <!--        <package name="cn.gzticc.busanalysis.business.pojo"/>
         <package name="cn.gzticc.busanalysis.frame.pojo"/>-->
 

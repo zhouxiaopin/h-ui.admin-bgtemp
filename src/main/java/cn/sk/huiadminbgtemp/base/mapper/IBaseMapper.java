@@ -1,0 +1,27 @@
+package cn.sk.huiadminbgtemp.base.mapper;
+
+import java.util.List;
+
+/**
+ * 基本Mapper
+ * @param <T>   实体扩展类
+ * @param <V>   实体包装类
+ */
+public interface IBaseMapper <T,V>{
+    int deleteByPrimaryKey(T record);
+
+    int insert(T record);
+
+    int insertSelective(T record);
+
+    T selectByPrimaryKey(T record);
+
+    int updateByPrimaryKeySelective(T record);
+
+    int updateByPrimaryKey(T record);
+
+    List<T> selectListByQueryVo(V entityQueryVo);
+
+    //软删除,recourd_status设置为00删除状态
+    int updateInIds(String[] pks);
+}

@@ -2,12 +2,13 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
 <generatorConfiguration>
     <!--导入属性配置-->
     <properties resource="application-dev.properties"></properties>
 
     <!--指定特定数据库的jdbc驱动jar包的位置-->
-    <classPathEntry location="D:\idea_workspace\2019\uaFtApi\src\main\java\lib\mysql-connector-java-5.1.6-bin.jar"/>
+    <classPathEntry location="${mybatis.gen.jdbc.driverLocation}"/>
 
     <context id="default" targetRuntime="MyBatis3">
 
@@ -19,11 +20,12 @@
 
         <!--jdbc的数据库连接 -->
         <jdbcConnection
-                driverClass="${spring.datasource.driver-class-name}"
+                driverClass="${mybatis.gen.jdbc.driverClassName}"
                 connectionURL="${spring.datasource.url}"
                 userId="${spring.datasource.username}"
                 password="${spring.datasource.password}">
         </jdbcConnection>
+
 
         <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
         <javaTypeResolver>
@@ -35,8 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <!--<javaModelGenerator targetPackage="com.mmall.pojo" targetProject=".\src\main\java">-->
-        <javaModelGenerator targetPackage="cn.gzticc.ftapi.pojo" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="cn.sk.huiadminbgtemp.sys.pojo" targetProject="./src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对model添加 构造函数 -->
@@ -60,15 +61,17 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject=".\src\main\java">-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.gzticc.ftapi.mapper" targetProject="./src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.sk.huiadminbgtemp.sys.mapper" targetProject="./src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
 
-        <table tableName="tb_ua_organ" domainObjectName="Organ" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
-
+        <table tableName="tb_sys_permis" domainObjectName="SysPermis" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_sys_role" domainObjectName="SysRole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_sys_role_permis" domainObjectName="SysRolePermis" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_sys_user" domainObjectName="SysUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_sys_user_role" domainObjectName="SysUserRole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
         <!-- geelynote mybatis插件的搭建 -->
     </context>

@@ -1,4 +1,4 @@
-package cn.sk.huiadminbgtemp.common;
+package cn.sk.huiadminbgtemp.sys.common;
 
 /**
  * 自定义异常类
@@ -6,6 +6,7 @@ package cn.sk.huiadminbgtemp.common;
 public class CustomException extends RuntimeException{
 
     private Integer code;
+
 
     public CustomException(ResponseCode responseCode) {
         super(responseCode.getMsg());
