@@ -10,15 +10,14 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <th:block th:replace="${metas}" />
 
-    <link rel="Bookmark" th:href="@{/favicon.ico}" >
-    <link rel="Shortcut Icon" th:href="@{/favicon.ico}" />
+    <link rel="Bookmark" th:href="@{/static/H-ui.admin/favicon.ico}" >
+    <link rel="Shortcut Icon" th:href="@{/static/H-ui.admin/favicon.ico}" />
     <!-- Common styles and scripts -->
     <link th:href="@{/static/H-ui.admin/static/h-ui/css/H-ui.min.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/H-ui.admin.css}" rel="stylesheet" type="text/css" />
-    <link th:href="@{/static/H-ui.admin/static/h-ui.admin/skin/default/skin.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/static/H-ui.admin/static/h-ui.admin/skin/default/skin.css}" id="skin" rel="stylesheet" type="text/css" />
     <link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/style.css}" rel="stylesheet" type="text/css" />
     <!--<link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/H-ui.login.css}" rel="stylesheet" type="text/css" />-->
-    <link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/style.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/static/H-ui.admin/lib/Hui-iconfont/1.0.8/iconfont.css}" rel="stylesheet" type="text/css" />
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />
@@ -38,6 +37,9 @@
 
     <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery/1.9.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/static/H-ui.admin/static/h-ui/js/H-ui.min.js}"></script>
+
+
+    <script type="text/javascript" th:replace="::commonVar"></script>
 </head>
 
 
@@ -99,3 +101,11 @@
         </div>
     </div>
 </header>
+
+<!--js中的项目基本路径-->
+<script th:fragment="commonVar" type="text/javascript" th:inline="javascript" xmlns:th="http://www.thymeleaf.org">
+    //    var basePath = /*[[@{/}]]*/;
+    var basePath = /*[[@{/}]]*/;
+    //去掉后面的斜线
+//    basePath = basePath.substring(0,basePath.length-1);
+</script>

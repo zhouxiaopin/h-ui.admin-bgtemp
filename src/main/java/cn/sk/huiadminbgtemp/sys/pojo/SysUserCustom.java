@@ -9,5 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SysUserCustom extends SysUser {
-
+    //确认密码
+    private String password2;
 }

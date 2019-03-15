@@ -4,10 +4,13 @@ import cn.sk.huiadminbgtemp.base.mapper.IBaseMapper;
 import cn.sk.huiadminbgtemp.base.pojo.BaseQueryVo;
 import cn.sk.huiadminbgtemp.base.service.IBaseService;
 import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
 
     @Override
+    @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> insert(T entityCustom) {
         ServerResponse serverResponse = insertBefore(entityCustom);
         if(!serverResponse.isSuccess()) {
@@ -32,10 +36,11 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
     //添加之前的操作
     protected ServerResponse<T> insertBefore(T t){
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createBySuccess(t);
     }
 
     @Override
+    @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> update(T entityCustom) {
         ServerResponse serverResponse = updateBefore(entityCustom);
         if(!serverResponse.isSuccess()) {
@@ -51,6 +56,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     }
 
     @Override
+    @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> updateInIds(String[] ids) {
         int num = baseMapper.updateInIds(ids);
         if(num > 0) {
@@ -66,6 +72,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     }
 
     @Override
+    @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> delete(T entityCustom) {
         int num = baseMapper.deleteByPrimaryKey(entityCustom);
         if(num > 0) {
@@ -84,17 +91,41 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,t);
     }
 
+//    @Override
+//    public ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo) {
+//        //startPage--start
+//        //填充自己的sql查询逻辑
+//        //pageHelper-收尾
+//        BaseQueryVo baseQueryVo = (BaseQueryVo)entityQueryVo;
+//        PageHelper.startPage(baseQueryVo.getStart(),baseQueryVo.getLength());
+//        List<T> list = baseMapper.selectListByQueryVo(entityQueryVo);
+//
+//        PageInfo pageResult = new PageInfo(list);
+//
+//        DataTableVo<T> dataTableVo = new DataTableVo();
+//
+//        dataTableVo.setDraw(baseQueryVo.getDraw());
+//        dataTableVo.setRecordsTotal(pageResult.getTotal());
+//        dataTableVo.setData(list);
+//        return ServerResponse.createBySuccess(dataTableVo);
+//    }
     @Override
-    public ServerResponse<PageInfo> queryObjsByPage(V entityQueryVo) {
+    public DataTableVo queryObjsByPage(V entityQueryVo) {
         //startPage--start
         //填充自己的sql查询逻辑
         //pageHelper-收尾
         BaseQueryVo baseQueryVo = (BaseQueryVo)entityQueryVo;
-        PageHelper.startPage(baseQueryVo.getPageNum(),baseQueryVo.getPageSize());
+        PageHelper.startPage(baseQueryVo.getStart(),baseQueryVo.getLength());
         List<T> list = baseMapper.selectListByQueryVo(entityQueryVo);
 
         PageInfo pageResult = new PageInfo(list);
-        return ServerResponse.createBySuccess(pageResult);
+
+        DataTableVo<T> dataTableVo = new DataTableVo();
+
+        dataTableVo.setDraw(baseQueryVo.getDraw());
+        dataTableVo.setRecordsTotal(pageResult.getTotal());
+        dataTableVo.setData(list);
+        return dataTableVo;
     }
 
 }

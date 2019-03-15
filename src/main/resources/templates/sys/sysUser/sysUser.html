@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
+    <!--title,metas,links,scripts-->
+    <title>系统用户管理</title>
+</head>
+<body>
+<article class="page-container">
+    <form th:action="${oprt}" method="post" class="form form-horizontal" id="sysUserForm">
+        <input type="hidden" id="uId" name="uId" th:value="${obj.uId}" value=""/>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
+                       name="userName">
+            </div>
+            <label class="form-label col-xs-2 col-sm-2">姓名：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
+                       name="realName">
+            </div>
+
+            <!--private String realName;
+
+            private String ;
+
+            private String email;
+
+            private String phone;
+
+            private String salt;-->
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>初始密码：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password"
+                       name="password">
+            </div>
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>确认密码：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
+                       name="password2">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
+            <div class="formControls col-xs-4 col-sm-4 skin-minimal">
+                <div class="radio-box">
+                    <input name="sex" type="radio" id="sex-1" checked value="男">
+                    <label for="sex-1">男</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="sex-2" name="sex" value="女">
+                    <label for="sex-2">女</label>
+                </div>
+            </div>
+            <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="text" class="input-text" value="" id="mobilePhone" name="mobilePhone">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <input type="text" class="input-text" placeholder="@" name="email" id="email">
+            </div>
+            <label class="form-label col-xs-2 col-sm-2">描述：</label>
+            <div class="formControls col-xs-4 col-sm-4">
+                <textarea name="desc" cols="" rows="" class="textarea"
+                          onKeyUp="$.Huitextarealength(this,100)">
+
+                </textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="common/common :: common_footer">
+</div>
+<!--/_footer 作为公共模版分离出去-->
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+        $("#sysUserForm").validate({
+            rules: {
+                userName: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 16
+                },
+                password: {
+                    required: true,
+                },
+                password2: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                mobilePhone: {
+                    isMobile:true
+                },
+                email: {
+                    email:true
+                },
+
+//                sex: {
+//                    required: true,
+//                },
+//                mobile: {
+//                    required: true,
+//                    isMobile: true,
+//                },
+//                email: {
+//                    required: true,
+//                    email: true,
+//                },
+//                uploadfile: {
+//                    required: true,
+//                },
+
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit();
+                var index = parent.layer.getFrameIndex(window.name);
+                //parent.$('.btn-refresh').click();
+                parent.layer.close(index);
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

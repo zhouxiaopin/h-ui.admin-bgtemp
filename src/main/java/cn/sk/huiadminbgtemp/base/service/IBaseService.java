@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.base.service;
 
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
-import com.github.pagehelper.PageInfo;
+import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 
 /**
  * 基本Service
@@ -25,5 +25,6 @@ public interface IBaseService<T,V> {
     ServerResponse<T> queryObj(T entityCustom);
 
     //分页查询数据列表
-    ServerResponse<PageInfo> queryObjsByPage(V entityQueryVo);
+//    ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo);
+    DataTableVo queryObjsByPage(V entityQueryVo);
 }

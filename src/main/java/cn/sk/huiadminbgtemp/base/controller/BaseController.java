@@ -5,9 +5,12 @@ import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
+import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 public class BaseController<T,V> {
@@ -37,16 +40,16 @@ public class BaseController<T,V> {
     }
 
 
-    @PostMapping(value = "/initQuery")
+    @GetMapping(value = "/initQuery")
     public ModelAndView initQuery(ModelAndView model) throws Exception{
         model.addObject(OPRT_KEY,QUERY_OPRT);
         model.setViewName(page(QUERY_OPRT));
         return model;
     }
-    @PostMapping(value = "/initAdd")
-    public ModelAndView initAdd(ModelAndView model) throws Exception{
+    @GetMapping(value = "/initAdd")
+    public ModelAndView initAdd(ModelAndView model,T t) throws Exception{
         try {
-//            model.addAttribute("obj",t);
+            model.addObject("obj",t);
             model.addObject(OPRT_KEY,ADD_OPRT);
             model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
         }catch (Exception e){
@@ -55,7 +58,7 @@ public class BaseController<T,V> {
         model.setViewName(page(ADD_OPRT));
         return model;
     }
-    @PostMapping
+    @GetMapping(value = "/initUpdate")
     public ModelAndView initUpdate(ModelAndView model, T entity) throws Exception{
         model.addObject(OPRT_KEY,UPDATE_OPRT);
         try {
@@ -67,7 +70,7 @@ public class BaseController<T,V> {
         return model;
     }
 
-    @PostMapping(value = "/initQueryDetail")
+    @GetMapping(value = "/initQueryDetail")
     public ModelAndView queryDetail(ModelAndView model, T entity) throws Exception{
         model.addObject(OPRT_KEY,QUERYDETAIL_OPRT);
         try {
@@ -108,6 +111,14 @@ public class BaseController<T,V> {
 
     }
 
+    @PostMapping(value = "/query")
+    public DataTableVo list(V v) {
+        return baseService.queryObjsByPage(v);
+    }
+//    @PostMapping(value = "/query")
+//    public ServerResponse<DataTableVo> list(V v) {
+//        return baseService.queryObjsByPage(v);
+//    }
 
     protected void init(ModelAndView model, T entity){
         try {
