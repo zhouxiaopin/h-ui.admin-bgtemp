@@ -47,9 +47,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr style="text-align:center">
-                <td colspan="16">暂无数据</td>
-            </tr>
+            <!--<tr style="text-align:center">-->
+                <!--<td colspan="16">暂无数据</td>-->
+            <!--</tr>-->
             <!--<tr class="text-c">-->
             <!--<td><input type="checkbox" value="1" name=""></td>-->
             <!--<td>1</td>-->
@@ -124,12 +124,12 @@
 //            },
 //        });
         var _dataTables = $('#empTable').dataTable({
-            "lengthChange": false,
-            "searching": false,
+            "lengthChange": true,
+            "searching": false,//禁用检索
             "ordering": false,
-            "autoWidth": false,
+            "autoWidth": true,
             'pagingType': 'full_numbers',
-            "pageLength": 100,
+            "pageLength": 10,
             "serverSide": true,
             "bInfo" : true, //是否显示页脚信息，DataTables插件左下角显示记录数
             "bProcessing" : true, //DataTables载入数据时，是否显示‘进度’提示
@@ -149,7 +149,12 @@
                 { "data": "sex" },
                 { "data": "mobilePhone" },
                 { "data": "email" },
-                { "data": "createTime" },
+                {
+                    "data": "createTime", "render": function (data) {
+                        //时间格式化
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
                 { "data": "recordStatus" },
 //                { "data": "WORKTM2", "className": "dt-body-right", "width": 40 },
                 {
