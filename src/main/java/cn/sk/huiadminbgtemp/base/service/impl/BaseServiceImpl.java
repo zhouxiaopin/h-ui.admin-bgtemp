@@ -9,6 +9,8 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +59,8 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
     @Override
     @Transactional(rollbackFor={CustomException.class, Exception.class})
-    public ServerResponse<T> updateInIds(String[] ids) {
-        int num = baseMapper.updateInIds(ids);
+    public ServerResponse<T> deleteInIds(String[] ids) {
+        int num = baseMapper.deleteInIds(ids,Const.RecordStatus.DELETE);
         if(num > 0) {
             return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
         }else {
@@ -124,7 +126,14 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
         dataTableVo.setDraw(baseQueryVo.getDraw());
         dataTableVo.setRecordsTotal(pageResult.getTotal());
-        dataTableVo.setData(list);
+        dataTableVo.setRecordsFiltered(pageResult.getTotal());
+        if(CollectionUtils.isEmpty(list)){
+            dataTableVo.setData(Lists.newArrayList());
+        }else{
+            dataTableVo.setData(list);
+        }
+
+
         return dataTableVo;
     }
 

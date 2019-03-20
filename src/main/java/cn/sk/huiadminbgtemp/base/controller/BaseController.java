@@ -7,7 +7,6 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +24,7 @@ public class BaseController<T,V> {
 
     protected String getPage(String oprt){return null;}
     protected ServerResponse<T> addBefore(T t){return null;}
-    protected ServerResponse<T> updateBefore(T t,T param){return null;}
+    protected ServerResponse<T> updateBefore(T oldObj,T t){return null;}
 
     /**
      * 获取页面
@@ -83,7 +82,7 @@ public class BaseController<T,V> {
     }
 
     @PostMapping(value = "/add")
-    public ServerResponse<T> add(Model model, T t) throws Exception{
+    public ServerResponse<T> add(T t) throws Exception{
         ServerResponse<T> serverResponse = addBefore(t);
         if(null == serverResponse||serverResponse.isSuccess()) {
             return baseService.insert(t);
@@ -93,13 +92,14 @@ public class BaseController<T,V> {
     }
 
     @PostMapping(value = "/update")
-    public ServerResponse<T> update(Model model, T t) throws Exception{
+    public ServerResponse<T> update(T t) throws Exception{
 
         T obj = getObj(t);
 
         ServerResponse<T> serverResponse = updateBefore(obj,t);
         if(null == serverResponse||serverResponse.isSuccess()) {
-            return  baseService.update(obj);
+//            return  baseService.update(obj);
+            return  baseService.update(t);
         }else {
             return serverResponse;
         }
@@ -107,7 +107,7 @@ public class BaseController<T,V> {
     //软删除
     @PostMapping(value = "/delete")
     public ServerResponse<T> delete(@RequestParam("ids[]") String[] ids) throws Exception{
-        return baseService.updateInIds(ids);
+        return baseService.deleteInIds(ids);
 
     }
 

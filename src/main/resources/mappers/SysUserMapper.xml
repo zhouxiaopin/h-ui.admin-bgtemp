@@ -21,7 +21,7 @@
     u_id, user_name, password, real_name, sex, email, mobile_phone, salt, descri, record_status,
     update_time, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
     select 
     <include refid="Base_Column_List" />
     from tb_sys_user
@@ -31,7 +31,7 @@
     delete from tb_sys_user
     where u_id = #{uId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysUser">
+  <insert id="insert" parameterType="SysUserCustom">
     insert into tb_sys_user (u_id, user_name, password, 
       real_name, sex, email, 
       mobile_phone, salt, descri, 
@@ -40,10 +40,10 @@
     values (#{uId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, 
       #{mobilePhone,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{descri,jdbcType=VARCHAR}, 
-      #{recordStatus,jdbcType=CHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{recordStatus,jdbcType=CHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysUser">
+  <insert id="insertSelective" parameterType="SysUserCustom">
     insert into tb_sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uId != null">
@@ -76,12 +76,14 @@
       <if test="recordStatus != null">
         record_status,
       </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
+      update_time,
+      create_time,
+      <!--<if test="updateTime != null">-->
+        <!--update_time,-->
+      <!--</if>-->
+      <!--<if test="createTime != null">-->
+        <!--create_time,-->
+      <!--</if>-->
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uId != null">
@@ -114,15 +116,17 @@
       <if test="recordStatus != null">
         #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      now(),
+      now(),
+      <!--<if test="updateTime != null">-->
+        <!--now(),-->
+      <!--</if>-->
+      <!--<if test="createTime != null">-->
+        <!--now(),-->
+      <!--</if>-->
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysUser">
+  <update id="updateByPrimaryKeySelective" parameterType="SysUserCustom">
     update tb_sys_user
     <set>
       <if test="userName != null">
@@ -152,16 +156,17 @@
       <if test="recordStatus != null">
         record_status = #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+      <!--<if test="updateTime != null">-->
+        <!--update_time = now(),-->
+      <!--</if>-->
+      update_time = now(),
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysUser">
+  <update id="updateByPrimaryKey" parameterType="SysUserCustom">
     update tb_sys_user
     set user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -172,43 +177,53 @@
       salt = #{salt,jdbcType=VARCHAR},
       descri = #{descri,jdbcType=VARCHAR},
       record_status = #{recordStatus,jdbcType=CHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_time = now(),
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
 
 
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="SysUserCustom" extends="BaseResultMap">
+
+  </resultMap>
+
 
   <!--以下是自定义的-->
 
   <!-- 查询条件的sql片段 -->
+
   <sql id="base_query_condition">
     <if test="null != sysUserCustom">
-      <!-- ${}拼接字符串，有sql注入的维修，少用 -->
-      <!--<if test="null != adminCustom.adminName and '' != adminCustom.adminName">-->
-        <!--AND adminName LIKE CONCAT('%',CONCAT(#{adminCustom.adminName},'%'))-->
-      <!--</if>-->
-      <!--<if test="null != adminCustom.account and '' != adminCustom.account">-->
-        <!--AND ACCOUNT = #{adminCustom.account}-->
-      <!--</if>-->
-      <!--<if test="null != adminCustom.password and '' != adminCustom.password">-->
-        <!--AND PASSWORD = #{adminCustom.password}-->
-      <!--</if>-->
-      <!--<if test="null != adminCustom.useStatus and '' != adminCustom.useStatus">-->
-        <!--AND useStatus = #{adminCustom.useStatus}-->
-      <!--</if>-->
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <if test="null != sysUserCustom.userName and '' != sysUserCustom.userName">
+        AND user_name LIKE CONCAT('%',CONCAT(#{sysUserCustom.userName},'%'))
+      </if>
+
     </if>
   </sql>
 
-
-  <select id="selectListByQueryVo" parameterType="SysUserQueryVo" resultMap="BaseResultMap">
+  <select id="selectListByQueryVo" parameterType="SysUserQueryVo" resultMap="ResultMapCustom">
     select
     <include refid="Base_Column_List" />
     from tb_sys_user
     <where>
       <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
       <include refid="base_query_condition"></include>
+      AND record_status != '00'
     </where>
 
   </select>
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sys_user
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      u_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
 </mapper>

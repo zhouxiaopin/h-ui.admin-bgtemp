@@ -7,76 +7,149 @@
 <body>
 <article class="page-container">
     <form th:action="${oprt}" method="post" class="form form-horizontal" id="sysUserForm">
-        <input type="hidden" id="uId" name="uId" th:value="${obj.uId}" value=""/>
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
-                       name="userName">
-            </div>
-            <label class="form-label col-xs-2 col-sm-2">姓名：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
-                       name="realName">
-            </div>
-
-            <!--private String realName;
-
-            private String ;
-
-            private String email;
-
-            private String phone;
-
-            private String salt;-->
+        <div>
+            <label id="retMsg" style="display:block;text-align: center;color: #FF0000"
+                   th:inline="text">[[${msg}]]</label>
+            <input type="hidden" id="uId" name="uId" th:value="${obj.uId}" value=""/>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>初始密码：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password"
-                       name="password">
-            </div>
-            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>确认密码：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
-                       name="password2">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
-            <div class="formControls col-xs-4 col-sm-4 skin-minimal">
-                <div class="radio-box">
-                    <input name="sex" type="radio" id="sex-1" checked value="男">
-                    <label for="sex-1">男</label>
+        <div th:switch="${oprt}">
+            <!--添加开始-->
+            <div th:case="add">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
+                               name="userName">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">姓名：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
+                               name="realName">
+                    </div>
                 </div>
-                <div class="radio-box">
-                    <input type="radio" id="sex-2" name="sex" value="女">
-                    <label for="sex-2">女</label>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>初始密码：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码"
+                               id="password"
+                               name="password">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>确认密码：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
+                               name="password2">
+                    </div>
                 </div>
-            </div>
-            <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="text" class="input-text" value="" id="mobilePhone" name="mobilePhone">
-            </div>
-        </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
+                    <div class="formControls col-xs-4 col-sm-4 skin-minimal">
+                        <div class="radio-box">
+                            <input name="sex" type="radio" id="sex-1" th:checked="${obj.sex == '男' or obj.sex eq  null}"
+                                   checked value="男">
+                            <label for="sex-1">男</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="sex-2" th:checked="${obj.sex == '女'}" name="sex" value="女">
+                            <label for="sex-2">女</label>
+                        </div>
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.mobilePhone}" value="" id="mobilePhone"
+                               name="mobilePhone">
+                    </div>
+                </div>
 
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <input type="text" class="input-text" placeholder="@" name="email" id="email">
-            </div>
-            <label class="form-label col-xs-2 col-sm-2">描述：</label>
-            <div class="formControls col-xs-4 col-sm-4">
-                <textarea name="desc" cols="" rows="" class="textarea"
-                          onKeyUp="$.Huitextarealength(this,100)">
-
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.email}" placeholder="@" name="email"
+                               id="email">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                <textarea name="descri" cols="22" rows="4" class="textarea"
+                          onKeyUp="$.Huitextarealength(this,100)"
+                          th:inline="text">
+                    [[${obj.descri}]]
                 </textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    </div>
+                </div>
             </div>
+            <!--添加结束-->
+
+            <!-- ********************** -->
+
+            <!--修改开始-->
+            <div th:case="update">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
+                               name="userName">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">姓名：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
+                               name="realName">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>密码：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="password" class="input-text" autocomplete="off" th:value="${obj.password}" placeholder="密码"
+                               id="password"
+                               name="password">
+                        <input type="hidden" name="password2" th:value="${obj.password}" value=""/>
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
+                    <div class="formControls col-xs-4 col-sm-4 skin-minimal">
+                        <div class="radio-box">
+                            <input name="sex" type="radio" id="sex-1" th:checked="${obj.sex == '男' or obj.sex eq  null}"
+                                   checked value="男">
+                            <label for="sex-1">男</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="sex-2" th:checked="${obj.sex == '女'}" name="sex" value="女">
+                            <label for="sex-2">女</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cl">
+
+                    <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.mobilePhone}" value="" id="mobilePhone"
+                               name="mobilePhone">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.email}" placeholder="@" name="email"
+                               id="email">
+                    </div>
+                </div>
+
+                <div class="row cl">
+
+                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                <textarea name="desc" cols="22" rows="4" class="textarea"
+                          onKeyUp="$.Huitextarealength(this,100)"
+                          th:inline="text">
+                    [[${obj.descri}]]
+                </textarea>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    </div>
+                </div>
+            </div>
+            <!--修改结束-->
         </div>
+
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-success radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
@@ -119,10 +192,10 @@
                     equalTo: "#password"
                 },
                 mobilePhone: {
-                    isMobile:true
+                    isMobile: true
                 },
                 email: {
-                    email:true
+                    email: true
                 },
 
 //                sex: {
@@ -146,9 +219,11 @@
             success: "valid",
             submitHandler: function (form) {
                 $(form).ajaxSubmit();
+                parent.location.reload();
                 var index = parent.layer.getFrameIndex(window.name);
                 //parent.$('.btn-refresh').click();
                 parent.layer.close(index);
+
             }
         });
     });

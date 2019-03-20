@@ -11,28 +11,26 @@
                                                 href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <div class="text-c"> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
-               class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
-               class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
-        <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户
+    <!--<div class="text-c">-->
+    <div style="margin:5px 5px 5px">
+        用户名：
+        <input type="text" class="input-text" style="width:200px" placeholder="输入用户名" id="userName">
+        <button type="submit" class="btn btn-success radius" id="searchBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
+            查询
         </button>
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="datadel()"
-                     class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         <a id="addSysUser"
-            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+           class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+            <a id="batchDel"
+               class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <!--<span-->
-            <!--class="r">共有数据：<strong>88</strong> 条</span>-->
+        <!--class="r">共有数据：<strong>88</strong> 条</span>-->
     </div>
     <div class="mt-20">
-        <table id="empTable" class="table table-border table-bordered table-hover table-bg table-sort">
+        <table id="sysUserTable" class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
@@ -46,9 +44,9 @@
                 <th width="100">操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="text-c">
             <!--<tr style="text-align:center">-->
-                <!--<td colspan="16">暂无数据</td>-->
+            <!--<td colspan="16">暂无数据</td>-->
             <!--</tr>-->
             <!--<tr class="text-c">-->
             <!--<td><input type="checkbox" value="1" name=""></td>-->
@@ -87,11 +85,117 @@
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/datatables/1.10.0/jquery.dataTables.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/laypage/1.2/laypage.js}"></script>
 <script th:inline="none" type="text/javascript">
+    //    layer.msg('已删除!', {icon: 8, time: 1000});
+    //    layer.msg('已删除!', {icon: 2, time: 1000});
+    //    layer.msg('已删除!', {icon: 3, time: 1000});
+    //    layer.msg('已删除!', {icon: 4, time: 1000});
+    //    layer.msg('已删除!', {icon: 5, time: 1000});
+    //修改用户
+    function to_edit(id) {
+        var url = "initUpdate?uId=" + id;
+        layer_show("修改用户", url, 800, 600);
+    }
+
+    //删除用户
+    function to_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            var url = "delete";
+            var param = {ids: [id]};
+            sk.ajaxRequest(url, param, function (r) {
+                if (r.code == '0') {
+                    $(obj).parents("tr").remove();
+                    sk.successMsg(r.msg);
+                } else {
+                    sk.failMsg(r.msg);
+                }
+
+            });
+        });
+    }
+
+    //批量提交
+    function batchDel() {
+//        if ($(".checkchild:checked").length < 1){
+//            sk.msg('请选择要提交的记录!',5);
+//            return;
+//        }
+        /* //获取所有选中的id
+         var ids = "";
+         $.each($('input:checkbox:checked'),function(){
+             if($(this).val()=="on"){
+                 return;
+             }
+             ids=ids+ $(this).val()+",";
+         });
+         layer.confirm('确认要提交审核吗？',function(index){
+             //此处请求后台程序，下方是成功后的前台处理……
+             layer.close(index);
+             blockPage();
+             $.ajax({
+                 url : "quote/batchCommit",
+                 type : "post",
+                 dataType : "json",
+                 data: {ids:ids},
+                 success : function(data) {
+                     if(data.result=='success') {
+                         $("input[type=checkbox][name='checkbox']").prop('checked', false);
+                         layer.msg('已提交!',{icon:1,time:1000});
+                         unblockPage();
+                         doSearch();
+                     } else{
+                         layer.msg('提交失败!',{icon:2,time:3000});
+                     }
+                 }
+             });
+         });*/
+    }
+
     $(function () {
         //添加用户按钮
-        $('#addSysUser').on('click',function () {
+        $('#addSysUser').on('click', function () {
             layer_show('添加用户', 'initAdd', 800, 600);
         });
+        //批量删除
+        $('#batchDel').on('click', function () {
+            if ($(".checkchild:checked").length < 1) {
+                sk.successFaceMsg('请选择要提交的记录!');
+                return;
+            }
+            //获取所有选中的id
+            var ids = [];
+            $.each($('input:checkbox:checked'), function () {
+                if ($(this).val().trim() == "on") {
+                    return;
+                }
+                ids.push($(this).val().trim());
+            });
+            layer.confirm('确认要批量删除吗？', function (index) {
+                layer.close(index);
+                var url = "delete";
+                var param = {ids: ids};
+                sk.ajaxRequest(url, param, function (r) {
+                    if (r.code == '0') {
+//                        $(obj).parents("tr").remove();
+                        $.each($('input:checkbox:checked'), function () {
+                            if ($(this).val().trim() == "on") {
+                                return;
+                            }
+                            $(this).parents("tr").remove();
+                        });
+                        sk.successMsg(r.msg);
+                    } else {
+                        sk.failMsg(r.msg);
+                    }
+
+                });
+            });
+        });
+
+//        //修改用户按钮
+//        function to_edit(id) {
+//            layer_show('修改用户', 'initAdd', 800, 600);
+//        }
+
 //        $('.table-sort').dataTable({
 //            "aaSorting": [[1, "desc"]],//默认第几个排序
 //            "bStateSave": true,//状态保存
@@ -123,20 +227,20 @@
 //                }
 //            },
 //        });
-        var _dataTables = $('#empTable').dataTable({
+        var _dataTables = $('#sysUserTable').DataTable({
             "lengthChange": true,
             "searching": false,//禁用检索
             "ordering": false,
-            "autoWidth": true,
+            "autoWidth": false,
             'pagingType': 'full_numbers',
             "pageLength": 10,
             "serverSide": true,
-            "bInfo" : true, //是否显示页脚信息，DataTables插件左下角显示记录数
-            "bProcessing" : true, //DataTables载入数据时，是否显示‘进度’提示
+            "bInfo": true, //是否显示页脚信息，DataTables插件左下角显示记录数
+            "bProcessing": true, //DataTables载入数据时，是否显示‘进度’提示
             "oLanguage": { //国际化配置
                 //"sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
                 //"sInfoEmpty" : "记录数为0",
-                "sInfoFiltered" : "(每页 _MAX_ 条)",
+                "sInfoFiltered": "(每页 _MAX_ 条)",
             },
             "columns": [
                 {
@@ -144,23 +248,28 @@
                         return '<input type="checkbox" id="empId" name="empId" class="checkchild"  value="' + dd.uId + '" />';
                     }
                 },
-                { "data": "userName" },
-                { "data": "realName" },
-                { "data": "sex" },
-                { "data": "mobilePhone" },
-                { "data": "email" },
+                {"data": "userName","render":function (data) {
+                    var htmlStr = '<u style="cursor:pointer" class="text-primary">'+data+'</u>';
+                    return htmlStr;
+                }},
+                {"data": "realName"},
+                {"data": "sex"},
+                {"data": "mobilePhone"},
+                {"data": "email"},
                 {
                     "data": "createTime", "render": function (data) {
-                        //时间格式化
-                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
-                    }
+                    //时间格式化
+                    return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                }
                 },
-                { "data": "recordStatus" },
+                {"data": "recordStatus"},
 //                { "data": "WORKTM2", "className": "dt-body-right", "width": 40 },
                 {
                     "data": function (dd) {
                         var str = '<div id="td-manage">';
+                        str += '<a title="停用" href="javascript:;" onclick="to_edit(' + dd.uId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
                         str += '<a title="修改" href="javascript:;" onclick="to_edit(' + dd.uId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
+                        str += '<a title="修改密码" href="javascript:;" onclick="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe63f;</i></a>';
                         str += '<a title="删除" href="javascript:;" onclick="to_del(this,' + dd.uId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
                         str += '</div>';
                         return str;
@@ -169,9 +278,10 @@
             ],
             "ajax": {
                 "url": "query",
-                "type":"POST",
-                "data": function(d){
-//                    d.epName= $("#name").val();
+                "type": "POST",
+                "data": function (d) {
+                    d['sysUserCustom.userName'] = $("#userName").val().trim();
+
                 }
             },
 //            "fnServerData":function ( sSource, aoData, fnCallback) {
@@ -180,8 +290,12 @@
         });
 //        _dataTables.ajax.reload();
 
-    });
+        $('#searchBtn').on('click', function () {
+//            $("input[type=checkbox][name='checkbox']").prop('checked', false);
+            _dataTables.ajax.reload();
+        });
 
+    });
 
 
     /*用户-添加*/
@@ -234,10 +348,6 @@
         });
     }
 
-    /*用户-编辑*/
-    function member_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
 
     /*密码-修改*/
     function change_password(title, url, id, w, h) {

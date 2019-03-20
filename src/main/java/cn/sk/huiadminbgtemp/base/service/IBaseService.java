@@ -15,8 +15,8 @@ public interface IBaseService<T,V> {
     //修改单个对象
     ServerResponse<T> update(T entityCustom);
 
-    //修改多个个对象
-    ServerResponse<T> updateInIds(String[] ids);
+    //软删除
+    ServerResponse<T> deleteInIds(String[] ids);
 
     //删除单个对象
     ServerResponse<T> delete(T entityCustom);

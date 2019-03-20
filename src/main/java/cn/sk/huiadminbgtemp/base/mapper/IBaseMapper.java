@@ -1,5 +1,7 @@
 package cn.sk.huiadminbgtemp.base.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -23,5 +25,5 @@ public interface IBaseMapper <T,V>{
     List<T> selectListByQueryVo(V entityQueryVo);
 
     //软删除,recourd_status设置为00删除状态
-    int updateInIds(String[] pks);
+    int deleteInIds(@Param("pks") String[] pks, @Param("recordStatus") String recordStatus);
 }

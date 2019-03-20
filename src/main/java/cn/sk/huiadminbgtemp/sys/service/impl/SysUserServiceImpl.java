@@ -32,7 +32,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
         }
         sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt,sysUserCustom.getPassword()));
         sysUserCustom.setRecordStatus(Const.RecordStatus.DISABLE);
-        sysUserCustom.setCreateTime(new Date());
+//        sysUserCustom.setCreateTime(new Date());
         return super.insertBefore(sysUserCustom);
     }
 }
