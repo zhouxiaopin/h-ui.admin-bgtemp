@@ -6,7 +6,7 @@
       <idArg column="role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="role_flag" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="desc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="descri" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="opt_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="record_status" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -14,9 +14,9 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    role_id, role_flag, role_name, desc, opt_id, record_status, update_time, create_time
+    role_id, role_flag, role_name, descri, opt_id, record_status, update_time, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
     select 
     <include refid="Base_Column_List" />
     from tb_sys_role
@@ -28,11 +28,11 @@
   </delete>
   <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole">
     insert into tb_sys_role (role_id, role_flag, role_name, 
-      desc, opt_id, record_status, 
+      descri, opt_id, record_status, 
       update_time, create_time)
     values (#{roleId,jdbcType=INTEGER}, #{roleFlag,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER}, #{recordStatus,jdbcType=CHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+      #{descri,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER}, #{recordStatus,jdbcType=CHAR}, 
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole">
     insert into tb_sys_role
@@ -46,8 +46,8 @@
       <if test="roleName != null">
         role_name,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="descri != null">
+        descri,
       </if>
       <if test="optId != null">
         opt_id,
@@ -55,12 +55,8 @@
       <if test="recordStatus != null">
         record_status,
       </if>
-      <if test="updateTime != null">
         update_time,
-      </if>
-      <if test="createTime != null">
         create_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -72,8 +68,8 @@
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        #{desc,jdbcType=VARCHAR},
+      <if test="descri != null">
+        #{descri,jdbcType=VARCHAR},
       </if>
       <if test="optId != null">
         #{optId,jdbcType=INTEGER},
@@ -81,12 +77,8 @@
       <if test="recordStatus != null">
         #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+        now(),
+        now(),
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole">
@@ -98,8 +90,8 @@
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+      <if test="descri != null">
+        descri = #{descri,jdbcType=VARCHAR},
       </if>
       <if test="optId != null">
         opt_id = #{optId,jdbcType=INTEGER},
@@ -107,9 +99,7 @@
       <if test="recordStatus != null">
         record_status = #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        update_time = now(),
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -120,11 +110,69 @@
     update tb_sys_role
     set role_flag = #{roleFlag,jdbcType=VARCHAR},
       role_name = #{roleName,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
+      descri = #{descri,jdbcType=VARCHAR},
       opt_id = #{optId,jdbcType=INTEGER},
       record_status = #{recordStatus,jdbcType=CHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_time = now(),
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+
+
+
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="SysRoleCustom" extends="BaseResultMap">
+
+  </resultMap>
+
+  <!-- 查询条件的sql片段 -->
+  <sql id="base_query_condition">
+    <if test="null != sysRoleCustom">
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <if test="null != sysRoleCustom.roleFlag and '' != sysRoleCustom.roleFlag">
+        AND role_flag LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleFlag},'%'))
+      </if>
+      <if test="null != sysRoleCustom.roleName and '' != sysRoleCustom.roleName">
+        AND role_name LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleName},'%'))
+      </if>
+
+    </if>
+  </sql>
+
+  <!--根据条件查询-->
+  <select id="selectListByQueryVo" parameterType="SysRoleQueryVo" resultMap="ResultMapCustom">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_role
+    <where>
+      <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
+      <include refid="base_query_condition"></include>
+      AND record_status != '00'
+    </where>
+
+  </select>
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sys_role
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      role_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds" >
+    delete from tb_sys_role
+    <where>
+      role_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+
 </mapper>

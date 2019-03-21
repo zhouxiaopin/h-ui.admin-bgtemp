@@ -183,13 +183,12 @@
   </update>
 
 
+  <!--以下是自定义的-->
+
   <!-- 表与实体映射 -->
   <resultMap id="ResultMapCustom" type="SysUserCustom" extends="BaseResultMap">
 
   </resultMap>
-
-
-  <!--以下是自定义的-->
 
   <!-- 查询条件的sql片段 -->
 
@@ -203,6 +202,7 @@
     </if>
   </sql>
 
+  <!--根据条件查询-->
   <select id="selectListByQueryVo" parameterType="SysUserQueryVo" resultMap="ResultMapCustom">
     select
     <include refid="Base_Column_List" />
@@ -226,4 +226,16 @@
       </foreach>
     </where>
   </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds" >
+    delete from tb_sys_user
+    <where>
+      u_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+
 </mapper>

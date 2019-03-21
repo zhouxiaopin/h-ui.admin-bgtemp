@@ -124,6 +124,12 @@ public class BaseController<T, V> {
         return baseService.deleteInIds(ids);
 
     }
+    //硬删除
+    @PostMapping(value = "/realDelete")
+    public ServerResponse<T> realDelete(@RequestParam("ids[]") String[] ids) throws Exception {
+        return baseService.realDeleteInIds(ids);
+
+    }
 
     @PostMapping(value = "/query")
     public DataTableVo list(V v) {

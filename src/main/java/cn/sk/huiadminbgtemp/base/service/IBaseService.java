@@ -18,6 +18,9 @@ public interface IBaseService<T,V> {
     //软删除
     ServerResponse<T> deleteInIds(String[] ids);
 
+    //硬删除
+    ServerResponse<T> realDeleteInIds(String[] ids);
+
     //删除单个对象
     ServerResponse<T> delete(T entityCustom);
 

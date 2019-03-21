@@ -17,7 +17,7 @@ public class SysPermis {
 
     private String pSort;
 
-    private String desc;
+    private String descri;
 
     private Integer optId;
 
@@ -35,7 +35,7 @@ public class SysPermis {
 
     private Date createTime;
 
-    public SysPermis(Integer pId, String pFlag, String pName, Integer parentId, String pType, String pLevel, String pSort, String desc, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
+    public SysPermis(Integer pId, String pFlag, String pName, Integer parentId, String pType, String pLevel, String pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
         this.pId = pId;
         this.pFlag = pFlag;
         this.pName = pName;
@@ -43,7 +43,7 @@ public class SysPermis {
         this.pType = pType;
         this.pLevel = pLevel;
         this.pSort = pSort;
-        this.desc = desc;
+        this.descri = descri;
         this.optId = optId;
         this.leftIcon = leftIcon;
         this.expand1 = expand1;
@@ -114,12 +114,12 @@ public class SysPermis {
         this.pSort = pSort == null ? null : pSort.trim();
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescri() {
+        return descri;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
+    public void setDescri(String descri) {
+        this.descri = descri == null ? null : descri.trim();
     }
 
     public Integer getOptId() {

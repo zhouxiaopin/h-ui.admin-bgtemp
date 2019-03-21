@@ -68,6 +68,17 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         }
     }
 
+    @Override
+    @Transactional(rollbackFor={CustomException.class, Exception.class})
+    public ServerResponse<T> realDeleteInIds(String[] ids) {
+        int num = baseMapper.realDeleteInIds(ids);
+        if(num > 0) {
+            return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
+        }else {
+            return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
+        }
+    }
+
     //修改之前的操作
     protected ServerResponse<T> updateBefore(T t){
         return ServerResponse.createBySuccess();

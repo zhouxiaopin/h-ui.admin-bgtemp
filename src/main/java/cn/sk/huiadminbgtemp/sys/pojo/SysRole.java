@@ -9,7 +9,7 @@ public class SysRole {
 
     private String roleName;
 
-    private String desc;
+    private String descri;
 
     private Integer optId;
 
@@ -19,11 +19,11 @@ public class SysRole {
 
     private Date createTime;
 
-    public SysRole(Integer roleId, String roleFlag, String roleName, String desc, Integer optId, String recordStatus, Date updateTime, Date createTime) {
+    public SysRole(Integer roleId, String roleFlag, String roleName, String descri, Integer optId, String recordStatus, Date updateTime, Date createTime) {
         this.roleId = roleId;
         this.roleFlag = roleFlag;
         this.roleName = roleName;
-        this.desc = desc;
+        this.descri = descri;
         this.optId = optId;
         this.recordStatus = recordStatus;
         this.updateTime = updateTime;
@@ -58,12 +58,12 @@ public class SysRole {
         this.roleName = roleName == null ? null : roleName.trim();
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescri() {
+        return descri;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
+    public void setDescri(String descri) {
+        this.descri = descri == null ? null : descri.trim();
     }
 
     public Integer getOptId() {

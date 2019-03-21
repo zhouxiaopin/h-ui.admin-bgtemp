@@ -80,6 +80,9 @@ public class ServerResponse<T> implements Serializable {
     public static <T> ServerResponse<T> createByError(){
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMsg());
     }
+    public static <T> ServerResponse<T> createByParamError(){
+        return new ServerResponse<T>(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getMsg());
+    }
 
 
     public static <T> ServerResponse<T> createByErrorMessage(String errorMessage){

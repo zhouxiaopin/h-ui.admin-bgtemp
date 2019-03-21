@@ -26,4 +26,7 @@ public interface IBaseMapper <T,V>{
 
     //软删除,recourd_status设置为00删除状态
     int deleteInIds(@Param("pks") String[] pks, @Param("recordStatus") String recordStatus);
+
+    //硬删除
+    int realDeleteInIds(@Param("pks") String[] pks);
 }
