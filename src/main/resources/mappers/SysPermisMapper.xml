@@ -8,8 +8,8 @@
       <arg column="p_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="p_type" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="p_level" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="p_sort" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="p_level" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="p_sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="descri" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="opt_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="left_icon" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     p_id, p_flag, p_name, parent_id, p_type, p_level, p_sort, descri, opt_id, left_icon, 
     expand_1, expand_2, expand_3, record_status, update_time, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
     select 
     <include refid="Base_Column_List" />
     from tb_sys_permis
@@ -43,11 +43,11 @@
       expand_3, record_status, update_time, 
       create_time)
     values (#{pId,jdbcType=INTEGER}, #{pFlag,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=INTEGER}, #{pType,jdbcType=CHAR}, #{pLevel,jdbcType=VARCHAR}, 
-      #{pSort,jdbcType=VARCHAR}, #{descri,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=INTEGER}, #{pType,jdbcType=CHAR}, #{pLevel,jdbcType=INTEGER},
+      #{pSort,jdbcType=INTEGER}, #{descri,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER},
       #{leftIcon,jdbcType=VARCHAR}, #{expand1,jdbcType=VARCHAR}, #{expand2,jdbcType=VARCHAR}, 
-      #{expand3,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{expand3,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysPermis">
     insert into tb_sys_permis
@@ -94,12 +94,8 @@
       <if test="recordStatus != null">
         record_status,
       </if>
-      <if test="updateTime != null">
         update_time,
-      </if>
-      <if test="createTime != null">
         create_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pId != null">
@@ -118,10 +114,10 @@
         #{pType,jdbcType=CHAR},
       </if>
       <if test="pLevel != null">
-        #{pLevel,jdbcType=VARCHAR},
+        #{pLevel,jdbcType=INTEGER},
       </if>
       <if test="pSort != null">
-        #{pSort,jdbcType=VARCHAR},
+        #{pSort,jdbcType=INTEGER},
       </if>
       <if test="descri != null">
         #{descri,jdbcType=VARCHAR},
@@ -144,12 +140,8 @@
       <if test="recordStatus != null">
         #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+        now(),
+        now(),
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysPermis">
@@ -168,10 +160,10 @@
         p_type = #{pType,jdbcType=CHAR},
       </if>
       <if test="pLevel != null">
-        p_level = #{pLevel,jdbcType=VARCHAR},
+        p_level = #{pLevel,jdbcType=INTEGER},
       </if>
       <if test="pSort != null">
-        p_sort = #{pSort,jdbcType=VARCHAR},
+        p_sort = #{pSort,jdbcType=INTEGER},
       </if>
       <if test="descri != null">
         descri = #{descri,jdbcType=VARCHAR},
@@ -194,9 +186,7 @@
       <if test="recordStatus != null">
         record_status = #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        update_time = now(),
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -209,8 +199,8 @@
       p_name = #{pName,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       p_type = #{pType,jdbcType=CHAR},
-      p_level = #{pLevel,jdbcType=VARCHAR},
-      p_sort = #{pSort,jdbcType=VARCHAR},
+      p_level = #{pLevel,jdbcType=INTEGER},
+      p_sort = #{pSort,jdbcType=INTEGER},
       descri = #{descri,jdbcType=VARCHAR},
       opt_id = #{optId,jdbcType=INTEGER},
       left_icon = #{leftIcon,jdbcType=VARCHAR},
@@ -218,8 +208,64 @@
       expand_2 = #{expand2,jdbcType=VARCHAR},
       expand_3 = #{expand3,jdbcType=VARCHAR},
       record_status = #{recordStatus,jdbcType=CHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_time = now(),
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where p_id = #{pId,jdbcType=INTEGER}
   </update>
+
+
+  <!--以下是自定义的-->
+
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="SysPermisCustom" extends="BaseResultMap">
+
+  </resultMap>
+
+  <!-- 查询条件的sql片段 -->
+
+  <sql id="base_query_condition">
+    <if test="null != sysPermisCustom">
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <!--<if test="null != SysPermisCustom.userName and '' != SysPermisCustom.userName">-->
+        <!--AND user_name LIKE CONCAT('%',CONCAT(#{SysPermisCustom.userName},'%'))-->
+      <!--</if>-->
+
+    </if>
+  </sql>
+
+  <!--根据条件查询-->
+  <select id="selectListByQueryVo" parameterType="SysPermisQueryVo" resultMap="ResultMapCustom">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_permis
+    <where>
+      <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
+      <include refid="base_query_condition"></include>
+      AND record_status != '00'
+    </where>
+
+  </select>
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sys_permis
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      p_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds" >
+    delete from tb_sys_permis
+    <where>
+      p_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
 </mapper>

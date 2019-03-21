@@ -10,5 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SysPermisQueryVo extends BaseQueryVo{
-    private SysRoleCustom sysRoleCustom;
+    private SysPermisCustom sysPermisCustom;
 }

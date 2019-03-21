@@ -43,7 +43,7 @@
         <!--<dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
         <!--<dd>-->
         <!--<ul>-->
-        <!--<li><a data-href="sysUserQuery.html" data-title="会员列表" href="javascript:;">会员列表</a></li>-->
+        <!--<li><a data-href="sysPermisQuery.html" data-title="会员列表" href="javascript:;">会员列表</a></li>-->
         <!--<li><a data-href="member-del.html" data-title="删除的会员" href="javascript:;">删除的会员</a></li>-->
         <!--<li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>-->
         <!--<li><a data-href="member-scoreoperation.html" data-title="积分管理" href="javascript:;">积分管理</a></li>-->
@@ -85,16 +85,17 @@
                     <!--<li><a data-href="system-base.html" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a></li>-->
                     <li><a th:data-href="@{/sysRole/initQuery}" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a>
                     </li>
-                    <li><a th:data-href="@{/sysUser/initQuery}" data-title="系统权限管理" href="javascript:void(0)">系统权限管理</a>
+                    <li><a th:data-href="@{/sysPermis/initQuery}" data-title="系统权限管理"
+                           href="javascript:void(0)">系统权限管理</a>
                     </li>
                 </ul>
             </dd>
         </dl>
         <dl id="menu-article">
-            <dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe63c;</i> 系统配置<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="article-list.html" data-title="资讯管理" href="javascript:void(0)">资讯管理</a></li>
+                    <li><a th:data-href="@{sysUser/initQuery}" data-title="数据字典">数据字典</a></li>
                 </ul>
             </dd>
         </dl>

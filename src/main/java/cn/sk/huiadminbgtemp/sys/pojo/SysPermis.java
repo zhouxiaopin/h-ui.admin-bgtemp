@@ -13,9 +13,9 @@ public class SysPermis {
 
     private String pType;
 
-    private String pLevel;
+    private Integer pLevel;
 
-    private String pSort;
+    private Integer pSort;
 
     private String descri;
 
@@ -35,7 +35,7 @@ public class SysPermis {
 
     private Date createTime;
 
-    public SysPermis(Integer pId, String pFlag, String pName, Integer parentId, String pType, String pLevel, String pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
+    public SysPermis(Integer pId, String pFlag, String pName, Integer parentId, String pType, Integer pLevel, Integer pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
         this.pId = pId;
         this.pFlag = pFlag;
         this.pName = pName;
@@ -98,20 +98,20 @@ public class SysPermis {
         this.pType = pType == null ? null : pType.trim();
     }
 
-    public String getpLevel() {
+    public Integer getpLevel() {
         return pLevel;
     }
 
-    public void setpLevel(String pLevel) {
-        this.pLevel = pLevel == null ? null : pLevel.trim();
+    public void setpLevel(Integer pLevel) {
+        this.pLevel = pLevel;
     }
 
-    public String getpSort() {
+    public Integer getpSort() {
         return pSort;
     }
 
-    public void setpSort(String pSort) {
-        this.pSort = pSort == null ? null : pSort.trim();
+    public void setpSort(Integer pSort) {
+        this.pSort = pSort;
     }
 
     public String getDescri() {
