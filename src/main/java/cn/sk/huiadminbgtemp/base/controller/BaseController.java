@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-public class BaseController<T,V> {
+public class BaseController<T, V> {
     @Autowired
-    private IBaseService<T,V> baseService;
+    private IBaseService<T, V> baseService;
 
     protected static final String OPRT_KEY = "oprt";
     protected static final String QUERY_OPRT = "query";
@@ -22,17 +22,28 @@ public class BaseController<T,V> {
     protected static final String UPDATE_OPRT = "update";
     protected static final String QUERYDETAIL_OPRT = "queryDetail";
 
-    protected String getPage(String oprt){return null;}
-    protected ServerResponse<T> addBefore(T t){return null;}
-    protected ServerResponse<T> updateBefore(T oldObj,T t){return null;}
+    protected String getPage(String oprt) {
+        return null;
+    }
+
+    //    protected ServerResponse<T> addBefore(T t){return null;}
+    protected ServerResponse<T> updateBefore(T oldObj, T t) {
+        return null;
+    }
+
+    //参数检验
+    protected ServerResponse<T> paramValidate(String oprt, T t) {
+        return ServerResponse.createBySuccessMessage("检验成功");
+    }
 
     /**
      * 获取页面
+     *
      * @return 返回页面
      */
-    protected String page(String oprt){
+    protected String page(String oprt) {
         String page = getPage(oprt);
-        if(null == page) {
+        if (null == page) {
             throw new CustomException(Const.ResponseMsg.NO_PAGE);
         }
         return page;
@@ -40,29 +51,31 @@ public class BaseController<T,V> {
 
 
     @GetMapping(value = "/initQuery")
-    public ModelAndView initQuery(ModelAndView model) throws Exception{
-        model.addObject(OPRT_KEY,QUERY_OPRT);
+    public ModelAndView initQuery(ModelAndView model) throws Exception {
+        model.addObject(OPRT_KEY, QUERY_OPRT);
         model.setViewName(page(QUERY_OPRT));
         return model;
     }
+
     @GetMapping(value = "/initAdd")
-    public ModelAndView initAdd(ModelAndView model,T t) throws Exception{
+    public ModelAndView initAdd(ModelAndView model, T t) throws Exception {
         try {
-            model.addObject("obj",t);
-            model.addObject(OPRT_KEY,ADD_OPRT);
+            model.addObject("obj", t);
+            model.addObject(OPRT_KEY, ADD_OPRT);
             model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
-        }catch (Exception e){
+        } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(ADD_OPRT));
         return model;
     }
+
     @GetMapping(value = "/initUpdate")
-    public ModelAndView initUpdate(ModelAndView model, T entity) throws Exception{
-        model.addObject(OPRT_KEY,UPDATE_OPRT);
+    public ModelAndView initUpdate(ModelAndView model, T entity) throws Exception {
+        model.addObject(OPRT_KEY, UPDATE_OPRT);
         try {
-            init(model,entity);
-        }catch (Exception e){
+            init(model, entity);
+        } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(UPDATE_OPRT));
@@ -70,11 +83,11 @@ public class BaseController<T,V> {
     }
 
     @GetMapping(value = "/initQueryDetail")
-    public ModelAndView queryDetail(ModelAndView model, T entity) throws Exception{
-        model.addObject(OPRT_KEY,QUERYDETAIL_OPRT);
+    public ModelAndView queryDetail(ModelAndView model, T entity) throws Exception {
+        model.addObject(OPRT_KEY, QUERYDETAIL_OPRT);
         try {
-            init(model,entity);
-        }catch (Exception e){
+            init(model, entity);
+        } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(QUERYDETAIL_OPRT));
@@ -82,31 +95,32 @@ public class BaseController<T,V> {
     }
 
     @PostMapping(value = "/add")
-    public ServerResponse<T> add(T t) throws Exception{
-        ServerResponse<T> serverResponse = addBefore(t);
-        if(null == serverResponse||serverResponse.isSuccess()) {
+    public ServerResponse<T> add(T t) throws Exception {
+        ServerResponse<T> serverResponse = paramValidate(ADD_OPRT, t);
+        if (null == serverResponse || serverResponse.isSuccess()) {
             return baseService.insert(t);
-        }else {
+        } else {
             return serverResponse;
         }
     }
 
     @PostMapping(value = "/update")
-    public ServerResponse<T> update(T t) throws Exception{
+    public ServerResponse<T> update(T t) throws Exception {
 
         T obj = getObj(t);
 
-        ServerResponse<T> serverResponse = updateBefore(obj,t);
-        if(null == serverResponse||serverResponse.isSuccess()) {
+        ServerResponse<T> serverResponse = updateBefore(obj, t);
+        if (null == serverResponse || serverResponse.isSuccess()) {
 //            return  baseService.update(obj);
-            return  baseService.update(t);
-        }else {
+            return baseService.update(t);
+        } else {
             return serverResponse;
         }
     }
+
     //软删除
     @PostMapping(value = "/delete")
-    public ServerResponse<T> delete(@RequestParam("ids[]") String[] ids) throws Exception{
+    public ServerResponse<T> delete(@RequestParam("ids[]") String[] ids) throws Exception {
         return baseService.deleteInIds(ids);
 
     }
@@ -120,26 +134,28 @@ public class BaseController<T,V> {
 //        return baseService.queryObjsByPage(v);
 //    }
 
-    protected void init(ModelAndView model, T entity){
+    protected void init(ModelAndView model, T entity) {
         try {
             T t = getObj(entity);
-            if(null != t) {
-                model.addObject("obj",t);
+            if (null != t) {
+                model.addObject("obj", t);
 //                model.addAttribute("jsonObj", GsonUtils.objToJsonStr(t));
                 model.addObject("jsonObj", FastJsonUtil.obj2String(t));
                 model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
-            }else{
-                model.addObject("msg",Const.ResponseMsg.RECORD_EXISTS_NO);
+            } else {
+                model.addObject("msg", Const.ResponseMsg.RECORD_EXISTS_NO);
             }
-        }catch (Exception e){
-            model.addObject("msg",Const.ResponseMsg.OPRT_FAIL);
+        } catch (Exception e) {
+            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
     }
-    protected T getObj(T entity){
+
+    //根据主键获取实体对象
+    protected T getObj(T entity) {
         T t = null;
         try {
             t = baseService.queryObj(entity).getData();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return t;

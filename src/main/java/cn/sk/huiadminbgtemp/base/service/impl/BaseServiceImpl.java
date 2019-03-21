@@ -113,11 +113,13 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 //    }
     @Override
     public DataTableVo queryObjsByPage(V entityQueryVo) {
+
         //startPage--start
         //填充自己的sql查询逻辑
         //pageHelper-收尾
         BaseQueryVo baseQueryVo = (BaseQueryVo)entityQueryVo;
-        PageHelper.startPage(baseQueryVo.getStart(),baseQueryVo.getLength());
+//        PageHelper.startPage(baseQueryVo.getStart(),baseQueryVo.getLength());
+        PageHelper.offsetPage(baseQueryVo.getStart(),baseQueryVo.getLength());
         List<T> list = baseMapper.selectListByQueryVo(entityQueryVo);
 
         PageInfo pageResult = new PageInfo(list);
