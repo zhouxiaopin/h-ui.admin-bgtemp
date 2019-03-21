@@ -1,4 +1,4 @@
-package cn.sk.huiadminbgtemp.controller;
+package cn.sk.huiadminbgtemp.business.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

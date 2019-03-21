@@ -45,6 +45,10 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
             case ADD_OPRT://添加
                 //默认可用
 //                sysDictCustom.setRecordStatus(Const.RecordStatus.ABLE);
+//                状态 0=停用，1=启用
+                sysDictCustom.setDictStatus("1");
+                //是否删除 1=删除
+                sysDictCustom.setDeleteFlag("0");
                 break;
 
         }
