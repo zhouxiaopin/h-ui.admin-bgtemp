@@ -3,6 +3,8 @@ package cn.sk.huiadminbgtemp.base.service;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 
+import java.util.List;
+
 /**
  * 基本Service
  * @param <T>   实体扩展类
@@ -30,4 +32,8 @@ public interface IBaseService<T,V> {
     //分页查询数据列表
 //    ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo);
     DataTableVo queryObjsByPage(V entityQueryVo);
+
+    //分页查询数据列表
+//    ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo);
+    ServerResponse<List<T>> queryObjs(V entityQueryVo);
 }

@@ -130,10 +130,10 @@
     <if test="null != sysRoleCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
       <if test="null != sysRoleCustom.roleFlag and '' != sysRoleCustom.roleFlag">
-        AND role_flag LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleFlag},'%'))
+        AND role_flag LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleFlag,jdbcType=VARCHAR},'%'))
       </if>
       <if test="null != sysRoleCustom.roleName and '' != sysRoleCustom.roleName">
-        AND role_name LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleName},'%'))
+        AND role_name LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleName,jdbcType=VARCHAR},'%'))
       </if>
 
     </if>

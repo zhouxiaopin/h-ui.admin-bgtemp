@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 public class BaseController<T, V> {
     @Autowired
     private IBaseService<T, V> baseService;
@@ -106,6 +108,10 @@ public class BaseController<T, V> {
 
     @PostMapping(value = "/update")
     public ServerResponse<T> update(T t) throws Exception {
+        ServerResponse<T> sr = paramValidate(UPDATE_OPRT, t);
+        if (null != sr&&!sr.isSuccess()) {
+            return sr;
+        }
 
         T obj = getObj(t);
 
@@ -135,10 +141,10 @@ public class BaseController<T, V> {
     public DataTableVo list(V v) {
         return baseService.queryObjsByPage(v);
     }
-//    @PostMapping(value = "/query")
-//    public ServerResponse<DataTableVo> list(V v) {
-//        return baseService.queryObjsByPage(v);
-//    }
+    @PostMapping(value = "/queryAllByCondition")
+    public ServerResponse<List<T>> queryAllByCondition(V v) {
+        return baseService.queryObjs(v);
+    }
 
     protected void init(ModelAndView model, T entity) {
         try {

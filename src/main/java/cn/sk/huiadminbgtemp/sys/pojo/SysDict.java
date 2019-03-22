@@ -1,5 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.pojo;
 
+import java.util.Date;
+
 public class SysDict {
     private Integer dictId;
 
@@ -27,11 +29,13 @@ public class SysDict {
 
     private String field6;
 
-    private String dictStatus;
+    private String recordStatus;
 
-    private String deleteFlag;
+    private Date updateTime;
 
-    public SysDict(Integer dictId, String dictType, String dictCode, String codeName, String description, Integer sort, String remark, String field1, String field2, String field3, String field4, String field5, String field6, String dictStatus, String deleteFlag) {
+    private Date createTime;
+
+    public SysDict(Integer dictId, String dictType, String dictCode, String codeName, String description, Integer sort, String remark, String field1, String field2, String field3, String field4, String field5, String field6, String recordStatus, Date updateTime, Date createTime) {
         this.dictId = dictId;
         this.dictType = dictType;
         this.dictCode = dictCode;
@@ -45,8 +49,9 @@ public class SysDict {
         this.field4 = field4;
         this.field5 = field5;
         this.field6 = field6;
-        this.dictStatus = dictStatus;
-        this.deleteFlag = deleteFlag;
+        this.recordStatus = recordStatus;
+        this.updateTime = updateTime;
+        this.createTime = createTime;
     }
 
     public SysDict() {
@@ -157,19 +162,27 @@ public class SysDict {
         this.field6 = field6 == null ? null : field6.trim();
     }
 
-    public String getDictStatus() {
-        return dictStatus;
+    public String getRecordStatus() {
+        return recordStatus;
     }
 
-    public void setDictStatus(String dictStatus) {
-        this.dictStatus = dictStatus == null ? null : dictStatus.trim();
+    public void setRecordStatus(String recordStatus) {
+        this.recordStatus = recordStatus == null ? null : recordStatus.trim();
     }
 
-    public String getDeleteFlag() {
-        return deleteFlag;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setDeleteFlag(String deleteFlag) {
-        this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

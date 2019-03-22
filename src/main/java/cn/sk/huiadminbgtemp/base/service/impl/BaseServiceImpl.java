@@ -150,4 +150,10 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         return dataTableVo;
     }
 
+    @Override
+    public ServerResponse<List<T>> queryObjs(V entityQueryVo) {
+        List<T> list = baseMapper.selectListByQueryVo(entityQueryVo);
+        return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,list);
+    }
+
 }

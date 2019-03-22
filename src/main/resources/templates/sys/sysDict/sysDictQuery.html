@@ -22,10 +22,10 @@
     <!--搜索栏开始-->
     <!--<div class="text-c">-->
     <div style="margin:5px 5px 5px">
-        角色标识：
-        <input type="text" class="input-text" style="width:200px" placeholder="输入角色标识" id="roleFlag">
-        角色名：
-        <input type="text" class="input-text" style="width:200px" placeholder="输入角色名" id="roleName">
+        字典类型：
+        <input type="text" class="input-text" style="width:200px" placeholder="输入字典类型" id="dictType">
+        字典编码：
+        <input type="text" class="input-text" style="width:200px" placeholder="输入字典编码" id="dictCode">
         <button type="submit" class="btn btn-success radius" id="searchBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
             查询
         </button>
@@ -61,6 +61,7 @@
                 <th width="60">类型描述</th>
                 <th width="60">排序</th>
                 <th width="60">备注</th>
+                <th width="80">创建时间</th>
                 <th width="50">状态</th>
                 <th width="100">操作</th>
 
@@ -99,14 +100,14 @@
     function updateDisableRs(obj, id) {
         layer.confirm('确认要禁用吗？', function (index) {
             var url = "updateRecordStatus";
-            var param = {recordStatus: '02'};
+            var param = {recordStatus: skConst.RecordStatus.DISABLE};
             param[pk] = id;
             sk.ajaxRequest(url, param, function (r) {
                 if (r.code == '0') {
 //                    $(obj).parents("tr").remove();
 
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label radius">02</span>');
+                    $(obj).parents("tr").find("#td-status").html('<span class="label radius">'+skConst.RecordStatus[skConst.RecordStatus.DISABLE]+'</span>');
                     //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
                     //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
                     $(obj).remove();
@@ -125,12 +126,12 @@
     function updateAbleRs(obj, id) {
         layer.confirm('确认要启用吗？', function (index) {
             var url = "updateRecordStatus";
-            var param = {recordStatus: '01'};
+            var param = {recordStatus: skConst.RecordStatus.ABLE};
             param[pk] = id;
             sk.ajaxRequest(url, param, function (r) {
                 if (r.code == '0') {
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">01</span>');
+                    $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">'+skConst.RecordStatus[skConst.RecordStatus.ABLE]+'</span>');
                     //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
                     //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
                     $(obj).remove();
@@ -170,7 +171,9 @@
     $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加'+modelTile, 'initAdd', 800, 580);
+            layer_show('添加'+modelTile, 'initAdd', 800, 580,function (index, layero) {//取消事件
+                _dataTables.ajax.reload();
+            });
         });
         //批量删除
         $('#batchDel').on('click', function () {
@@ -236,27 +239,33 @@
                 {"data": "sort"},
                 {"data": "remark"},
                 {
-                    "data": "dictStatus", "render": function (data) {
-                    if (data == '0') {
+                    "data": "createTime", "render": function (data) {
+                        //时间格式化
+                        return moment(data).format(skConst.DEFALT_DATE_FORMAT);
+                    }
+                },
+                {
+                    "data": "recordStatus", "render": function (data) {
+                    if (data == skConst.RecordStatus.ABLE) {
                         //启用
-                        return '<div id="td-status"><span class="label label-success radius">1</span></div>';
+                        return '<div id="td-status"><span class="label label-success radius">'+skConst.RecordStatus[data]+'</span></div>';
                     } else {
                         //禁用
-                        return '<div id="td-status"><span class="label radius">0</span></div>';
+                        return '<div id="td-status"><span class="label radius">'+skConst.RecordStatus[data]+'</span></div>';
                     }
                 }
                 },
                 {
                     "data": function (dd) {
                         var str = '<div id="td-manage">';
-                        if (dd.recordStatus == '0') {
-                            str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.roleId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
+                        if (dd.recordStatus == '01') {
+                            str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.dictId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
                         } else {
-                            str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.roleId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';
+                            str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.dictId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';
                         }
 
-                        str += '<a title="修改" href="javascript:;" onclick="to_edit(' + dd.roleId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
-                        str += '<a title="删除" href="javascript:;" onclick="to_del(this,' + dd.roleId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
+                        str += '<a title="修改" href="javascript:;" onclick="to_edit(' + dd.dictId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
+                        str += '<a title="删除" href="javascript:;" onclick="to_del(this,' + dd.dictId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
                         str += '</div>';
                         return str;
                     }
@@ -266,8 +275,8 @@
                 "url": "query",
                 "type": "POST",
                 "data": function (d) {
-                    d['sysRoleCustom.roleFlag'] = $("#roleFlag").val().trim();
-                    d['sysRoleCustom.roleName'] = $("#roleName").val().trim();
+                    d['sysDictCustom.dictType'] = $("#dictType").val().trim();
+                    d['sysDictCustom.dictCode'] = $("#dictCode").val().trim();
 
                 }
             },

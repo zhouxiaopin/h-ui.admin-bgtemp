@@ -300,15 +300,15 @@
 
                 {
                     "data": "createTime", "render": function (data) {
-                    //时间格式化
-                    return moment(data).format("YYYY-MM-DD HH:mm:ss");
-                }
+                        //时间格式化
+                        return moment(data).format(skConst.DEFALT_DATE_FORMAT);
+                    }
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
-                    if (data == '01') {
+                    if (data == skConst.ABLE) {
                         //启用
-                        return '<div id="td-status"><span class="label label-success radius">01</span></div>';
+                        return '<div id="td-status"><span class="label label-success radius">RecordStatus01</span></div>';
                     } else {
                         //禁用
                         return '<div id="td-status"><span class="label radius">02</span></div>';
@@ -318,7 +318,7 @@
                 {
                     "data": function (dd) {
                         var str = '<div id="td-manage">';
-                        if (dd.recordStatus == '01') {
+                        if (dd.recordStatus == skConst.ABLE) {
                             str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.pId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
                         } else {
                             str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.pId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';

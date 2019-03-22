@@ -219,10 +219,16 @@
 
         $("#sysDictForm").validate({
             rules: {
-                roleFlag: {
+                dictType: {
                     required: true
                 },
-                roleName: {
+                dictCode: {
+                    required: true
+                },
+                codeName: {
+                    required: true
+                },
+                codeName: {
                     required: true
                 }
 
@@ -241,11 +247,15 @@
                 sk.ajaxRequest(url, param, function (r) {
                     if (r.code == '0') {
                         sk.successMsg(r.msg);
-                        setTimeout(function () {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        }, 800);
+                        if (oprt != 'add'){
+                            setTimeout(function () {
+                                parent.location.reload();
+//                                var index = parent.layer.getFrameIndex(window.name);
+//                                parent.layer.close(index);
+                                layer_close();
+                            }, 800);
+                        }
+
                     } else {
                         sk.failMsg(r.msg);
                     }

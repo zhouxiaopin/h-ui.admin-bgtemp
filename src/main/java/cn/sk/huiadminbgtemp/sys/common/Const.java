@@ -6,7 +6,7 @@ package cn.sk.huiadminbgtemp.sys.common;
 public class Const {
 
     public interface RecordStatus{
-        String DELETE = "00";//记录软件删除
+        String DELETE = "00";//记录删除
         String ABLE = "01";//记录可用
         String DISABLE = "02";//记录禁用
     }

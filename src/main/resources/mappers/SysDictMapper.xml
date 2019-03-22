@@ -16,13 +16,14 @@
       <arg column="field_4" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="field_5" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="field_6" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="dict_status" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="delete_flag" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="record_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     dict_id, dict_type, dict_code, code_name, description, sort, remark, field_1, field_2, 
-    field_3, field_4, field_5, field_6, dict_status, delete_flag
+    field_3, field_4, field_5, field_6, record_status, update_time, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
     select 
@@ -39,14 +40,14 @@
       code_name, description, sort, 
       remark, field_1, field_2, 
       field_3, field_4, field_5, 
-      field_6, dict_status, delete_flag
-      )
+      field_6, record_status, update_time, 
+      create_time)
     values (#{dictId,jdbcType=INTEGER}, #{dictType,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR}, 
       #{codeName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, 
       #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR}, 
-      #{field6,jdbcType=VARCHAR}, #{dictStatus,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}
-      )
+      #{field6,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysDict">
     insert into tb_sys_dict
@@ -90,12 +91,11 @@
       <if test="field6 != null">
         field_6,
       </if>
-      <if test="dictStatus != null">
-        dict_status,
+      <if test="recordStatus != null">
+        record_status,
       </if>
-      <if test="deleteFlag != null">
-        delete_flag,
-      </if>
+        update_time,
+        create_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dictId != null">
@@ -137,12 +137,11 @@
       <if test="field6 != null">
         #{field6,jdbcType=VARCHAR},
       </if>
-      <if test="dictStatus != null">
-        #{dictStatus,jdbcType=VARCHAR},
+      <if test="recordStatus != null">
+        #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="deleteFlag != null">
-        #{deleteFlag,jdbcType=VARCHAR},
-      </if>
+      now(),
+      now(),
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysDict">
@@ -184,11 +183,12 @@
       <if test="field6 != null">
         field_6 = #{field6,jdbcType=VARCHAR},
       </if>
-      <if test="dictStatus != null">
-        dict_status = #{dictStatus,jdbcType=VARCHAR},
+      <if test="recordStatus != null">
+        record_status = #{recordStatus,jdbcType=CHAR},
       </if>
-      <if test="deleteFlag != null">
-        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+        update_time = now(),
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where dict_id = #{dictId,jdbcType=INTEGER}
@@ -207,8 +207,9 @@
       field_4 = #{field4,jdbcType=VARCHAR},
       field_5 = #{field5,jdbcType=VARCHAR},
       field_6 = #{field6,jdbcType=VARCHAR},
-      dict_status = #{dictStatus,jdbcType=VARCHAR},
-      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+      record_status = #{recordStatus,jdbcType=CHAR},
+      update_time = now(),
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where dict_id = #{dictId,jdbcType=INTEGER}
   </update>
 
@@ -225,10 +226,19 @@
   <sql id="base_query_condition">
     <if test="null != sysDictCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
-      <!--<if test="null != SysPermisCustom.userName and '' != SysPermisCustom.userName">-->
-      <!--AND user_name LIKE CONCAT('%',CONCAT(#{SysPermisCustom.userName},'%'))-->
-      <!--</if>-->
-
+      <if test="isNoLike.dictType">
+        <if test="null != sysDictCustom.dictType and '' != sysDictCustom.dictType">
+          AND dict_type = #{sysDictCustom.dictType,jdbcType=VARCHAR}
+        </if>
+      </if>
+      <if test="!isNoLike.dictType">
+        <if test="null != sysDictCustom.dictType and '' != sysDictCustom.dictType">
+          AND dict_type LIKE CONCAT('%',CONCAT(#{sysDictCustom.dictType,jdbcType=VARCHAR},'%'))
+        </if>
+      </if>
+      <if test="null != sysDictCustom.dictCode and '' != sysDictCustom.dictCode">
+        AND dict_code = #{sysDictCustom.dictCode,jdbcType=VARCHAR}
+      </if>
     </if>
   </sql>
 
@@ -240,6 +250,7 @@
     <where>
       <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
       <include refid="base_query_condition"></include>
+      AND record_status != '00'
     </where>
 
   </select>
@@ -249,7 +260,7 @@
     update tb_sys_dict
     set record_status = #{recordStatus,jdbcType=VARCHAR}
     <where>
-      p_id IN
+      dict_id IN
       <foreach collection="pks" open="(" close=")" separator="," item="pk">
         #{pk}
       </foreach>

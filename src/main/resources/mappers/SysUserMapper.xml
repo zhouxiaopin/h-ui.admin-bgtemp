@@ -196,7 +196,7 @@
     <if test="null != sysUserCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
       <if test="null != sysUserCustom.userName and '' != sysUserCustom.userName">
-        AND user_name LIKE CONCAT('%',CONCAT(#{sysUserCustom.userName},'%'))
+        AND user_name LIKE CONCAT('%',CONCAT(#{sysUserCustom.userName,jdbcType=VARCHAR},'%'))
       </if>
 
     </if>
