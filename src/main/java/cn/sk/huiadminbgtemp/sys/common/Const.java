@@ -28,4 +28,8 @@ public class Const {
         String RECORD_EXISTS_NO = "该记录不存在";
 
     }
+
+    public interface Dict{
+        String RECORDSTATUS_DICTCODE = "record_status";
+    }
 }

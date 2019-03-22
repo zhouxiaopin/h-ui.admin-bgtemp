@@ -75,6 +75,58 @@
 
             <!--修改开始-->
             <div th:case="update">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限标识：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.pFlag}" id="pFlag"
+                               name="pFlag">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限名：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.pName}" id="pName"
+                               name="pName">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">父权限：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.parentId}" id="parentId"
+                               name="parentId">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>类型：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.pType}" id="pType"
+                               name="pType">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">级别：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.pLevel}" id="pLevel"
+                               name="pLevel">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">排序：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.pSort}" id="pSort"
+                               name="pSort">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">左边图标：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <input type="text" class="input-text" th:value="${obj.leftIcon}" id="leftIcon"
+                               name="leftIcon">
+                    </div>
+                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <textarea name="descri" cols="22" rows="4" class="textarea"
+                                  onKeyUp="$.Huitextarealength(this,100)"
+                                  th:inline="text">
+                    [[${obj.descri}]]
+                </textarea>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    </div>
+                </div>
             </div>
             <!--修改结束-->
 

@@ -21,6 +21,7 @@
     <link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/style.css}" rel="stylesheet" type="text/css"/>
     <!--<link th:href="@{/static/H-ui.admin/static/h-ui.admin/css/H-ui.login.css}" rel="stylesheet" type="text/css" />-->
     <link th:href="@{/static/H-ui.admin/lib/Hui-iconfont/1.0.8/iconfont.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/static/H-ui.admin/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}"/>
 
@@ -121,6 +122,8 @@
     var basePath = /*[[@{/}]]*/;
     //去掉后面的斜线
     //    basePath = basePath.substring(0,basePath.length-1);
+
+    var recordStatus = [[${record_status}]];
 </script>
 
 <!--刷新条-->

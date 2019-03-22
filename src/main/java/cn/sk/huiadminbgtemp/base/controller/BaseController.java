@@ -4,8 +4,13 @@ import cn.sk.huiadminbgtemp.base.service.IBaseService;
 import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
+import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
+import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
 import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
+import cn.sk.huiadminbgtemp.sys.vo.SelectBoxVo;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +22,8 @@ import java.util.List;
 public class BaseController<T, V> {
     @Autowired
     private IBaseService<T, V> baseService;
+    @Autowired
+    private ISysDictService sysDictService;
 
     protected static final String OPRT_KEY = "oprt";
     protected static final String QUERY_OPRT = "query";
@@ -55,6 +62,9 @@ public class BaseController<T, V> {
     @GetMapping(value = "/initQuery")
     public ModelAndView initQuery(ModelAndView model) throws Exception {
         model.addObject(OPRT_KEY, QUERY_OPRT);
+        model.addObject(Const.Dict.RECORDSTATUS_DICTCODE,
+                querySelectBoxVoByDictType(Const.Dict.RECORDSTATUS_DICTCODE).getData());
+
         model.setViewName(page(QUERY_OPRT));
         return model;
     }
@@ -173,4 +183,27 @@ public class BaseController<T, V> {
         return t;
     }
 
+    //获取下拉框
+
+    @PostMapping(value = "/querySelectBoxVoByDictType")
+    public ServerResponse<List<SelectBoxVo>> querySelectBoxVoByDictType(String dictType) {
+        SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
+        SysDictCustom condition = new SysDictCustom();
+
+        sysDictQueryVo.getIsNoLike().put("dictType",true);
+
+        condition.setDictType(dictType);
+        condition.setRecordStatus(Const.RecordStatus.ABLE);
+
+        sysDictQueryVo.setSysDictCustom(condition);
+        ServerResponse<List<SysDictCustom>> sr = sysDictService.queryObjs(sysDictQueryVo);
+        List<SysDictCustom> data = sr.getData();
+        List<SelectBoxVo> selectBoxVos = Lists.newArrayList();
+        for (int i = 0,len = data.size(); i < len; i++){
+            SysDictCustom s = data.get(i);
+            SelectBoxVo selectBoxVo = new SelectBoxVo(s.getDictCode(),s.getCodeName());
+            selectBoxVos.add(selectBoxVo);
+        }
+        return ServerResponse.createBySuccess(selectBoxVos);
+    }
 }

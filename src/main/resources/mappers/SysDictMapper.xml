@@ -239,6 +239,9 @@
       <if test="null != sysDictCustom.dictCode and '' != sysDictCustom.dictCode">
         AND dict_code = #{sysDictCustom.dictCode,jdbcType=VARCHAR}
       </if>
+      <if test="null != sysDictCustom.recordStatus and '' != sysDictCustom.recordStatus">
+        AND record_status = #{sysDictCustom.recordStatus,jdbcType=VARCHAR}
+      </if>
     </if>
   </sql>
 

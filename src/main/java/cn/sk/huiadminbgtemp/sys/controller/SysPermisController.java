@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 系统权限 Controller
  */
@@ -58,6 +61,12 @@ public class SysPermisController extends BaseController<SysPermisCustom, SysPerm
             }
         }
         return serverResponse;
+    }
+
+    //获取树形
+    @PostMapping(value = "querySysPermisTree")
+    public ServerResponse<List<Map<String,Object>>> querySysPermisTree(SysPermisQueryVo sysPermisQueryVo) {
+        return sysPermisService.querySysPermisTree(sysPermisQueryVo);
     }
 
 

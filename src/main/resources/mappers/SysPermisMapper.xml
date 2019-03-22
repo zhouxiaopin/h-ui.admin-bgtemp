@@ -224,11 +224,20 @@
   <!-- 查询条件的sql片段 -->
 
   <sql id="base_query_condition">
+    <if test="null != greaterThanPLevel">
+      AND p_level >= #{greaterThanPLevel,jdbcType=INTEGER}
+    </if>
     <if test="null != sysPermisCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
       <!--<if test="null != SysPermisCustom.userName and '' != SysPermisCustom.userName">-->
         <!--AND user_name LIKE CONCAT('%',CONCAT(#{SysPermisCustom.userName},'%'))-->
       <!--</if>-->
+      <if test="null != sysPermisCustom.pLevel and '' != sysPermisCustom.pLevel">
+        AND p_level = #{sysPermisCustom.pLevel,jdbcType=INTEGER})
+      </if>
+      <if test="null != sysPermisCustom.recordStatus and '' != sysPermisCustom.recordStatus">
+        AND record_status = #{recordStatus,jdbcType=VARCHAR}
+      </if>
 
     </if>
   </sql>

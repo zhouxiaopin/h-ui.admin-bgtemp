@@ -99,12 +99,15 @@
             param[pk] = id;
             sk.ajaxRequest(url, param, function (r) {
                 if (r.code == '0') {
-//                    $(obj).parents("tr").remove();
-
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label radius">02</span>');
-                    //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
+
+                    $.each(recordStatus,function (index,item) {
+//                            console.log(JSON.stringify(item))
+                        if (item.code == skConst.RecordStatus.DISABLE){
+                            $(obj).parents("tr").find("#td-status").html('<span class="label radius">'+item.name+'</span>');
+                            return false;
+                        }
+                    });
                     $(obj).remove();
 
                     sk.failFaceMsg(r.msg);
@@ -126,9 +129,13 @@
             sk.ajaxRequest(url, param, function (r) {
                 if (r.code == '0') {
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">01</span>');
-                    //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
+                    $.each(recordStatus,function (index,item) {
+//                            console.log(JSON.stringify(item))
+                        if (item.code == skConst.RecordStatus.ABLE){
+                            $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">'+item.name+'</span>');
+                            return false;
+                        }
+                    });
                     $(obj).remove();
                     sk.successFaceMsg(r.msg);
                 } else {
@@ -139,6 +146,7 @@
         });
 
     }
+
 
     //修改
     function to_edit(id) {
@@ -237,14 +245,24 @@
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
-                    if (data == '01') {
-                        //启用
-                        return '<div id="td-status"><span class="label label-success radius">01</span></div>';
-                    } else {
-                        //禁用
-                        return '<div id="td-status"><span class="label radius">02</span></div>';
+                        var htmlStr = '<div id="td-status"><span class="label ';
+                        if (data == '01') {
+                            //启用
+                            htmlStr += 'label-success radius">';
+
+                        } else {
+                            //禁用
+                            htmlStr += 'radius">';
+                        }
+                        $.each(recordStatus,function (index,item) {
+    //                            console.log(JSON.stringify(item))
+                            if (item.code == data){
+                                htmlStr += item.name+'</span></div>';
+                                return false;
+                            }
+                        });
+                        return htmlStr;
                     }
-                }
                 },
                 {
                     "data": function (dd) {
