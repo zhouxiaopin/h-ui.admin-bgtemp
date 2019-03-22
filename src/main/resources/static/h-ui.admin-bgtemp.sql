@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-21 17:16:34
+Date: 2019-03-22 15:46:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_sys_dict`;
 CREATE TABLE `tb_sys_dict` (
-  `dict_id` int(11) NOT NULL,
+  `dict_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dict_type` varchar(255) DEFAULT NULL COMMENT '字典类型',
   `dict_code` varchar(255) DEFAULT NULL COMMENT '字典编码',
   `code_name` varchar(255) DEFAULT NULL COMMENT '编码名称',
@@ -33,14 +33,18 @@ CREATE TABLE `tb_sys_dict` (
   `field_4` varchar(255) DEFAULT NULL COMMENT '预留字段4',
   `field_5` varchar(255) DEFAULT NULL COMMENT '预留字段5',
   `field_6` varchar(255) DEFAULT NULL COMMENT '预留字段6',
-  `dict_status` varchar(255) DEFAULT NULL COMMENT '状态 0=停用，1=启用',
-  `delete_flag` varchar(255) DEFAULT NULL COMMENT '是否删除 1=删除',
+  `record_status` char(255) DEFAULT NULL COMMENT '(00=已删除，01=可用，02=禁用)',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dict_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_dict
 -- ----------------------------
+INSERT INTO `tb_sys_dict` VALUES ('10', 'record_status', '00', '已删除', '记录状态', '1', '代表该记录已删除', '', '', '', '', '', '', '01', '2019-03-22 11:56:30', '2019-03-22 11:56:30');
+INSERT INTO `tb_sys_dict` VALUES ('11', 'record_status', '01', '已启用', '记录状态', '2', '代表该记录已启用', '', '', '', '', '', '', '01', '2019-03-22 11:57:07', '2019-03-22 11:57:07');
+INSERT INTO `tb_sys_dict` VALUES ('12', 'record_status', '02', '已禁用', '记录状态', '3', '代表该记录已禁用', '', '', '', '', '', '', '01', '2019-03-22 11:57:28', '2019-03-22 11:57:28');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
@@ -64,12 +68,14 @@ CREATE TABLE `tb_sys_permis` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of tb_sys_permis
 -- ----------------------------
-INSERT INTO `tb_sys_permis` VALUES ('8', '1', '1', '1', '1', '1', '1', '', null, '', null, null, null, '01', '2019-03-21 17:14:33', '2019-03-21 17:14:33');
+INSERT INTO `tb_sys_permis` VALUES ('8', '0', '0', '0', '0', '0', '0', '', null, '', null, null, null, '01', '2019-03-22 14:39:41', '2019-03-21 17:14:33');
+INSERT INTO `tb_sys_permis` VALUES ('9', '2', '2', '1', '2', '2', null, '', null, '', null, null, null, '01', '2019-03-22 15:05:25', '2019-03-22 14:39:55');
+INSERT INTO `tb_sys_permis` VALUES ('10', '3', '3', '1', '3', '2', null, '', null, '', null, null, null, '01', '2019-03-22 15:08:13', '2019-03-22 15:05:49');
 
 -- ----------------------------
 -- Table structure for `tb_sys_role`
@@ -96,8 +102,8 @@ INSERT INTO `tb_sys_role` VALUES ('3', '2', '2', '2', null, '00', '2019-03-21 15
 INSERT INTO `tb_sys_role` VALUES ('4', '3', '3', '3', null, '00', '2019-03-21 14:38:53', '2019-03-21 14:38:53');
 INSERT INTO `tb_sys_role` VALUES ('5', '4', '4', '1114', null, '01', '2019-03-21 15:07:54', '2019-03-21 14:38:59');
 INSERT INTO `tb_sys_role` VALUES ('6', '5', '5', '', null, '01', '2019-03-21 16:34:10', '2019-03-21 16:34:10');
-INSERT INTO `tb_sys_role` VALUES ('7', '6', '6', '6', null, '01', '2019-03-21 16:42:35', '2019-03-21 16:42:35');
-INSERT INTO `tb_sys_role` VALUES ('8', '7', '7', '7', null, '01', '2019-03-21 16:42:56', '2019-03-21 16:42:56');
+INSERT INTO `tb_sys_role` VALUES ('7', '6', '6', '6', null, '02', '2019-03-22 14:05:53', '2019-03-21 16:42:35');
+INSERT INTO `tb_sys_role` VALUES ('8', '7', '7', '7', null, '01', '2019-03-22 14:05:50', '2019-03-21 16:42:56');
 
 -- ----------------------------
 -- Table structure for `tb_sys_role_permis`
@@ -137,7 +143,7 @@ CREATE TABLE `tb_sys_user` (
 -- ----------------------------
 -- Records of tb_sys_user
 -- ----------------------------
-INSERT INTO `tb_sys_user` VALUES ('1', 'admin', '0296c496ae8a50a67df31841946ca97c', '周小莹', '女', '11566937377@qq.com', '15876240015', 'ticc', 'zc', '01', '2019-03-21 10:32:07', '2019-03-15 07:20:09');
+INSERT INTO `tb_sys_user` VALUES ('1', 'admin', '0296c496ae8a50a67df31841946ca97c', '周小莹', '女', '11566937377@qq.com', '15876240015', 'ticc', 'zc', '01', '2019-03-22 14:04:18', '2019-03-15 07:20:09');
 INSERT INTO `tb_sys_user` VALUES ('2', '1234', '86a9584a0f11399a25b082a0f5027cfb', '', '男', '', '', 'ticc', null, '00', null, '2019-03-15 07:22:23');
 INSERT INTO `tb_sys_user` VALUES ('3', 'adfdsfadsf', '057846ab801ac808c086eccf03ea37f7', 'a', '男', '11566937377@qq.com', '15876240015', 'ticc', null, '00', null, '2019-03-20 10:09:26');
 INSERT INTO `tb_sys_user` VALUES ('4', 'admin', '0296c496ae8a50a67df31841946ca97c', '1', '男', '11566937377@qq.com', '15876240015', 'ticc', null, '00', null, '2019-03-20 10:10:38');
