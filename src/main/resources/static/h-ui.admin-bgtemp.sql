@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local_root
+Source Server         : MySQL
 Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : h-ui.admin-bgtemp
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-22 15:46:34
+Date: 2019-03-24 20:52:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,7 @@ CREATE TABLE `tb_sys_dict` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dict_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_dict
@@ -45,6 +45,19 @@ CREATE TABLE `tb_sys_dict` (
 INSERT INTO `tb_sys_dict` VALUES ('10', 'record_status', '00', '已删除', '记录状态', '1', '代表该记录已删除', '', '', '', '', '', '', '01', '2019-03-22 11:56:30', '2019-03-22 11:56:30');
 INSERT INTO `tb_sys_dict` VALUES ('11', 'record_status', '01', '已启用', '记录状态', '2', '代表该记录已启用', '', '', '', '', '', '', '01', '2019-03-22 11:57:07', '2019-03-22 11:57:07');
 INSERT INTO `tb_sys_dict` VALUES ('12', 'record_status', '02', '已禁用', '记录状态', '3', '代表该记录已禁用', '', '', '', '', '', '', '01', '2019-03-22 11:57:28', '2019-03-22 11:57:28');
+INSERT INTO `tb_sys_dict` VALUES ('13', 'menu_type', '-1', '未选择', '菜单类型', '0', '代表没有选择类型', '', '', '', '', '', '', '01', '2019-03-23 11:27:31', '2019-03-23 11:19:52');
+INSERT INTO `tb_sys_dict` VALUES ('14', 'menu_type', '01', '菜单', '菜单类型', '1', '代表该记录是菜单', '', '', '', '', '', '', '01', '2019-03-23 11:26:38', '2019-03-23 11:26:38');
+INSERT INTO `tb_sys_dict` VALUES ('15', 'menu_type', '02', '按钮', '菜单类型', '2', '代表该记录是按钮', '', '', '', '', '', '', '01', '2019-03-23 11:26:59', '2019-03-23 11:26:59');
+INSERT INTO `tb_sys_dict` VALUES ('16', 'menu_level', '1', '根目录', '菜单级别', '1', '代表记录是根目录', '', '', '', '', '', '', '01', '2019-03-24 19:32:45', '2019-03-23 16:07:26');
+INSERT INTO `tb_sys_dict` VALUES ('17', 'menu_level', '2', '一级菜单', '菜单级别', '2', '代表记录是一级菜单', '', '', '', '', '', '', '01', '2019-03-24 19:32:52', '2019-03-23 16:07:58');
+INSERT INTO `tb_sys_dict` VALUES ('18', 'menu_level', '3', '二级菜单', '菜单级别', '3', '代表记录是二级菜单', '', '', '', '', '', '', '01', '2019-03-24 19:33:28', '2019-03-23 16:08:12');
+INSERT INTO `tb_sys_dict` VALUES ('19', 'menu_level', '4', '三级菜单', '菜单级别', '4', '代表记录是三级菜单', '', '', '', '', '', '', '01', '2019-03-24 19:33:37', '2019-03-23 16:08:25');
+INSERT INTO `tb_sys_dict` VALUES ('20', 'menu_level', '5', '四级菜单', '菜单级别', '5', '代表记录是四级菜单', '', '', '', '', '', '', '01', '2019-03-24 19:33:50', '2019-03-23 16:08:38');
+INSERT INTO `tb_sys_dict` VALUES ('21', 'menu_level', '6', '五级菜单', '菜单级别', '6', '代表记录是五级菜单', '', '', '', '', '', '', '01', '2019-03-24 19:34:24', '2019-03-23 16:09:01');
+INSERT INTO `tb_sys_dict` VALUES ('22', 'menu_level', '7', '按钮', '菜单级别', '7', '代表记录是按钮', '', '', '', '', '', '', '01', '2019-03-24 19:34:48', '2019-03-23 16:10:49');
+INSERT INTO `tb_sys_dict` VALUES ('23', 'menu_level', '8', '按钮(行)', '菜单级别', '8', '代表记录是行按钮', '', '', '', '', '', '', '01', '2019-03-24 19:35:03', '2019-03-23 16:11:26');
+INSERT INTO `tb_sys_dict` VALUES ('24', 'statement_type', '01', 'sql语句', 'sql语句类型', '1', '代表该记录是sql语句', '', '', '', '', '', '', '01', '2019-03-24 15:15:39', '2019-03-24 15:15:39');
+INSERT INTO `tb_sys_dict` VALUES ('25', 'statement_type', '02', '存储过程', 'sql语句类型', '2', '代表该记录是存储过程', '', '', '', '', '', '', '01', '2019-03-24 15:15:59', '2019-03-24 15:15:59');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
@@ -53,10 +66,11 @@ DROP TABLE IF EXISTS `tb_sys_permis`;
 CREATE TABLE `tb_sys_permis` (
   `p_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '权限id',
   `p_flag` varchar(40) DEFAULT NULL COMMENT '权限标识',
-  `p_name` varchar(40) DEFAULT NULL COMMENT '权限名',
+  `p_name` varchar(40) DEFAULT NULL COMMENT '菜单名',
+  `p_url` varchar(255) DEFAULT NULL COMMENT '菜单url',
   `parent_id` int(10) unsigned DEFAULT NULL COMMENT '父id',
   `p_type` char(2) DEFAULT NULL COMMENT '权限类型',
-  `p_level` int(1) DEFAULT NULL COMMENT '权限级别（菜单类型）',
+  `p_level` int(2) DEFAULT NULL COMMENT '权限级别（菜单类型）',
   `p_sort` int(3) DEFAULT NULL COMMENT '排序',
   `descri` varchar(200) DEFAULT NULL COMMENT '描述',
   `opt_id` int(10) unsigned DEFAULT NULL COMMENT '操作者id',
@@ -68,14 +82,19 @@ CREATE TABLE `tb_sys_permis` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of tb_sys_permis
 -- ----------------------------
-INSERT INTO `tb_sys_permis` VALUES ('8', '0', '0', '0', '0', '0', '0', '', null, '', null, null, null, '01', '2019-03-22 14:39:41', '2019-03-21 17:14:33');
-INSERT INTO `tb_sys_permis` VALUES ('9', '2', '2', '1', '2', '2', null, '', null, '', null, null, null, '01', '2019-03-22 15:05:25', '2019-03-22 14:39:55');
-INSERT INTO `tb_sys_permis` VALUES ('10', '3', '3', '1', '3', '2', null, '', null, '', null, null, null, '01', '2019-03-22 15:08:13', '2019-03-22 15:05:49');
+INSERT INTO `tb_sys_permis` VALUES ('11', 'root', '根目录', '', null, '', '0', null, '', null, '', null, null, null, '01', '2019-03-23 16:04:24', '2019-03-23 15:59:22');
+INSERT INTO `tb_sys_permis` VALUES ('13', 'sysManag', '系统管理', '', '11', '01', '2', '1', '', null, '', null, null, null, '01', '2019-03-24 19:37:39', '2019-03-23 16:17:36');
+INSERT INTO `tb_sys_permis` VALUES ('14', 'sysManag', '系统管理', '', '13', '01', '2', '1', '', null, '', null, null, null, '01', '2019-03-24 19:37:50', '2019-03-23 16:20:10');
+INSERT INTO `tb_sys_permis` VALUES ('15', 'sysManag', '系统角色管理', '', '13', '01', '3', '2', '', null, '', null, null, null, '01', '2019-03-24 19:37:58', '2019-03-23 16:20:32');
+INSERT INTO `tb_sys_permis` VALUES ('16', 'sysManag', '系统权限管理', '', '13', '01', '3', '3', '', null, '', null, null, null, '01', '2019-03-24 19:38:06', '2019-03-23 16:20:45');
+INSERT INTO `tb_sys_permis` VALUES ('17', 'sysConf', '系统配置', '', '11', '01', '2', '2', '', null, '', null, null, null, '01', '2019-03-24 17:46:30', '2019-03-24 17:33:45');
+INSERT INTO `tb_sys_permis` VALUES ('18', 'sysDict', '数字字典', '', '17', '01', '3', '1', '', null, '', null, null, null, '01', '2019-03-24 17:40:43', '2019-03-24 17:35:37');
+INSERT INTO `tb_sys_permis` VALUES ('19', 'sysSqlConf', 'sql语句配置', '', '17', '01', '3', '2', '', null, '', null, null, null, '01', '2019-03-24 17:40:56', '2019-03-24 17:35:59');
 
 -- ----------------------------
 -- Table structure for `tb_sys_role`
@@ -119,6 +138,33 @@ CREATE TABLE `tb_sys_role_permis` (
 -- ----------------------------
 -- Records of tb_sys_role_permis
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_sys_sql_conf`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_sys_sql_conf`;
+CREATE TABLE `tb_sys_sql_conf` (
+  `sc_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `sc_code` varchar(255) DEFAULT NULL COMMENT '语句编码',
+  `sc_name` varchar(100) DEFAULT NULL COMMENT '语句名',
+  `sc_statement` text COMMENT '语句',
+  `sc_type` char(2) DEFAULT NULL COMMENT '类型（01=sql语句，02=存储过程）',
+  `descri` varchar(255) DEFAULT NULL COMMENT '描述',
+  `opt_id` int(10) unsigned DEFAULT NULL,
+  `field_1` varchar(255) DEFAULT NULL COMMENT '预留字段1',
+  `field_2` varchar(255) DEFAULT NULL COMMENT '预留字段2',
+  `field_3` varchar(255) DEFAULT NULL COMMENT '预留字段3',
+  `field_4` varchar(255) DEFAULT NULL COMMENT '预留字段4',
+  `record_status` char(255) DEFAULT NULL COMMENT '(00=已删除，01=可用，02=禁用)',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`sc_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统sql配置表';
+
+-- ----------------------------
+-- Records of tb_sys_sql_conf
+-- ----------------------------
+INSERT INTO `tb_sys_sql_conf` VALUES ('1', 'sys_permis_tree', '系统权限数', 'select sp.p_id id,sp.parent_id pId,sp.p_name name,\'true\' open,\'false\' nocheck \r\nfrom tb_sys_permis sp WHERE sp.record_status = \'01\' order by sp.p_level', '01', '系统权限页面的父权限树', null, '', '', '', '', '01', '2019-03-24 16:00:01', '2019-03-24 15:22:17');
 
 -- ----------------------------
 -- Table structure for `tb_sys_user`
