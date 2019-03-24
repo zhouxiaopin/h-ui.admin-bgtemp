@@ -44,6 +44,8 @@ public class BaseController<T, V> {
     protected ServerResponse<T> paramValidate(String oprt, T t) {
         return ServerResponse.createBySuccessMessage("检验成功");
     }
+    //添加返回参数
+    protected void addReturnVale(String oprt, ModelAndView model) {}
 
     /**
      * 获取页面
@@ -64,7 +66,7 @@ public class BaseController<T, V> {
         model.addObject(OPRT_KEY, QUERY_OPRT);
         model.addObject(Const.Dict.RECORDSTATUS_DICTCODE,
                 querySelectBoxVoByDictType(Const.Dict.RECORDSTATUS_DICTCODE).getData());
-
+        addReturnVale(QUERY_OPRT,model);
         model.setViewName(page(QUERY_OPRT));
         return model;
     }
@@ -75,6 +77,7 @@ public class BaseController<T, V> {
             model.addObject("obj", t);
             model.addObject(OPRT_KEY, ADD_OPRT);
             model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
+            addReturnVale(ADD_OPRT,model);
         } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
@@ -87,6 +90,7 @@ public class BaseController<T, V> {
         model.addObject(OPRT_KEY, UPDATE_OPRT);
         try {
             init(model, entity);
+            addReturnVale(UPDATE_OPRT,model);
         } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }
@@ -99,6 +103,7 @@ public class BaseController<T, V> {
         model.addObject(OPRT_KEY, QUERYDETAIL_OPRT);
         try {
             init(model, entity);
+            addReturnVale(QUERYDETAIL_OPRT,model);
         } catch (Exception e) {
             model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
         }

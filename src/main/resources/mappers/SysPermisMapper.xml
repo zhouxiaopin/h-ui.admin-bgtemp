@@ -6,6 +6,7 @@
       <idArg column="p_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="p_flag" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="p_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="p_url" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="p_type" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="p_level" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -22,7 +23,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    p_id, p_flag, p_name, parent_id, p_type, p_level, p_sort, descri, opt_id, left_icon, 
+    p_id, p_flag, p_name, p_url, parent_id, p_type, p_level, p_sort, descri, opt_id, left_icon,
     expand_1, expand_2, expand_3, record_status, update_time, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
@@ -36,13 +37,13 @@
     where p_id = #{pId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysPermis">
-    insert into tb_sys_permis (p_id, p_flag, p_name, 
+    insert into tb_sys_permis (p_id, p_flag, p_name, p_url,
       parent_id, p_type, p_level, 
       p_sort, descri, opt_id, 
       left_icon, expand_1, expand_2, 
       expand_3, record_status, update_time, 
       create_time)
-    values (#{pId,jdbcType=INTEGER}, #{pFlag,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, 
+    values (#{pId,jdbcType=INTEGER}, #{pFlag,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR},#{pUrl,jdbcType=VARCHAR},
       #{parentId,jdbcType=INTEGER}, #{pType,jdbcType=CHAR}, #{pLevel,jdbcType=INTEGER},
       #{pSort,jdbcType=INTEGER}, #{descri,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER},
       #{leftIcon,jdbcType=VARCHAR}, #{expand1,jdbcType=VARCHAR}, #{expand2,jdbcType=VARCHAR}, 
@@ -60,6 +61,9 @@
       </if>
       <if test="pName != null">
         p_name,
+      </if>
+      <if test="pUrl != null">
+        p_url,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -107,6 +111,9 @@
       <if test="pName != null">
         #{pName,jdbcType=VARCHAR},
       </if>
+      <if test="pUrl != null">
+        #{pUrl,jdbcType=VARCHAR},
+      </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
@@ -153,6 +160,9 @@
       <if test="pName != null">
         p_name = #{pName,jdbcType=VARCHAR},
       </if>
+      <if test="pUrl != null">
+        p_url = #{pUrl,jdbcType=VARCHAR},
+      </if>
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
@@ -197,6 +207,7 @@
     update tb_sys_permis
     set p_flag = #{pFlag,jdbcType=VARCHAR},
       p_name = #{pName,jdbcType=VARCHAR},
+      p_url = #{pUrl,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       p_type = #{pType,jdbcType=CHAR},
       p_level = #{pLevel,jdbcType=INTEGER},
@@ -232,8 +243,11 @@
       <!--<if test="null != SysPermisCustom.userName and '' != SysPermisCustom.userName">-->
         <!--AND user_name LIKE CONCAT('%',CONCAT(#{SysPermisCustom.userName},'%'))-->
       <!--</if>-->
+      <if test="null != sysPermisCustom.parentId and '' != sysPermisCustom.parentId">
+        AND parent_id = #{sysPermisCustom.parentId,jdbcType=INTEGER}
+      </if>
       <if test="null != sysPermisCustom.pLevel and '' != sysPermisCustom.pLevel">
-        AND p_level = #{sysPermisCustom.pLevel,jdbcType=INTEGER})
+        AND p_level = #{sysPermisCustom.pLevel,jdbcType=INTEGER}
       </if>
       <if test="null != sysPermisCustom.recordStatus and '' != sysPermisCustom.recordStatus">
         AND record_status = #{recordStatus,jdbcType=VARCHAR}

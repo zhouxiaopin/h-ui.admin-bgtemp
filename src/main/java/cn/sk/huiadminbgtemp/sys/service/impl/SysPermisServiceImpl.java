@@ -8,11 +8,9 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysPermisQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysPermisService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +29,13 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
         List<Map<String, Object>> data = Lists.newArrayList();
         for (int i = 0,len = sysPermisCustoms.size(); i < len; i++){
             SysPermisCustom sysPermisCustom = sysPermisCustoms.get(i);
+//            {id:6, pId:0, name:"福建省", open:true, nocheck:true},
 //            { id:1, pId:0, name:"一级分类", open:true},
             Map<String,Object> item = Maps.newHashMap();
             item.put("id",sysPermisCustom.getpId());
             item.put("pId",sysPermisCustom.getParentId());
             item.put("name",sysPermisCustom.getpName());
+            item.put("level",sysPermisCustom.getpLevel());
             item.put("open",true);
             data.add(item);
 //

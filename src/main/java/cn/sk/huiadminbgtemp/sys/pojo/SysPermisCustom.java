@@ -17,8 +17,8 @@ import java.util.Date;
 //@AllArgsConstructor
 public class SysPermisCustom extends SysPermis {
 
-    public SysPermisCustom(Integer pId, String pFlag, String pName, Integer parentId, String pType, Integer pLevel, Integer pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
-        super(pId, pFlag, pName, parentId, pType, pLevel, pSort, descri, optId, leftIcon, expand1, expand2, expand3, recordStatus, updateTime, createTime);
+    public SysPermisCustom(Integer pId, String pFlag, String pName, String pUrl, Integer parentId, String pType, Integer pLevel, Integer pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
+        super(pId, pFlag, pName, pUrl, parentId, pType, pLevel, pSort, descri, optId, leftIcon, expand1, expand2, expand3, recordStatus, updateTime, createTime);
     }
 
 }

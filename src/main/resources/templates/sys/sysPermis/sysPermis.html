@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统权限管理</title>
@@ -17,48 +17,49 @@
             <!--添加开始-->
             <div th:case="add">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限标识：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="权限标识："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pFlag}" id="pFlag"
-                               name="pFlag">
+                        <sk:input th:value="${obj.pFlag}" id="pFlag" name="pFlag"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="权限名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pName}" id="pName"
-                               name="pName">
+                        <sk:input th:value="${obj.pName}" id="pName" name="pName"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">父权限：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="菜单url："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.parentId}" id="parentId"
-                               name="parentId">
+                        <sk:input th:value="${obj.pUrl}" id="pUrl" name="pUrl"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>类型：</label>
+
+                    <sk:label class="col-xs-2 col-sm-2" text="类型："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pType}" id="pType"
-                               name="pType">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">级别：</label>
-                    <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pLevel}" id="pLevel"
-                               name="pLevel">
-                    </div>
-                    <label class="form-label col-xs-2 col-sm-2">排序：</label>
-                    <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pSort}" id="pSort"
-                               name="pSort">
+                        <sk:select id="pType" name="pType" th:value="${obj.pType}" dictType="menu_type"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">左边图标：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="父权限："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.leftIcon}" id="leftIcon"
-                               name="leftIcon">
+                        <sk:treeSelect id="parentId" name="parentId" th:value="${obj.parentId}" type="radio" scCode="sys_permis_tree"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="级别："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:select id="pLevel" name="pLevel" th:value="${obj.pLevel}" dictType="menu_level"/>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <sk:label class="col-xs-2 col-sm-2" text="排序："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:input th:value="${obj.pSort}" id="pSort" name="pSort"/>
+                    </div>
+                    <sk:label class="col-xs-2 col-sm-2" text="左边图标："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:input th:value="${obj.leftIcon}" id="leftIcon" name="leftIcon"/>
+                    </div>
+
+                </div>
+                <div class="row cl">
+                    <sk:label class="col-xs-2 col-sm-2" text="描述："/>
                     <div class="formControls col-xs-4 col-sm-4">
                         <textarea name="descri" cols="22" rows="4" class="textarea"
                                   onKeyUp="$.Huitextarealength(this,100)"
@@ -76,48 +77,55 @@
             <!--修改开始-->
             <div th:case="update">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限标识：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="权限标识："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pFlag}" id="pFlag"
-                               name="pFlag">
+                        <sk:input th:value="${obj.pFlag}" id="pFlag" name="pFlag"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>权限名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="权限名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pName}" id="pName"
-                               name="pName">
+                        <sk:input th:value="${obj.pName}" id="pName" name="pName"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">父权限：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="菜单url："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.parentId}" id="parentId"
-                               name="parentId">
+                        <sk:input th:value="${obj.pUrl}" id="pUrl" name="pUrl"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>类型：</label>
+
+                    <sk:label class="col-xs-2 col-sm-2" text="类型："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pType}" id="pType"
-                               name="pType">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">级别：</label>
-                    <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pLevel}" id="pLevel"
-                               name="pLevel">
-                    </div>
-                    <label class="form-label col-xs-2 col-sm-2">排序：</label>
-                    <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.pSort}" id="pSort"
-                               name="pSort">
+                        <sk:select id="pType" name="pType" th:value="${obj.pType}" dictType="menu_type"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">左边图标：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="父权限："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.leftIcon}" id="leftIcon"
-                               name="leftIcon">
+                        <!--<sk:input th:value="${obj.parentId}" readonly="true" onclick="showMenu(); return false;" id="parentId" name="parentId"/>-->
+                        <!--<sk:input th:value="${obj.parentId}" readonly="true" onclick="showMenu(); return false;" id="parentId" name="parentId"/>-->
+                        <!--<div id="menuContent" class="skTree">-->
+                        <!--<ul id="treeDemo" class="ztree"></ul>-->
+                        <!--</div>-->
+
+                        <sk:treeSelect id="parentId" name="parentId" th:value="${obj.parentId}" type="radio" scCode="sys_permis_tree"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="级别："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:select id="pLevel" name="pLevel" th:value="${obj.pLevel}" dictType="menu_level"/>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <sk:label class="col-xs-2 col-sm-2" text="排序："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:input th:value="${obj.pSort}" id="pSort" name="pSort"/>
+                    </div>
+                    <sk:label class="col-xs-2 col-sm-2" text="左边图标："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <sk:input th:value="${obj.leftIcon}" id="leftIcon" name="leftIcon"/>
+                    </div>
+
+                </div>
+                <div class="row cl">
+                    <sk:label class="col-xs-2 col-sm-2" text="描述："/>
                     <div class="formControls col-xs-4 col-sm-4">
                         <textarea name="descri" cols="22" rows="4" class="textarea"
                                   onKeyUp="$.Huitextarealength(this,100)"
@@ -155,7 +163,7 @@
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
-
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     var oprt = [[${oprt}]];
@@ -176,9 +184,6 @@
                 pName: {
                     required: true
                 },
-                pType: {
-                    required: true
-                }
 
             },
             onkeyup: false,
@@ -195,11 +200,14 @@
                 sk.ajaxRequest(url, param, function (r) {
                     if (r.code == '0') {
                         sk.successMsg(r.msg);
-                        setTimeout(function () {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        }, 800);
+                        if (oprt != 'add') {
+                            setTimeout(function () {
+                                parent.location.reload();
+//                                var index = parent.layer.getFrameIndex(window.name);
+//                                parent.layer.close(index);
+                                layer_close();
+                            }, 800);
+                        }
                     } else {
                         sk.failMsg(r.msg);
                     }
@@ -211,6 +219,8 @@
 
     });
 </script>
+
+
 <!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

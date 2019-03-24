@@ -9,6 +9,8 @@ public class SysPermis {
 
     private String pName;
 
+    private String pUrl;
+
     private Integer parentId;
 
     private String pType;
@@ -35,10 +37,11 @@ public class SysPermis {
 
     private Date createTime;
 
-    public SysPermis(Integer pId, String pFlag, String pName, Integer parentId, String pType, Integer pLevel, Integer pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
+    public SysPermis(Integer pId, String pFlag, String pName, String pUrl, Integer parentId, String pType, Integer pLevel, Integer pSort, String descri, Integer optId, String leftIcon, String expand1, String expand2, String expand3, String recordStatus, Date updateTime, Date createTime) {
         this.pId = pId;
         this.pFlag = pFlag;
         this.pName = pName;
+        this.pUrl = pUrl;
         this.parentId = parentId;
         this.pType = pType;
         this.pLevel = pLevel;
@@ -80,6 +83,14 @@ public class SysPermis {
 
     public void setpName(String pName) {
         this.pName = pName == null ? null : pName.trim();
+    }
+
+    public String getpUrl() {
+        return pUrl;
+    }
+
+    public void setpUrl(String pUrl) {
+        this.pUrl = pUrl;
     }
 
     public Integer getParentId() {
