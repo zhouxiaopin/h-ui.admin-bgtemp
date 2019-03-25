@@ -31,7 +31,7 @@ public class MenuTreeTag extends BaseTag {
     //html标签名
     private static final String HTML_TAG_NAME  = "ul";
     //是否是单标签
-    private static final boolean IS_SINGLE_TAG  = Boolean.FALSE;
+    private static final boolean IS_SINGLE_TAG = Boolean.FALSE;
     //优先级
     private static final int PRECEDENCE = 10000;
     private static StringBuilder attrHtml = new StringBuilder();
@@ -40,6 +40,8 @@ public class MenuTreeTag extends BaseTag {
 
     //语句编码
     private String scCode;
+    //是否有div做外框
+    private boolean hasOut = Boolean.TRUE;
 
 //    {id:5, pId:0, name:"广东省", open:true}
 //    {id:4, pId:0, name:"河北省", open:true, nocheck:true},
@@ -73,7 +75,7 @@ public class MenuTreeTag extends BaseTag {
          */
 //        structureHandler.replaceWith(model, false);
         String html = this.genHtml();
-        log.debug(TAG_NAME+":{}",html);
+//        log.debug(TAG_NAME+":{}",html);
         structureHandler.replaceWith(html, false);
 
     }
@@ -94,6 +96,13 @@ public class MenuTreeTag extends BaseTag {
         if(!StringUtils.isEmpty(scCode)) {
             this.setScCode(scCode);
         }
+
+        //是否有div做外框
+        String hasOut = tag.getAttributeValue("hasOut");
+        if(!StringUtils.isEmpty(hasOut)) {
+            this.setHasOut(Boolean.valueOf(hasOut));
+        }
+
     }
 
     @Override
@@ -105,7 +114,8 @@ public class MenuTreeTag extends BaseTag {
     private void initAttributeValue(){
         //语句编码
         this.setScCode("");
-
+        //是否有div做外框
+        this.setHasOut(Boolean.TRUE);
     }
 
     //生成html
@@ -119,6 +129,11 @@ public class MenuTreeTag extends BaseTag {
 
         //树形根节点的id
         String inputRootId = this.getId()+"RootId";
+
+        //外框开始
+        if(this.isHasOut()) {
+            html.append("<div class=\"pos-a skMenuTreeOut\">");
+        }
 
         //添加隐藏域
         html.append("<input type=\"hidden\" id=\"");
@@ -138,6 +153,10 @@ public class MenuTreeTag extends BaseTag {
             html.append("</");
             html.append(HTML_TAG_NAME);
             html.append(">");
+        }
+        //外框结束
+        if(this.isHasOut()) {
+            html.append("</div>");
         }
 
         //获取js

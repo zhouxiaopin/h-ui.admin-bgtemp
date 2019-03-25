@@ -12,3 +12,9 @@
     -o-transition:all 0.2s linear 0s;
     transition:all 0.2s linear 0s}
 .skTree:hover{border: solid 1px #3bb4f2}
+/**
+目录树外框的样式
+ */
+.skMenuTreeOut{
+    width:200px;left:0;top:0; bottom:0; height:100%; border-right:1px solid #e5e5e5; background-color:#f5f5f5;overflow-y:scroll;
+}

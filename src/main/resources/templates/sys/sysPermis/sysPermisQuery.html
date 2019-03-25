@@ -7,10 +7,7 @@
 <body class="pos-r">
 
 <!--左边区域开始-->
-<div class="pos-a"
-     style="width:200px;left:0;top:0; bottom:0; height:100%; border-right:1px solid #e5e5e5; background-color:#f5f5f5;overflow-y:scroll;">
-    <sk:menuTree id="leftTree" scCode="sys_permis_tree"/>
-</div>
+<sk:menuTree id="leftTree" scCode="sys_permis_tree"/>
 <!--左边区域结束-->
 
 <!--*********************-->
@@ -18,12 +15,8 @@
 <!--右边区域开始-->
 <div style="margin-left:200px;">
     <!--刷新栏开始-->
-    <nav th:replace="common/common :: freshNav(~{::path})">
-        <path>
-            <span class="c-gray en">&gt;</span> 系统权限管理
-            <span class="c-gray en">&gt;</span> 系统权限列表
-        </path>
-    </nav>
+    <sk:navBar navText="系统权限管理,系统权限列表"/>
+
     <!--刷新栏结束-->
 
     <!--*********************-->
@@ -253,30 +246,30 @@
 
                 {
                     "data": "createTime", "render": function (data) {
-                    //时间格式化
-                    return moment(data).format(skConst.DEFALT_DATE_FORMAT);
-                }
+                        //时间格式化
+                        return moment(data).format(skConst.DEFALT_DATE_FORMAT);
+                    }
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
-                    var htmlStr = '<div id="td-status"><span class="label ';
-                    if (data == '01') {
-                        //启用
-                        htmlStr += 'label-success radius">';
+                        var htmlStr = '<div id="td-status"><span class="label ';
+                        if (data == '01') {
+                            //启用
+                            htmlStr += 'label-success radius">';
 
-                    } else {
-                        //禁用
-                        htmlStr += 'radius">';
-                    }
-                    $.each(recordStatus, function (index, item) {
-                        //                            console.log(JSON.stringify(item))
-                        if (item.code == data) {
-                            htmlStr += item.name + '</span></div>';
-                            return false;
+                        } else {
+                            //禁用
+                            htmlStr += 'radius">';
                         }
-                    });
-                    return htmlStr;
-                }
+                        $.each(recordStatus, function (index, item) {
+                            //                            console.log(JSON.stringify(item))
+                            if (item.code == data) {
+                                htmlStr += item.name + '</span></div>';
+                                return false;
+                            }
+                        });
+                        return htmlStr;
+                    }
                 },
                 {
                     "data": function (dd) {
@@ -305,6 +298,7 @@
             },
         });
     }
+
     /*刷新table*/
     function drawTable() {
         _dataTables.draw();
@@ -429,8 +423,6 @@
                 });
             });
         });
-
-
 
 
         //搜索按钮点击事件

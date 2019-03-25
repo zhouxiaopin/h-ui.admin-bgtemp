@@ -1,17 +1,12 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>sql语句配置列表</title>
 </head>
 <body>
 <!--刷新栏开始-->
-<nav th:replace="common/common :: freshNav(~{::path})">
-    <path>
-        <span class="c-gray en">&gt;</span> sql语句配置
-        <span class="c-gray en">&gt;</span> sql语句配置列表
-    </path>
-</nav>
+<sk:navBar navText="sql语句配置,sql语句配置列表"/>
 <!--刷新栏结束-->
 
 <!--*********************-->
