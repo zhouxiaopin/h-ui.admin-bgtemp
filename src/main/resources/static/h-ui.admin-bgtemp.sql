@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
+Source Server         : local_root
 Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : h-ui.admin-bgtemp
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-24 20:52:40
+Date: 2019-03-25 17:28:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
