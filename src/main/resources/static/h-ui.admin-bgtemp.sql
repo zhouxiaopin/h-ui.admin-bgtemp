@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local_root
+Source Server         : MySQL
 Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : h-ui.admin-bgtemp
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-25 17:28:51
+Date: 2019-03-25 21:47:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,7 @@ CREATE TABLE `tb_sys_dict` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dict_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_dict
@@ -58,6 +58,9 @@ INSERT INTO `tb_sys_dict` VALUES ('22', 'menu_level', '7', '按钮', '菜单级�
 INSERT INTO `tb_sys_dict` VALUES ('23', 'menu_level', '8', '按钮(行)', '菜单级别', '8', '代表记录是行按钮', '', '', '', '', '', '', '01', '2019-03-24 19:35:03', '2019-03-23 16:11:26');
 INSERT INTO `tb_sys_dict` VALUES ('24', 'statement_type', '01', 'sql语句', 'sql语句类型', '1', '代表该记录是sql语句', '', '', '', '', '', '', '01', '2019-03-24 15:15:39', '2019-03-24 15:15:39');
 INSERT INTO `tb_sys_dict` VALUES ('25', 'statement_type', '02', '存储过程', 'sql语句类型', '2', '代表该记录是存储过程', '', '', '', '', '', '', '01', '2019-03-24 15:15:59', '2019-03-24 15:15:59');
+INSERT INTO `tb_sys_dict` VALUES ('26', 'btn_——icon', '01', '添加', '按钮图', null, '', '', '', '', '', '', '', '00', '2019-03-25 21:33:44', '2019-03-25 21:33:44');
+INSERT INTO `tb_sys_dict` VALUES ('27', 'oprt_icon', '01', '<i class=\"Hui-iconfont\">&#xe600;</i>', '操作相关图标', '1', '', '', '', '', '', '', '', '01', '2019-03-25 21:41:29', '2019-03-25 21:41:29');
+INSERT INTO `tb_sys_dict` VALUES ('28', 'oprt_icon', '02', '<i class=\"Hui-iconfont\">&#xe6df;</i>', '操作相关图标', '2', '', '', '', '', '', '', '', '01', '2019-03-25 21:44:28', '2019-03-25 21:44:28');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
