@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统权限列表</title>
@@ -7,9 +7,9 @@
 <body class="pos-r">
 
 <!--左边区域开始-->
-<div class="pos-a" style="width:200px;left:0;top:0; bottom:0; height:100%; border-right:1px solid #e5e5e5; background-color:#f5f5f5;overflow-y:scroll;">
-    <ul id="leftTree" class="ztree">
-    </ul>
+<div class="pos-a"
+     style="width:200px;left:0;top:0; bottom:0; height:100%; border-right:1px solid #e5e5e5; background-color:#f5f5f5;overflow-y:scroll;">
+    <sk:menuTree id="leftTree" scCode="sys_permis_tree"/>
 </div>
 <!--左边区域结束-->
 
@@ -36,7 +36,8 @@
         <div style="margin:5px 5px 5px">
             用户名：
             <input type="text" class="input-text" style="width:200px" placeholder="输入用户名" id="userName">
-            <button type="submit" class="btn btn-success radius" id="searchBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
+            <button type="submit" class="btn btn-success radius" id="searchBtn" name=""><i
+                    class="Hui-iconfont">&#xe665;</i>
                 查询
             </button>
         </div>
@@ -63,7 +64,7 @@
 
         <!--表格区域开始-->
         <div class="mt-20">
-            <input type="hidden" id="queryParentId" value="" />
+            <input type="hidden" id="queryParentId" value=""/>
             <table id="skDataTable" class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
                 <tr class="text-c">
@@ -127,7 +128,6 @@
 <script th:inline="none" type="text/javascript">
 
 
-
     //主键
     var pk = 'pId';
 
@@ -141,10 +141,10 @@
                 if (r.code == '0') {
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
 
-                    $.each(recordStatus,function (index,item) {
+                    $.each(recordStatus, function (index, item) {
 //                            console.log(JSON.stringify(item))
-                        if (item.code == skConst.RecordStatus.DISABLE){
-                            $(obj).parents("tr").find("#td-status").html('<span class="label radius">'+item.name+'</span>');
+                        if (item.code == skConst.RecordStatus.DISABLE) {
+                            $(obj).parents("tr").find("#td-status").html('<span class="label radius">' + item.name + '</span>');
                             return false;
                         }
                     });
@@ -169,10 +169,10 @@
             sk.ajaxRequest(url, param, function (r) {
                 if (r.code == '0') {
                     $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $.each(recordStatus,function (index,item) {
+                    $.each(recordStatus, function (index, item) {
 //                            console.log(JSON.stringify(item))
-                        if (item.code == skConst.RecordStatus.ABLE){
-                            $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">'+item.name+'</span>');
+                        if (item.code == skConst.RecordStatus.ABLE) {
+                            $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">' + item.name + '</span>');
                             return false;
                         }
                     });
@@ -190,14 +190,14 @@
 
     //修改
     function to_edit(id) {
-        var url = "initUpdate?"+pk+"=" + id;
+        var url = "initUpdate?" + pk + "=" + id;
         layer_show("修改权限", url, 800, 600);
     }
 
 
     //修改密码
     function updatePassword(id) {
-        var url = "initUpdatePassword?"+pk+"=" + id;
+        var url = "initUpdatePassword?" + pk + "=" + id;
         layer_show("修改密码", url, 500, 400);
     }
 
@@ -220,7 +220,8 @@
 
     //初始化tabel
     var _dataTables;
-    function initTabel(){
+
+    function initTabel() {
         _dataTables = $('#skDataTable').DataTable({
             "lengthChange": true,
             "searching": false,//禁用检索
@@ -253,30 +254,30 @@
 
                 {
                     "data": "createTime", "render": function (data) {
-                        //时间格式化
-                        return moment(data).format(skConst.DEFALT_DATE_FORMAT);
-                    }
+                    //时间格式化
+                    return moment(data).format(skConst.DEFALT_DATE_FORMAT);
+                }
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
-                        var htmlStr = '<div id="td-status"><span class="label ';
-                        if (data == '01') {
-                            //启用
-                            htmlStr += 'label-success radius">';
+                    var htmlStr = '<div id="td-status"><span class="label ';
+                    if (data == '01') {
+                        //启用
+                        htmlStr += 'label-success radius">';
 
-                        } else {
-                            //禁用
-                            htmlStr += 'radius">';
-                        }
-                        $.each(recordStatus,function (index,item) {
-                            //                            console.log(JSON.stringify(item))
-                            if (item.code == data){
-                                htmlStr += item.name+'</span></div>';
-                                return false;
-                            }
-                        });
-                        return htmlStr;
+                    } else {
+                        //禁用
+                        htmlStr += 'radius">';
                     }
+                    $.each(recordStatus, function (index, item) {
+                        //                            console.log(JSON.stringify(item))
+                        if (item.code == data) {
+                            htmlStr += item.name + '</span></div>';
+                            return false;
+                        }
+                    });
+                    return htmlStr;
+                }
                 },
                 {
                     "data": function (dd) {
@@ -298,61 +299,64 @@
                 "url": "query",
                 "type": "POST",
                 "data": function (d) {
-                    d['sysPermisCustom.parentId'] = $("#queryParentId").val().trim();
+                    d['sysPermisCustom.parentId'] = $("#leftTreeRootId").val().trim();
                     // d['sysPermisCustom.userName'] = $("#userName").val().trim();
 
                 }
             },
         });
     }
+    /*刷新table*/
+    function drawTable() {
+        _dataTables.draw();
+    }
 
     $(function () {
 
 
         /* 加载树形菜单 */
-        var url = "querySysPermisTree";
-        var param = {greaterThanPLevel: 0};
-        sk.ajaxRequest(url, param, function (r) {
-            if (r.code == '0') {
-                var setting = {
-                    view: {
-                        dblClickExpand: true, 	//双击节点时，是否自动展开父节点的标识; 默认是true
-                        showLine: true,		//设置 zTree 是否显示节点之间的连线。默认是true
-                        selectedMulti: false	//设置是否允许同时选中多个节点。默认是true
-                    },
-                    data: {
-                        simpleData: {
-                            enable:true		//不需要用户再把数据库中取出的 List 强行转换为复杂的 JSON 嵌套格式。默认值：false
-                        }
-                    },
-                    callback: {
-                        beforeClick: function(treeId, treeNode) {
-                            $("#queryParentId").val(treeNode.id);
-                            //$("#queryParentName").val(treeNode.name);
-                            if (treeNode.isParent) {
-                                initMenuTable();
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        }
-                    }
-                };
-                $.fn.zTree.init($("#leftTree"), setting, r.data).expandAll(true);
-                var treeObj = $.fn.zTree.getZTreeObj("leftTree");
-                //返回一个根节点
-                var node = treeObj.getNodesByFilter(function (node) { return node.level == 0 }, true);
-                $("#queryParentId").val(node.id);
-                initTabel();
-
-            } else {
-                sk.failMsg(r.msg);
-            }
-        });
+//        var url = "querySysPermisTree";
+//        var param = {greaterThanPLevel: 0};
+//        sk.ajaxRequest(url, param, function (r) {
+//            if (r.code == '0') {
+//                var setting = {
+//                    view: {
+//                        dblClickExpand: true, 	//双击节点时，是否自动展开父节点的标识; 默认是true
+//                        showLine: true,		//设置 zTree 是否显示节点之间的连线。默认是true
+//                        selectedMulti: false	//设置是否允许同时选中多个节点。默认是true
+//                    },
+//                    data: {
+//                        simpleData: {
+//                            enable:true		//不需要用户再把数据库中取出的 List 强行转换为复杂的 JSON 嵌套格式。默认值：false
+//                        }
+//                    },
+//                    callback: {
+//                        beforeClick: function(treeId, treeNode) {
+//                            $("#queryParentId").val(treeNode.id);
+//                            if (treeNode.isParent) {
+//                                drawTable();
+//                                return false;
+//                            } else {
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                };
+//                $.fn.zTree.init($("#leftTree"), setting, r.data).expandAll(true);
+//                var treeObj = $.fn.zTree.getZTreeObj("leftTree");
+//                //返回一个根节点
+//                var node = treeObj.getNodesByFilter(function (node) { return node.level == 0 }, true);
+//                $("#queryParentId").val(node.id);
+//                initTabel();
+//
+//            } else {
+//                sk.failMsg(r.msg);
+//            }
+//        });
 
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加权限', 'initAdd', 800, 600,function (index, layero) {//取消事件
+            layer_show('添加权限', 'initAdd', 800, 600, function (index, layero) {//取消事件
                 _dataTables.ajax.reload();
             });
         });
@@ -428,10 +432,6 @@
         });
 
 
-        /*刷新table*/
-        function initMenuTable(){
-            _dataTables.draw();
-        }
 
 
         //搜索按钮点击事件

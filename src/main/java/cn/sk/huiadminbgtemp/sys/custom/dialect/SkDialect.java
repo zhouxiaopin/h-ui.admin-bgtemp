@@ -1,9 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.custom.dialect;
 
-import cn.sk.huiadminbgtemp.sys.custom.tag.InputTag;
-import cn.sk.huiadminbgtemp.sys.custom.tag.LabelTag;
-import cn.sk.huiadminbgtemp.sys.custom.tag.SelectTag;
-import cn.sk.huiadminbgtemp.sys.custom.tag.TreeSelectTag;
+import cn.sk.huiadminbgtemp.sys.custom.tag.*;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.processor.IProcessor;
@@ -34,6 +31,7 @@ public class SkDialect extends AbstractProcessorDialect {
         processors.add(new LabelTag(dialectPrefix));//添加我们定义的标签
         processors.add(new InputTag(dialectPrefix));//添加我们定义的标签
         processors.add(new TreeSelectTag(dialectPrefix));//添加我们定义的标签
+        processors.add(new MenuTreeTag(dialectPrefix));//添加我们定义的标签
 //        processors.add(new DatagridTagProcessor(dialectPrefix));//添加我们定义的标签
 //        processors.add(new TreegridTagProcessor(dialectPrefix));//添加我们定义的标签
 

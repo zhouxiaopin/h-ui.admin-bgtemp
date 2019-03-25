@@ -138,7 +138,7 @@ public class TreeSelectTag extends BaseTag {
     //初始化属性值
     private void initAttributeValue(){
         //特有的类样式
-        subsClazz = "";
+//        subsClazz = "";
         //类型 checkbox,radio
         this.setType("");
         //父节点是否可选
