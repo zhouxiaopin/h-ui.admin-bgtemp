@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
+Source Server         : local_root
 Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : h-ui.admin-bgtemp
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-25 21:47:09
+Date: 2019-03-26 17:30:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,7 @@ CREATE TABLE `tb_sys_dict` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dict_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_dict
@@ -59,8 +59,16 @@ INSERT INTO `tb_sys_dict` VALUES ('23', 'menu_level', '8', '按钮(行)', '菜�
 INSERT INTO `tb_sys_dict` VALUES ('24', 'statement_type', '01', 'sql语句', 'sql语句类型', '1', '代表该记录是sql语句', '', '', '', '', '', '', '01', '2019-03-24 15:15:39', '2019-03-24 15:15:39');
 INSERT INTO `tb_sys_dict` VALUES ('25', 'statement_type', '02', '存储过程', 'sql语句类型', '2', '代表该记录是存储过程', '', '', '', '', '', '', '01', '2019-03-24 15:15:59', '2019-03-24 15:15:59');
 INSERT INTO `tb_sys_dict` VALUES ('26', 'btn_——icon', '01', '添加', '按钮图', null, '', '', '', '', '', '', '', '00', '2019-03-25 21:33:44', '2019-03-25 21:33:44');
-INSERT INTO `tb_sys_dict` VALUES ('27', 'oprt_icon', '01', '<i class=\"Hui-iconfont\">&#xe600;</i>', '操作相关图标', '1', '', '', '', '', '', '', '', '01', '2019-03-25 21:41:29', '2019-03-25 21:41:29');
-INSERT INTO `tb_sys_dict` VALUES ('28', 'oprt_icon', '02', '<i class=\"Hui-iconfont\">&#xe6df;</i>', '操作相关图标', '2', '', '', '', '', '', '', '', '01', '2019-03-25 21:44:28', '2019-03-25 21:44:28');
+INSERT INTO `tb_sys_dict` VALUES ('27', 'oprt_icon', '01', '<i class=\"Hui-iconfont\">&#xe600;</i>', '操作相关图标', '1', '添加', '', '', '', '', '', '', '01', '2019-03-26 09:21:13', '2019-03-25 21:41:29');
+INSERT INTO `tb_sys_dict` VALUES ('28', 'oprt_icon', '02', '<i class=\"Hui-iconfont\">&#xe6df;</i>', '操作相关图标', '2', '编辑', '', '', '', '', '', '', '01', '2019-03-26 09:21:07', '2019-03-25 21:44:28');
+INSERT INTO `tb_sys_dict` VALUES ('29', 'oprt_icon', '03', '<i class=\"Hui-iconfont\">&#xe6e2;</i>', '操作相关图标', '3', '删除', '', '', '', '', '', '', '01', '2019-03-26 09:17:31', '2019-03-26 09:17:31');
+INSERT INTO `tb_sys_dict` VALUES ('30', 'oprt_icon', '04', '<i class=\"Hui-iconfont\">&#xe665;</i>', '操作相关图标', '4', '搜索', '', '', '', '', '', '', '01', '2019-03-26 09:19:01', '2019-03-26 09:19:01');
+INSERT INTO `tb_sys_dict` VALUES ('31', 'oprt_icon', '06', '<i class=\"Hui-iconfont\">&#xe644;</i>', '操作相关图标', '6', '导出', '', '', '', '', '', '', '01', '2019-03-26 09:19:42', '2019-03-26 09:19:42');
+INSERT INTO `tb_sys_dict` VALUES ('32', 'oprt_icon', '07', '<i class=\"Hui-iconfont\">&#xe645;</i>', '操作相关图标', '7', '导入', '', '', '', '', '', '', '01', '2019-03-26 09:20:01', '2019-03-26 09:20:01');
+INSERT INTO `tb_sys_dict` VALUES ('33', 'oprt_icon', '08', '<i class=\"Hui-iconfont\">&#xe642;</i>', '操作相关图标', '8', '上传', '', '', '', '', '', '', '01', '2019-03-26 09:20:27', '2019-03-26 09:20:27');
+INSERT INTO `tb_sys_dict` VALUES ('34', 'oprt_icon', '09', '<i class=\"Hui-iconfont\">&#xe641;</i>', '操作相关图标', '9', '下载', '', '', '', '', '', '', '01', '2019-03-26 09:20:55', '2019-03-26 09:20:55');
+INSERT INTO `tb_sys_dict` VALUES ('35', 'oprt_icon', '10', '<i class=\"Hui-iconfont\">&#xe615;</i>', '操作相关图标', '10', '启用', '', '', '', '', '', '', '01', '2019-03-26 09:24:06', '2019-03-26 09:24:06');
+INSERT INTO `tb_sys_dict` VALUES ('36', 'oprt_icon', '11', '<i class=\"Hui-iconfont\">&#xe631;</i>', '操作相关图标', '11', '停用', '', '', '', '', '', '', '01', '2019-03-26 09:24:43', '2019-03-26 09:24:43');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
@@ -91,11 +99,11 @@ CREATE TABLE `tb_sys_permis` (
 -- Records of tb_sys_permis
 -- ----------------------------
 INSERT INTO `tb_sys_permis` VALUES ('11', 'root', '根目录', '', null, '', '0', null, '', null, '', null, null, null, '01', '2019-03-23 16:04:24', '2019-03-23 15:59:22');
-INSERT INTO `tb_sys_permis` VALUES ('13', 'sysManag', '系统管理', '', '11', '01', '2', '1', '', null, '', null, null, null, '01', '2019-03-24 19:37:39', '2019-03-23 16:17:36');
+INSERT INTO `tb_sys_permis` VALUES ('13', 'sysManag', '系统管理', '', '11', '01', '2', '1', '', null, '', null, null, null, '01', '2019-03-26 16:56:37', '2019-03-23 16:17:36');
 INSERT INTO `tb_sys_permis` VALUES ('14', 'sysManag', '系统管理', '', '13', '01', '2', '1', '', null, '', null, null, null, '01', '2019-03-24 19:37:50', '2019-03-23 16:20:10');
 INSERT INTO `tb_sys_permis` VALUES ('15', 'sysManag', '系统角色管理', '', '13', '01', '3', '2', '', null, '', null, null, null, '01', '2019-03-24 19:37:58', '2019-03-23 16:20:32');
 INSERT INTO `tb_sys_permis` VALUES ('16', 'sysManag', '系统权限管理', '', '13', '01', '3', '3', '', null, '', null, null, null, '01', '2019-03-24 19:38:06', '2019-03-23 16:20:45');
-INSERT INTO `tb_sys_permis` VALUES ('17', 'sysConf', '系统配置', '', '11', '01', '2', '2', '', null, '', null, null, null, '01', '2019-03-24 17:46:30', '2019-03-24 17:33:45');
+INSERT INTO `tb_sys_permis` VALUES ('17', 'sysConf', '系统配置', '', '11', '01', '2', '2', '', null, '', null, null, null, '01', '2019-03-26 16:51:28', '2019-03-24 17:33:45');
 INSERT INTO `tb_sys_permis` VALUES ('18', 'sysDict', '数字字典', '', '17', '01', '3', '1', '', null, '', null, null, null, '01', '2019-03-24 17:40:43', '2019-03-24 17:35:37');
 INSERT INTO `tb_sys_permis` VALUES ('19', 'sysSqlConf', 'sql语句配置', '', '17', '01', '3', '2', '', null, '', null, null, null, '01', '2019-03-24 17:40:56', '2019-03-24 17:35:59');
 
