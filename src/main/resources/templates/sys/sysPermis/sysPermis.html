@@ -13,6 +13,7 @@
                    th:inline="text">[[${msg}]]</label>
             <input type="hidden" id="pId" name="pId" th:value="${obj.pId}" value=""/>
         </div>
+
         <div th:switch="${oprt}">
             <!--添加开始-->
             <div th:case="add">
