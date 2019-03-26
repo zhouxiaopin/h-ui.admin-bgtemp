@@ -50,20 +50,20 @@
         <div class="mt-20">
             <table id="skDataTable" class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
-                <tr class="text-c">
-                    <th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
-                    <th width="60">权限标识</th>
-                    <th width="60">菜单名</th>
-                    <th width="40">父菜单</th>
-                    <th width="60">类型</th>
-                    <th width="80">级别</th>
-                    <th width="80">排序</th>
-                    <th width="80">描述</th>
-                    <th width="80">创建人</th>
-                    <th width="80">创建时间</th>
-                    <th width="50">状态</th>
-                    <th width="100">操作</th>
-                </tr>
+                    <tr class="text-c">
+                        <th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
+                        <th width="60">权限标识</th>
+                        <th width="60">菜单名</th>
+                        <th width="40">父菜单</th>
+                        <th width="60">类型</th>
+                        <th width="80">级别</th>
+                        <th width="80">排序</th>
+                        <th width="80">描述</th>
+                        <th width="80">创建人</th>
+                        <th width="80">创建时间</th>
+                        <th width="50">状态</th>
+                        <th width="100">操作</th>
+                    </tr>
                 </thead>
                 <tbody class="text-c">
                 <!--<tr style="text-align:center">-->
@@ -227,7 +227,7 @@
                 {
                     "data": "recordStatus", "render": function (data) {
                     var htmlStr = '<div id="td-status"><span class="label ';
-                    if (data == '01') {
+                    if (data == skConst.RecordStatus.ABLE) {
                         //启用
                         htmlStr += 'label-success radius">';
 
@@ -248,7 +248,7 @@
                 {
                     "data": function (dd) {
                         var str = '<div id="td-manage">';
-                        if (dd.recordStatus == skConst.ABLE) {
+                        if (dd.recordStatus == skConst.RecordStatus.ABLE) {
                             str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.pId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
                         } else {
                             str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.pId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';
@@ -278,47 +278,6 @@
     }
 
     $(function () {
-
-
-        /* 加载树形菜单 */
-//        var url = "querySysPermisTree";
-//        var param = {greaterThanPLevel: 0};
-//        sk.ajaxRequest(url, param, function (r) {
-//            if (r.code == '0') {
-//                var setting = {
-//                    view: {
-//                        dblClickExpand: true, 	//双击节点时，是否自动展开父节点的标识; 默认是true
-//                        showLine: true,		//设置 zTree 是否显示节点之间的连线。默认是true
-//                        selectedMulti: false	//设置是否允许同时选中多个节点。默认是true
-//                    },
-//                    data: {
-//                        simpleData: {
-//                            enable:true		//不需要用户再把数据库中取出的 List 强行转换为复杂的 JSON 嵌套格式。默认值：false
-//                        }
-//                    },
-//                    callback: {
-//                        beforeClick: function(treeId, treeNode) {
-//                            $("#queryParentId").val(treeNode.id);
-//                            if (treeNode.isParent) {
-//                                drawTable();
-//                                return false;
-//                            } else {
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                };
-//                $.fn.zTree.init($("#leftTree"), setting, r.data).expandAll(true);
-//                var treeObj = $.fn.zTree.getZTreeObj("leftTree");
-//                //返回一个根节点
-//                var node = treeObj.getNodesByFilter(function (node) { return node.level == 0 }, true);
-//                $("#queryParentId").val(node.id);
-//                initTabel();
-//
-//            } else {
-//                sk.failMsg(r.msg);
-//            }
-//        });
 
         //添加按钮
         $('#addBtn').on('click', function () {

@@ -18,10 +18,8 @@
     <!--<div class="text-c">-->
     <div style="margin:5px 5px 5px">
         用户名：
-        <input type="text" class="input-text" style="width:200px" placeholder="输入用户名" id="userName">
-        <button type="submit" class="btn btn-success radius" id="searchBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
-            查询
-        </button>
+        <sk:input style="width:200px" placeholder="输入用户名" id="userName"/>
+        <sk:button class="btn-success" id="searchBtn" text="查询" dictType="oprt_icon" dictCode="04"/>
     </div>
     <!--搜索栏结束-->
 
@@ -30,12 +28,9 @@
     <!--按钮栏开始-->
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-        <a id="addBtn"
-           class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
-            <a id="batchDel"
-               class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-            <a id="batchRealDel"
-               class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量硬删除</a>
+            <sk:aBtn id="addBtn" class="btn-primary" text="添加用户" dictType="oprt_icon" dictCode="01"/>
+            <sk:aBtn id="batchDel" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>
+            <sk:aBtn id="batchRealDel" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>
         </span>
         <!--<span-->
         <!--class="r">共有数据：<strong>88</strong> 条</span>-->
