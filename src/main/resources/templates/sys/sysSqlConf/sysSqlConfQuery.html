@@ -85,55 +85,6 @@
     //模块标题
     var modelTile = '配置';
 
-    //禁用记录
-    function updateDisableRs(obj, id) {
-        layer.confirm('确认要禁用吗？', function (index) {
-            var url = "updateRecordStatus";
-            var param = {recordStatus: skConst.RecordStatus.DISABLE};
-            param[pk] = id;
-            sk.ajaxRequest(url, param, function (r) {
-                if (r.code == '0') {
-//                    $(obj).parents("tr").remove();
-
-                    $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label radius">'+skConst.RecordStatus[skConst.RecordStatus.DISABLE]+'</span>');
-                    //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
-                    $(obj).remove();
-
-                    sk.failFaceMsg(r.msg);
-                } else {
-                    sk.failMsg(r.msg);
-                }
-
-            });
-        });
-
-    }
-
-    //启用记录
-    function updateAbleRs(obj, id) {
-        layer.confirm('确认要启用吗？', function (index) {
-            var url = "updateRecordStatus";
-            var param = {recordStatus: skConst.RecordStatus.ABLE};
-            param[pk] = id;
-            sk.ajaxRequest(url, param, function (r) {
-                if (r.code == '0') {
-                    $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">'+skConst.RecordStatus[skConst.RecordStatus.ABLE]+'</span>');
-                    //$("#td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-                    //$("#td-status").html('<span class="label label-default radius">已禁用</span>');
-                    $(obj).remove();
-                    sk.successFaceMsg(r.msg);
-                } else {
-                    sk.failMsg(r.msg);
-                }
-
-            });
-        });
-
-    }
-
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
@@ -247,9 +198,9 @@
                     "data": function (dd) {
                         var str = '<div id="td-manage">';
                         if (dd.recordStatus == '01') {
-                            str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
+                            str += '<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + dd.scId + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>';
                         } else {
-                            str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';
+                            str += '<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + dd.scId + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>';
                         }
 
                         str += '<a title="修改" href="javascript:;" onclick="to_edit(' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';

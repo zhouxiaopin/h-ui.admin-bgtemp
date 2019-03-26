@@ -165,3 +165,146 @@ window.sk = {
 
     }
 };
+
+
+//禁用记录
+function updateDisableRs(obj, id, pk) {
+    layer.confirm('确认要禁用吗？', function (index) {
+        var url = "updateRecordStatus";
+        var param = {recordStatus: '02'};
+        param[pk] = id;
+        sk.ajaxRequest(url, param, function (r) {
+            if (r.code == '0') {
+                $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+
+                $.each(recordStatus, function (index, item) {
+//                            console.log(JSON.stringify(item))
+                    if (item.code == skConst.RecordStatus.DISABLE) {
+                        $(obj).parents("tr").find("#td-status").html('<span class="label radius">' + item.name + '</span>');
+                        return false;
+                    }
+                });
+                $(obj).remove();
+
+                sk.failFaceMsg(r.msg);
+            } else {
+                sk.failMsg(r.msg);
+            }
+
+        });
+    });
+
+}
+//启用记录
+function updateAbleRs(obj, id, pk) {
+    layer.confirm('确认要启用吗？', function (index) {
+        var url = "updateRecordStatus";
+        var param = {recordStatus: '01'};
+        param[pk] = id;
+        sk.ajaxRequest(url, param, function (r) {
+            if (r.code == '0') {
+                $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+                $.each(recordStatus, function (index, item) {
+//                            console.log(JSON.stringify(item))
+                    if (item.code == skConst.RecordStatus.ABLE) {
+                        $(obj).parents("tr").find("#td-status").html('<span class="label label-success radius">' + item.name + '</span>');
+                        return false;
+                    }
+                });
+                $(obj).remove();
+                sk.successFaceMsg(r.msg);
+            } else {
+                sk.failMsg(r.msg);
+            }
+
+        });
+    });
+
+}
+
+//删除
+function to_del(obj, id) {
+    layer.confirm('确认要删除吗？', function (index) {
+        var url = "delete";
+        var param = {ids: [id]};
+        sk.ajaxRequest(url, param, function (r) {
+            if (r.code == '0') {
+                $(obj).parents("tr").remove();
+                sk.successMsg(r.msg);
+            } else {
+                sk.failMsg(r.msg);
+            }
+
+        });
+    });
+}
+//批量删除
+function batchDel() {
+    if ($(".checkchild:checked").length < 1) {
+        sk.successFaceMsg('请选择要提交的记录!');
+        return;
+    }
+    //获取所有选中的id
+    var ids = [];
+    $.each($('input:checkbox:checked'), function () {
+        if ($(this).val().trim() == "on") {
+            return;
+        }
+        ids.push($(this).val().trim());
+    });
+    layer.confirm('确认要批量删除吗？', function (index) {
+        layer.close(index);
+        var url = "delete";
+        var param = {ids: ids};
+        sk.ajaxRequest(url, param, function (r) {
+            if (r.code == '0') {
+//                        $(obj).parents("tr").remove();
+                $.each($('input:checkbox:checked'), function () {
+                    if ($(this).val().trim() == "on") {
+                        return;
+                    }
+                    $(this).parents("tr").remove();
+                });
+                sk.successMsg(r.msg);
+            } else {
+                sk.failMsg(r.msg);
+            }
+
+        });
+    });
+}
+//批量硬删除
+function batchRealDel() {
+    if ($(".checkchild:checked").length < 1) {
+        sk.successFaceMsg('请选择要提交的记录!');
+        return;
+    }
+    //获取所有选中的id
+    var ids = [];
+    $.each($('input:checkbox:checked'), function () {
+        if ($(this).val().trim() == "on") {
+            return;
+        }
+        ids.push($(this).val().trim());
+    });
+    layer.confirm('这个操作很危险，确认要批量硬删除吗？', function (index) {
+        layer.close(index);
+        var url = "realDelete";
+        var param = {ids: ids};
+        sk.ajaxRequest(url, param, function (r) {
+            if (r.code == '0') {
+//                        $(obj).parents("tr").remove();
+                $.each($('input:checkbox:checked'), function () {
+                    if ($(this).val().trim() == "on") {
+                        return;
+                    }
+                    $(this).parents("tr").remove();
+                });
+                sk.successMsg(r.msg);
+            } else {
+                sk.failMsg(r.msg);
+            }
+
+        });
+    });
+}
