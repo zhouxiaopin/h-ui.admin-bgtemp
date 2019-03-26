@@ -343,6 +343,7 @@ public class DateUtils {
 //		System.out.println(30>timeDifferenceTomm(date2.getTime()/1000));
         String xxx = "dddddddddd////";
         System.out.println("==========="+xxx.replace("/", "-"));
+//        System.out.println(System.currentTimeMillis());
     }
 
 }

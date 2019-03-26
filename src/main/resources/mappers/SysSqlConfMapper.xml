@@ -220,6 +220,8 @@
     </if>
   </sql>
 
+  <!--排序sql片段-->
+
   <!--根据条件查询-->
   <select id="selectListByQueryVo" parameterType="SysSqlConfQueryVo" resultMap="ResultMapCustom">
     select

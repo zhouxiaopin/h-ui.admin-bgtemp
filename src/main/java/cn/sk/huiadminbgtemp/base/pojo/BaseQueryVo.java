@@ -17,4 +17,6 @@ public class BaseQueryVo {
 
     //查询字典是否是用 like 还是 =
     private Map<String,Boolean> isNoLike = new HashedMap();
+    //排序
+    private String orderBy = "create_time desc";
 }

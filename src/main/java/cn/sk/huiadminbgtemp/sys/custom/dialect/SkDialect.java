@@ -33,6 +33,8 @@ public class SkDialect extends AbstractProcessorDialect {
         processors.add(new TreeSelectTag(dialectPrefix));//添加我们定义的标签
         processors.add(new MenuTreeTag(dialectPrefix));//添加我们定义的标签
         processors.add(new NavBarTag(dialectPrefix));//添加我们定义的标签
+        processors.add(new ButtonTag(dialectPrefix));//添加我们定义的标签
+        processors.add(new AbtnTag(dialectPrefix));//添加我们定义的标签
 //        processors.add(new DatagridTagProcessor(dialectPrefix));//添加我们定义的标签
 //        processors.add(new TreegridTagProcessor(dialectPrefix));//添加我们定义的标签
 

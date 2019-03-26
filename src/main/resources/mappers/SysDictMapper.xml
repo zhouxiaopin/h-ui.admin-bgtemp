@@ -255,7 +255,7 @@
       <include refid="base_query_condition"></include>
       AND record_status != '00'
     </where>
-
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
   <!--根据主键软删除-->
