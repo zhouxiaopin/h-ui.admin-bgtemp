@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统用户管理</title>
@@ -18,7 +18,7 @@
             <!--添加开始-->
             <div th:case="add">
                 <div class="pos-a skMenuTreeOut">
-                    <sk:label text="拥有权限：" style="text-align: left;background:#fff;"/>
+                    <sk:label text="拥有权限：" style="text-align: left;padding-left:8px;background:#fff;"/>
                     <sk:menuTree id="permisTree" name="permisIds" th:value="${obj.permisIds}" scCode="sys_permis_tree" type="checkbox" isInitTable="false" hasOut="false" />
                 </div>
                 <div style="margin-left:200px;">

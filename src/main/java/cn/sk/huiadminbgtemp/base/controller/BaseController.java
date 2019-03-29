@@ -4,6 +4,7 @@ import cn.sk.huiadminbgtemp.base.service.IBaseService;
 import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.common.SkLog;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-
 public class BaseController<T, V> {
     @Autowired
     private IBaseService<T, V> baseService;
@@ -31,9 +31,11 @@ public class BaseController<T, V> {
     protected static final String UPDATE_OPRT = "update";
     protected static final String QUERYDETAIL_OPRT = "queryDetail";
 
+
     protected String getPage(String oprt) {
         return null;
     }
+
 
     //    protected ServerResponse<T> addBefore(T t){return null;}
     protected ServerResponse<T> updateBefore(T oldObj, T t) {
@@ -111,6 +113,7 @@ public class BaseController<T, V> {
         return model;
     }
 
+    @SkLog("添加")
     @PostMapping(value = "/add")
     public ServerResponse<T> add(T t) throws Exception {
         ServerResponse<T> serverResponse = paramValidate(ADD_OPRT, t);
@@ -121,6 +124,7 @@ public class BaseController<T, V> {
         }
     }
 
+    @SkLog("修改")
     @PostMapping(value = "/update")
     public ServerResponse<T> update(T t) throws Exception {
         ServerResponse<T> sr = paramValidate(UPDATE_OPRT, t);
@@ -140,18 +144,21 @@ public class BaseController<T, V> {
     }
 
     //软删除
+    @SkLog("软删除")
     @PostMapping(value = "/delete")
     public ServerResponse<T> delete(@RequestParam("ids[]") String[] ids) throws Exception {
         return baseService.deleteInIds(ids);
 
     }
     //硬删除
+    @SkLog("硬删除")
     @PostMapping(value = "/realDelete")
     public ServerResponse<T> realDelete(@RequestParam("ids[]") String[] ids) throws Exception {
         return baseService.realDeleteInIds(ids);
 
     }
 
+//    @SkLog("查询")
     @PostMapping(value = "/query")
     public DataTableVo list(V v) {
         return baseService.queryObjsByPage(v);

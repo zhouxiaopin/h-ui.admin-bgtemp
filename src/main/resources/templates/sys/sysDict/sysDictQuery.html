@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>数字字典列表</title>
@@ -91,13 +91,15 @@
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
-        layer_show("修改"+modelTile, url, 800, 600);
+        layer_show("修改"+modelTile, url, 800, 600, function () {//结束事件
+            _dataTables.ajax.reload();
+        });
     }
 
     $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加'+modelTile, 'initAdd', 800, 580,function (index, layero) {//取消事件
+            layer_show('添加'+modelTile, 'initAdd', 800, 580,function (index, layero) {//结束事件
                 _dataTables.ajax.reload();
             });
         });

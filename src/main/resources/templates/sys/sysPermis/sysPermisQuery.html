@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统权限列表</title>
@@ -26,6 +26,18 @@
         <!--搜索栏开始-->
         <!--<div class="text-c">-->
         <div>
+            父节点查询：
+            <span class="skin-minimal">
+                <div class="radio-box" style="padding: 0;">
+                    <input name="parentRadio" type="radio" id="sex-1"
+                           checked value="0">
+                    <label for="sex-1">是</label>
+                </div>
+                <div class="radio-box" style="padding-left: 0;">
+                    <input type="radio" id="sex-2" name="parentRadio" value="1">
+                    <label for="sex-2">否</label>
+                </div>
+            </span>
             菜单名：
             <sk:input style="width:200px" placeholder="输入菜单名" id="pName"/>
             <sk:button class="btn-success" id="searchBtn" text="查询" dictType="oprt_icon" dictCode="04"/>
@@ -182,7 +194,10 @@
                 // "url": "query",
                 // "type": "POST",
                 "data": function (d) {
-                    d['sysPermisCustom.parentId'] = $("#leftTreeRootId").val().trim();
+                    var val=$(':radio[name="parentRadio"]:checked').val();
+                    if (val == '0'){
+                        d['sysPermisCustom.parentId'] = $("#leftTreeRootId").val().trim();
+                    }
                     d['sysPermisCustom.pName'] = $("#pName").val().trim();
                 }
             },

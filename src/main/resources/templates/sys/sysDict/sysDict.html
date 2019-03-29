@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统用户管理</title>
@@ -17,36 +17,31 @@
             <!--添加开始-->
             <div th:case="add">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>字典类型：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="字典类型："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.dictType}" id="dictType"
-                               name="dictType">
+                        <sk:input th:value="${obj.dictType}" id="dictType" name="dictType"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>字典编码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="字典编码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.dictCode}" id="dictCode"
-                               name="dictCode">
+                        <sk:input th:value="${obj.dictCode}" id="dictCode" name="dictCode"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>编码名称：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="编码名称："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.codeName}" id="codeName"
-                               name="codeName">
+                        <sk:input th:value="${obj.codeName}" id="codeName" name="codeName"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">类型描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="类型描述："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.description}" id="description"
-                               name="description">
+                        <sk:input th:value="${obj.description}" id="description" name="description"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>排序：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="排序："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.sort}" id="sort"
-                               name="sort">
+                        <sk:input th:value="${obj.sort}" id="sort" name="sort"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">备注：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="备注："/>
                     <div class="formControls col-xs-4 col-sm-4">
                         <textarea name="remark" cols="22" rows="4" class="textarea"
                                   onKeyUp="$.Huitextarealength(this,100)"
@@ -57,39 +52,33 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段1：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段1："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field1}" id="field1"
-                               name="field1">
+                        <sk:input th:value="${obj.field1}" id="field1" name="field1"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段2：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段2："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field2}" id="field2"
-                               name="field2">
+                        <sk:input th:value="${obj.field2}" id="field2" name="field2"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段3：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段3："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field3}" id="field3"
-                               name="field3">
+                        <sk:input th:value="${obj.field3}" id="field3" name="field3"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段4：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段4："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field4}" id="field4"
-                               name="field4">
+                        <sk:input th:value="${obj.field4}" id="field4" name="field4"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段5：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段5："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field5}" id="field5"
-                               name="field5">
+                        <sk:input th:value="${obj.field5}" id="field5" name="field5"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段6：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段6："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field6}" id="field6"
-                               name="field6">
+                        <sk:input th:value="${obj.field6}" id="field6" name="field6"/>
                     </div>
                 </div>
 
@@ -101,36 +90,31 @@
             <!--修改开始-->
             <div th:case="update">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>字典类型：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="字典类型："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.dictType}" id="dictType"
-                               name="dictType">
+                        <sk:input th:value="${obj.dictType}" id="dictType" name="dictType"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>字典编码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="字典编码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.dictCode}" id="dictCode"
-                               name="dictCode">
+                        <sk:input th:value="${obj.dictCode}" id="dictCode" name="dictCode"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>编码名称：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="编码名称："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.codeName}" id="codeName"
-                               name="codeName">
+                        <sk:input th:value="${obj.codeName}" id="codeName" name="codeName"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">类型描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="类型描述："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.description}" id="description"
-                               name="description">
+                        <sk:input th:value="${obj.description}" id="description" name="description"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>排序：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="排序："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.sort}" id="sort"
-                               name="sort">
+                        <sk:input th:value="${obj.sort}" id="sort" name="sort"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">备注：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="备注："/>
                     <div class="formControls col-xs-4 col-sm-4">
                         <textarea name="remark" cols="22" rows="4" class="textarea"
                                   onKeyUp="$.Huitextarealength(this,100)"
@@ -141,39 +125,33 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段1：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段1："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field1}" id="field1"
-                               name="field1">
+                        <sk:input th:value="${obj.field1}" id="field1" name="field1"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段2：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段2："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field2}" id="field2"
-                               name="field2">
+                        <sk:input th:value="${obj.field2}" id="field2" name="field2"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段3：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段3："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field3}" id="field3"
-                               name="field3">
+                        <sk:input th:value="${obj.field3}" id="field3" name="field3"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段4：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段4："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field4}" id="field4"
-                               name="field4">
+                        <sk:input th:value="${obj.field4}" id="field4" name="field4"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">预留字段5：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段5："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field5}" id="field5"
-                               name="field5">
+                        <sk:input th:value="${obj.field5}" id="field5" name="field5"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">预留字段6：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="预留字段6："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.field6}" id="field6"
-                               name="field6">
+                        <sk:input th:value="${obj.field6}" id="field6" name="field6"/>
                     </div>
                 </div>
             </div>
@@ -186,8 +164,8 @@
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-success radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <sk:button class="btn-success" type="reset" text="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+                <sk:button class="btn-primary" type="submit" text="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
             </div>
         </div>
     </form>
@@ -249,7 +227,7 @@
                         sk.successMsg(r.msg);
                         if (oprt != 'add'){
                             setTimeout(function () {
-                                parent.location.reload();
+                                // parent.location.reload();
 //                                var index = parent.layer.getFrameIndex(window.name);
 //                                parent.layer.close(index);
                                 layer_close();
