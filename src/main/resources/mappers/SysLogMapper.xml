@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sk.huiadminbgtemp.sys.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="operation" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="method_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="params" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ip" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_4" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expan_6" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, operation, method_name, params, ip, expan_1, expan_2, expan_3, 
+    expan_4, expan_5, expan_6, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
+    insert into tb_sys_log (id, user_id, user_name, 
+      operation, method_name, params, 
+      ip, expan_1, expan_2, 
+      expan_3, expan_4, expan_5, 
+      expan_6, create_date)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{operation,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{expan1,jdbcType=VARCHAR}, #{expan2,jdbcType=VARCHAR}, 
+      #{expan3,jdbcType=VARCHAR}, #{expan4,jdbcType=VARCHAR}, #{expan5,jdbcType=VARCHAR}, 
+      #{expan6,jdbcType=VARCHAR}, now())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
+    insert into tb_sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="operation != null">
+        operation,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="expan1 != null">
+        expan_1,
+      </if>
+      <if test="expan2 != null">
+        expan_2,
+      </if>
+      <if test="expan3 != null">
+        expan_3,
+      </if>
+      <if test="expan4 != null">
+        expan_4,
+      </if>
+      <if test="expan5 != null">
+        expan_5,
+      </if>
+      <if test="expan6 != null">
+        expan_6,
+      </if>
+        create_date,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="expan1 != null">
+        #{expan1,jdbcType=VARCHAR},
+      </if>
+      <if test="expan2 != null">
+        #{expan2,jdbcType=VARCHAR},
+      </if>
+      <if test="expan3 != null">
+        #{expan3,jdbcType=VARCHAR},
+      </if>
+      <if test="expan4 != null">
+        #{expan4,jdbcType=VARCHAR},
+      </if>
+      <if test="expan5 != null">
+        #{expan5,jdbcType=VARCHAR},
+      </if>
+      <if test="expan6 != null">
+        #{expan6,jdbcType=VARCHAR},
+      </if>
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
+    update tb_sys_log
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        operation = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="expan1 != null">
+        expan_1 = #{expan1,jdbcType=VARCHAR},
+      </if>
+      <if test="expan2 != null">
+        expan_2 = #{expan2,jdbcType=VARCHAR},
+      </if>
+      <if test="expan3 != null">
+        expan_3 = #{expan3,jdbcType=VARCHAR},
+      </if>
+      <if test="expan4 != null">
+        expan_4 = #{expan4,jdbcType=VARCHAR},
+      </if>
+      <if test="expan5 != null">
+        expan_5 = #{expan5,jdbcType=VARCHAR},
+      </if>
+      <if test="expan6 != null">
+        expan_6 = #{expan6,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
+    update tb_sys_log
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      operation = #{operation,jdbcType=VARCHAR},
+      method_name = #{methodName,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      expan_1 = #{expan1,jdbcType=VARCHAR},
+      expan_2 = #{expan2,jdbcType=VARCHAR},
+      expan_3 = #{expan3,jdbcType=VARCHAR},
+      expan_4 = #{expan4,jdbcType=VARCHAR},
+      expan_5 = #{expan5,jdbcType=VARCHAR},
+      expan_6 = #{expan6,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
