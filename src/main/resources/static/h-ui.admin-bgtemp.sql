@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-03-26 17:30:14
+Date: 2019-03-29 17:19:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,7 +93,7 @@ CREATE TABLE `tb_sys_permis` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of tb_sys_permis
@@ -121,7 +121,7 @@ CREATE TABLE `tb_sys_role` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='系统角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='系统角色表';
 
 -- ----------------------------
 -- Records of tb_sys_role
@@ -130,10 +130,16 @@ INSERT INTO `tb_sys_role` VALUES ('1', 'admin', '超级管理员', '系统最大
 INSERT INTO `tb_sys_role` VALUES ('2', '1', '1', '1', null, '00', '2019-03-21 15:01:13', '2019-03-21 14:34:22');
 INSERT INTO `tb_sys_role` VALUES ('3', '2', '2', '2', null, '00', '2019-03-21 15:01:16', '2019-03-21 14:36:18');
 INSERT INTO `tb_sys_role` VALUES ('4', '3', '3', '3', null, '00', '2019-03-21 14:38:53', '2019-03-21 14:38:53');
-INSERT INTO `tb_sys_role` VALUES ('5', '4', '4', '1114', null, '01', '2019-03-21 15:07:54', '2019-03-21 14:38:59');
-INSERT INTO `tb_sys_role` VALUES ('6', '5', '5', '', null, '01', '2019-03-21 16:34:10', '2019-03-21 16:34:10');
+INSERT INTO `tb_sys_role` VALUES ('5', 'superAdmin', '超级管理员', '拥有最高的权限', null, '01', '2019-03-28 14:12:36', '2019-03-21 14:38:59');
+INSERT INTO `tb_sys_role` VALUES ('6', 'sysUser', '系统用户管理', '管理系统用户信息', null, '01', '2019-03-28 14:13:39', '2019-03-21 16:34:10');
 INSERT INTO `tb_sys_role` VALUES ('7', '6', '6', '6', null, '02', '2019-03-22 14:05:53', '2019-03-21 16:42:35');
 INSERT INTO `tb_sys_role` VALUES ('8', '7', '7', '7', null, '01', '2019-03-22 14:05:50', '2019-03-21 16:42:56');
+INSERT INTO `tb_sys_role` VALUES ('9', '2', '2', '', null, '01', '2019-03-29 14:06:32', '2019-03-29 14:06:32');
+INSERT INTO `tb_sys_role` VALUES ('10', 'test', 'test', '', null, '01', '2019-03-29 14:50:21', '2019-03-29 14:50:21');
+INSERT INTO `tb_sys_role` VALUES ('11', 'test1', 'test2', '123', null, '01', '2019-03-29 15:32:51', '2019-03-29 15:09:52');
+INSERT INTO `tb_sys_role` VALUES ('12', 'test12', '****', '', null, '01', '2019-03-29 15:33:14', '2019-03-29 15:33:14');
+INSERT INTO `tb_sys_role` VALUES ('13', 'test13', '333', '33', null, '01', '2019-03-29 15:35:01', '2019-03-29 15:35:01');
+INSERT INTO `tb_sys_role` VALUES ('14', 'test31', 'test31', 'test31', null, '00', '2019-03-29 15:36:39', '2019-03-29 15:36:39');
 
 -- ----------------------------
 -- Table structure for `tb_sys_role_permis`
@@ -144,7 +150,7 @@ CREATE TABLE `tb_sys_role_permis` (
   `role_id` int(10) unsigned DEFAULT NULL COMMENT '角色id',
   `permis_id` int(10) unsigned DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统角色和系统权限中间表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='系统角色和系统权限中间表';
 
 -- ----------------------------
 -- Records of tb_sys_role_permis
@@ -170,12 +176,13 @@ CREATE TABLE `tb_sys_sql_conf` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`sc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统sql配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='系统sql配置表';
 
 -- ----------------------------
 -- Records of tb_sys_sql_conf
 -- ----------------------------
-INSERT INTO `tb_sys_sql_conf` VALUES ('1', 'sys_permis_tree', '系统权限数', 'select sp.p_id id,sp.parent_id pId,sp.p_name name,\'true\' open,\'false\' nocheck \r\nfrom tb_sys_permis sp WHERE sp.record_status = \'01\' order by sp.p_level', '01', '系统权限页面的父权限树', null, '', '', '', '', '01', '2019-03-24 16:00:01', '2019-03-24 15:22:17');
+INSERT INTO `tb_sys_sql_conf` VALUES ('1', 'sys_permis_tree', '系统权限树', 'select sp.p_id id,sp.parent_id pId,sp.p_name name,\'true\' open,\'false\' nocheck \r\nfrom tb_sys_permis sp WHERE sp.record_status = \'01\' order by sp.p_level', '01', '系统权限页面的父权限树', null, '', '', '', '', '01', '2019-03-28 15:09:24', '2019-03-24 15:22:17');
+INSERT INTO `tb_sys_sql_conf` VALUES ('2', 'sys_role_select', '系统角色下拉框', 'select sr.role_id id,sr.role_name name,0 pId,\'true\' open,\'false\' nocheck from tb_sys_role sr where sr.record_status=\'01\'', '01', '', null, '', '', '', '', '01', '2019-03-28 16:49:07', '2019-03-28 15:16:36');
 
 -- ----------------------------
 -- Table structure for `tb_sys_user`
@@ -195,7 +202,7 @@ CREATE TABLE `tb_sys_user` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
 
 -- ----------------------------
 -- Records of tb_sys_user
@@ -216,6 +223,11 @@ INSERT INTO `tb_sys_user` VALUES ('13', 'admin', '0296c496ae8a50a67df31841946ca9
 INSERT INTO `tb_sys_user` VALUES ('14', '123455', '0296c496ae8a50a67df31841946ca97c', '1', '男', '', '', 'ticc', '', '02', '2019-03-21 10:58:09', '2019-03-21 10:58:09');
 INSERT INTO `tb_sys_user` VALUES ('17', '6666', 'ccbd18436928630255bc070c57d94830', '6666', '男', '', '', 'ticc', '', '02', '2019-03-21 10:58:46', '2019-03-21 10:58:46');
 INSERT INTO `tb_sys_user` VALUES ('18', 'admin', '0296c496ae8a50a67df31841946ca97c', '88888', '男', '', '', 'ticc', '', '02', '2019-03-21 16:37:05', '2019-03-21 16:37:05');
+INSERT INTO `tb_sys_user` VALUES ('19', 'zhouxy', '47f53271fe6b3e6630caf5272c8096d7', '周小莹', '男', '11566937377@qq.com', '15876240015', 'ticc', '', '02', '2019-03-29 09:48:25', '2019-03-29 09:48:25');
+INSERT INTO `tb_sys_user` VALUES ('20', 'admin', '0296c496ae8a50a67df31841946ca97c', '周小莹', '男', '', '', 'ticc', '', '02', '2019-03-29 09:49:17', '2019-03-29 09:49:17');
+INSERT INTO `tb_sys_user` VALUES ('21', 'admin', '0296c496ae8a50a67df31841946ca97c', '周小莹', '男', '', '', 'ticc', '', '02', '2019-03-29 09:59:27', '2019-03-29 09:59:27');
+INSERT INTO `tb_sys_user` VALUES ('22', 'admin1', '035d1c16a0d1124357f4bfe479a8d266', '周小莹', '男', '', '15876240015', 'ticc', '', '02', '2019-03-29 11:35:47', '2019-03-29 10:15:28');
+INSERT INTO `tb_sys_user` VALUES ('23', '15677', '0296c496ae8a50a67df31841946ca97c', '', '女', '', '', 'ticc', '', '02', '2019-03-29 16:19:49', '2019-03-29 16:18:51');
 
 -- ----------------------------
 -- Table structure for `tb_sys_user_role`
@@ -226,8 +238,9 @@ CREATE TABLE `tb_sys_user_role` (
   `user_id` int(10) unsigned DEFAULT NULL COMMENT '用户id',
   `role_id` int(10) unsigned DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户和系统角色中间表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='系统用户和系统角色中间表';
 
 -- ----------------------------
 -- Records of tb_sys_user_role
 -- ----------------------------
+INSERT INTO `tb_sys_user_role` VALUES ('9', '22', '6');
