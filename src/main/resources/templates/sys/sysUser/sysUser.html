@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统用户管理</title>
@@ -17,32 +17,27 @@
             <!--添加开始-->
             <div th:case="add">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="用户名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
-                               name="userName">
+                        <sk:input th:value="${obj.userName}" id="userName" name="userName"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">姓名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="姓名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
-                               name="realName">
+                        <sk:input th:value="${obj.realName}" id="realName" name="realName"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>初始密码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="初始密码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码"
-                               id="password"
-                               name="password">
+                        <sk:input type="password" th:value="${obj.password}" id="password" name="password" placeholder="密码"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>确认密码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="确认密码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
-                               name="password2">
+                        <sk:input type="password" th:value="${obj.password2}" id="password2" name="password2" placeholder="确认新密码"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="性别："/>
                     <div class="formControls col-xs-4 col-sm-4 skin-minimal">
                         <div class="radio-box">
                             <input name="sex" type="radio" id="sex-1" th:checked="${obj.sex == '男' or obj.sex eq  null}"
@@ -54,26 +49,30 @@
                             <label for="sex-2">女</label>
                         </div>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="手机号码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.mobilePhone}" value="" id="mobilePhone"
-                               name="mobilePhone">
+                        <sk:input th:value="${obj.mobilePhone}" id="mobilePhone" name="mobilePhone"/>
                     </div>
                 </div>
 
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="邮箱："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.email}" placeholder="@" name="email"
-                               id="email">
+                        <sk:input th:value="${obj.email}" id="email" name="email"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="角色："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                <textarea name="descri" cols="22" rows="4" class="textarea"
-                          onKeyUp="$.Huitextarealength(this,100)"
-                          th:inline="text">
-                    [[${obj.descri}]]
-                </textarea>
+                        <sk:treeSelect id="roleId" name="roleIds" type="checkbox" scCode="sys_role_select"/>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <sk:label class="col-xs-2 col-sm-2" text="描述："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <textarea name="descri" cols="22" rows="4" class="textarea"
+                                  onKeyUp="$.Huitextarealength(this,100)"
+                                  th:inline="text">
+                            [[${obj.descri}]]
+                        </textarea>
                         <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
                     </div>
                 </div>
@@ -85,26 +84,22 @@
             <!--修改开始-->
             <div th:case="update">
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="用户名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.userName}" placeholder="" id="userName"
-                               name="userName">
+                        <sk:input th:value="${obj.userName}" id="userName" name="userName"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">姓名：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="姓名："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.realName}" placeholder="" id="realName"
-                               name="realName">
+                        <sk:input th:value="${obj.realName}" id="realName" name="realName"/>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>密码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" required="true" text="密码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="password" class="input-text" autocomplete="off" th:value="${obj.password}" placeholder="密码"
-                               id="password"
-                               name="password">
-                        <input type="hidden" name="password2" th:value="${obj.password}" value=""/>
+                        <sk:input type="password" th:value="${obj.password}" id="password" name="password" placeholder="密码"/>
+                        <input type="hidden" name="password2" th:value="${obj.password2}"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2 ">性别：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="性别："/>
                     <div class="formControls col-xs-4 col-sm-4 skin-minimal">
                         <div class="radio-box">
                             <input name="sex" type="radio" id="sex-1" th:checked="${obj.sex == '男' or obj.sex eq  null}"
@@ -119,27 +114,30 @@
                 </div>
                 <div class="row cl">
 
-                    <label class="form-label col-xs-2 col-sm-2">手机号码：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="手机号码："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.mobilePhone}" value="" id="mobilePhone"
-                               name="mobilePhone">
+                        <sk:input th:value="${obj.mobilePhone}" id="mobilePhone" name="mobilePhone"/>
                     </div>
-                    <label class="form-label col-xs-2 col-sm-2">邮箱：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="邮箱："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <input type="text" class="input-text" th:value="${obj.email}" placeholder="@" name="email"
-                               id="email">
+                        <sk:input th:value="${obj.email}" id="email" name="email"/>
                     </div>
                 </div>
 
                 <div class="row cl">
 
-                    <label class="form-label col-xs-2 col-sm-2">描述：</label>
+                    <sk:label class="col-xs-2 col-sm-2" text="角色："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                <textarea name="desc" cols="22" rows="4" class="textarea"
-                          onKeyUp="$.Huitextarealength(this,100)"
-                          th:inline="text">
-                    [[${obj.descri}]]
-                </textarea>
+                        <sk:treeSelect id="roleId" name="roleIds" th:value="${obj.roleIds}" type="checkbox" scCode="sys_role_select"/>
+                        <input type="hidden" name="oldRoleIds" th:value="${obj.roleIds}"/>
+                    </div>
+                    <sk:label class="col-xs-2 col-sm-2" text="描述："/>
+                    <div class="formControls col-xs-4 col-sm-4">
+                        <textarea name="descri" cols="22" rows="4" class="textarea"
+                                  onKeyUp="$.Huitextarealength(this,100)"
+                                  th:inline="text">
+                            [[${obj.descri}]]
+                        </textarea>
                         <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
                     </div>
                 </div>
@@ -151,11 +149,11 @@
             <!--修改密码开始-->
             <div th:case="updatePassword">
                 <div class="row cl">
-                    <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>用户名：</label>
+                    <sk:label class="col-xs-3 col-sm-3" text="用户名："/>
                     <label class="formControls col-xs-9 col-sm-9" th:inline="text">[[${obj.userName}]]</label>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>新密码：</label>
+                    <sk:label class="col-xs-3 col-sm-3" required="true" text="新密码："/>
                     <div class="formControls col-xs-9 col-sm-9">
                         <input type="password" class="input-text" autocomplete="off" value="" placeholder="新密码"
                                id="password"
@@ -163,7 +161,7 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>确认新密码：</label>
+                    <sk:label class="col-xs-3 col-sm-3" required="true" text="确认新密码："/>
                     <div class="formControls col-xs-9 col-sm-9">
                         <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
                                name="password2">
@@ -176,8 +174,8 @@
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-success radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <sk:button class="btn-success" type="reset" text="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+                <sk:button class="btn-primary" type="submit" text="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
             </div>
         </div>
     </form>
@@ -194,7 +192,7 @@
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
-
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     var oprt = [[${oprt}]];
@@ -227,24 +225,7 @@
                 email: {
                     email: true
                 },
-
-//                sex: {
-//                    required: true,
-//                },
-//                mobile: {
-//                    required: true,
-//                    isMobile: true,
-//                },
-//                email: {
-//                    required: true,
-//                    email: true,
-//                },
-//                uploadfile: {
-//                    required: true,
-//                },
-
             },
-
             onkeyup: false,
             focusCleanup: true,
             success: "valid",
@@ -259,11 +240,14 @@
                 sk.ajaxRequest(url, param, function (r) {
                     if (r.code == '0') {
                         sk.successMsg(r.msg);
-                        setTimeout(function () {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        },800);
+                        if (oprt != 'add') {
+                            setTimeout(function () {
+                                // parent.location.reload();
+//                                var index = parent.layer.getFrameIndex(window.name);
+//                                parent.layer.close(index);
+                                layer_close();
+                            }, 800);
+                        }
                     } else {
                         sk.failMsg(r.msg);
                     }

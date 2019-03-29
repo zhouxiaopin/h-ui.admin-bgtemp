@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,16 +33,29 @@ public class MenuTreeTag extends BaseTag {
     private static final String HTML_TAG_NAME  = "ul";
     //是否是单标签
     private static final boolean IS_SINGLE_TAG = Boolean.FALSE;
+    private static final String TYPE_CHECKBOX = "checkbox";
+    private static final String TYPE_RADIO = "radio";
     //优先级
     private static final int PRECEDENCE = 10000;
     private static StringBuilder attrHtml = new StringBuilder();
+
     //特有的类样式
     private static String subsClazz = "ztree";
-
+    //类型 checkbox,radio
+    private String type;
+    //父节点是否可选
+    private boolean parentCheck = Boolean.TRUE;
+    //父节点不可选提示信息
+    private String parentNoCheckMsg = "父节点不能选择";
     //语句编码
     private String scCode;
     //是否有div做外框
     private boolean hasOut = Boolean.TRUE;
+    //是否初始化table
+    private boolean isInitTable = Boolean.TRUE;
+
+    //树形选择后表单提交的元素id
+    private String inputValId = "_sk_"+System.nanoTime();
 
 //    {id:5, pId:0, name:"广东省", open:true}
 //    {id:4, pId:0, name:"河北省", open:true, nocheck:true},
@@ -103,6 +117,30 @@ public class MenuTreeTag extends BaseTag {
             this.setHasOut(Boolean.valueOf(hasOut));
         }
 
+        //是否初始化table
+        String isInitTable = tag.getAttributeValue("isInitTable");
+        if(!StringUtils.isEmpty(isInitTable)) {
+            this.setInitTable(Boolean.valueOf(isInitTable));
+        }
+
+        //类型
+        String type = tag.getAttributeValue("type");
+        if(!StringUtils.isEmpty(type)) {
+            this.setType(type);
+        }
+
+        //父节点是否可选
+        String parentCheck = tag.getAttributeValue("parentCheck");
+        if(!StringUtils.isEmpty(parentCheck)) {
+            this.setParentCheck(Boolean.valueOf(parentCheck));
+        }
+
+        //父节点不可选提示信息
+        String parentNoCheckMsg = tag.getAttributeValue("parentNoCheckMsg");
+        if(!StringUtils.isEmpty(parentNoCheckMsg)) {
+            this.setParentNoCheckMsg(parentNoCheckMsg);
+        }
+
     }
 
     @Override
@@ -116,6 +154,16 @@ public class MenuTreeTag extends BaseTag {
         this.setScCode("");
         //是否有div做外框
         this.setHasOut(Boolean.TRUE);
+        //是否初始化table
+        this.setInitTable(Boolean.TRUE);
+
+        this.setType("");
+        //父节点是否可选
+        this.setParentCheck(Boolean.TRUE);
+        //父节点不可选提示信息
+        this.setParentNoCheckMsg("父节点不能选择");
+        //语句编码
+        this.setScCode("");
     }
 
     //生成html
@@ -127,18 +175,36 @@ public class MenuTreeTag extends BaseTag {
             this.setId("_sk_"+System.nanoTime());
         }
 
-        //树形根节点的id
-        String inputRootId = this.getId()+"RootId";
 
         //外框开始
         if(this.isHasOut()) {
             html.append("<div class=\"pos-a skMenuTreeOut\">");
         }
 
-        //添加隐藏域
-        html.append("<input type=\"hidden\" id=\"");
-        html.append(inputRootId);
-        html.append("\" value=\"\"/>");
+        //树形根节点的id
+        String inputRootId = this.getId()+"RootId";
+        if(!this.isInitTable) {
+            //表单提交的值
+            html.append("<input id=\"");
+            html.append(this.inputValId);
+            html.append("\"");
+            html.append(" type=\"hidden\" name=\"");
+            html.append(this.getName());
+            html.append("\"");
+            //判断是否有值
+            String value = this.getValue();
+            if(!StringUtils.isEmpty(value)) {
+                html.append(" value=\"");
+                html.append(value);
+                html.append("\"");
+            }
+            html.append(" />");
+        }else{
+            //添加隐藏域
+            html.append("<input type=\"hidden\" id=\"");
+            html.append(inputRootId);
+            html.append("\" value=\"\"/>");
+        }
 
         html.append("<");
         html.append(HTML_TAG_NAME);
@@ -169,67 +235,185 @@ public class MenuTreeTag extends BaseTag {
         StringBuilder js = new StringBuilder();
         js.append("<script type=\"text/javascript\">");
 
-        //tree 的 setting
-        //tree初始化数据的引用名
-        String initSettingName = "window."+this.getId()+"Setting";
-        js.append(initSettingName);
-        js.append(" = {");
+        if(this.isInitTable) {
+            //tree 的 setting
+            //tree初始化数据的引用名
+            String initSettingName = "window."+this.getId()+"Setting";
+            js.append(initSettingName);
+            js.append(" = {");
 
-        //异步
-        js.append("async: { enable: true,},");
+            //异步
+            js.append("async: { enable: true,},");
 
-        js.append("view: {dblClickExpand: false},data: {simpleData: {enable: true}},");
-        js.append("callback: {");
-        js.append("beforeClick: beforeClick,");
-        js.append("}};");
+            js.append("view: {dblClickExpand: false},data: {simpleData: {enable: true}},");
+            js.append("callback: {");
+            js.append("beforeClick: beforeClick,");
+            js.append("}};");
 
-        //添加function
-        //beforeClick
-        js.append("function beforeClick(treeId, treeNode) {");
-        js.append("$(\"#");
-        js.append(inputRootId);
-        js.append("\").attr(\"value\", treeNode.id);");
-        js.append("if (treeNode.isParent) {drawTable();return false;}");
-        js.append("else {return true;}}");
+            //添加function
+            //beforeClick
+            js.append("function beforeClick(treeId, treeNode) {");
+            js.append("$(\"#");
+            js.append(inputRootId);
+            js.append("\").attr(\"value\", treeNode.id);");
+            js.append("if (treeNode.isParent) {drawTable();return false;}");
+            js.append("else {return true;}}");
 
 
 
-        js.append("$(document).ready(function(){");
+            js.append("$(document).ready(function(){");
 
-        //tree初始化数据的引用名
-        String initDataName = "window."+this.getId()+"InitData";
+            //tree初始化数据的引用名
+            String initDataName = "window."+this.getId()+"InitData";
 
-        //获取数据
-        js.append(initDataName);
-        js.append("=");
-        if(!StringUtils.isEmpty(this.scCode)) {
-            js.append(this.genData());
+            //获取数据
+            js.append(initDataName);
+            js.append("=");
+            if(!StringUtils.isEmpty(this.scCode)) {
+                js.append(this.genData());
+            }else{
+                js.append("[]");
+            }
+            js.append(";");
+
+            //tree初始化
+            js.append("$.fn.zTree.init($(\"#");
+            js.append(this.getId());
+            js.append("\"), ");
+            js.append(initSettingName);
+            js.append(", ");
+            js.append(initDataName);
+            js.append(");");
+
+            if(this.isInitTable) {
+                //设置根节点di
+                js.append("var treeObj = $.fn.zTree.getZTreeObj(\"");
+                js.append(this.getId());
+                js.append("\");var node = treeObj.getNodesByFilter(function (node) { return node.level == 0 }, true);");
+                js.append("$(\"#");
+                js.append(inputRootId);
+                js.append("\").attr(\"value\", node.id);");
+                js.append("initTabel();");
+            }
+
+
+
+            js.append("});");
         }else{
-            js.append("[]");
+            //tree 的 setting
+            //tree初始化数据的引用名
+            String initSettingName = "window."+this.getId()+"Setting";
+            js.append(initSettingName);
+            js.append(" = {");
+
+            //异步
+            js.append("async: { enable: true,},");
+
+            String type = this.getType();
+            if(!StringUtils.isEmpty(type)) {
+                js.append("check: {enable: true,");
+                if(StringUtils.equals(type,TYPE_CHECKBOX)) {
+                    js.append("chkboxType: {\"Y\":\"\", \"N\":\"\"},");
+//                js.append("chkboxType: \"all\",");
+                }else{
+                    js.append("chkStyle: \"radio\",");
+                    js.append("radioType: \"all\"");
+                }
+                js.append("},");
+            }
+            js.append("view: {dblClickExpand: false},data: {simpleData: {enable: true}},");
+            js.append("callback: {");
+
+            if(!this.isParentCheck()) {
+                js.append("beforeClick: beforeClick,");
+            }
+
+            if(!StringUtils.isEmpty(type)) {
+                js.append("onCheck: onCheck,");
+            }
+            js.append("onClick: onClick,");
+            js.append("}};");
+
+            //添加function
+            //beforeClick
+            js.append("function beforeClick(treeId, treeNode) {var check = (treeNode && !treeNode.isParent);");
+            js.append("if (!check) sk.failFaceMsg(\"");
+            js.append(this.getParentNoCheckMsg());
+            js.append("\");return check;}");
+
+            //onCheck
+            js.append("function onCheck(e, treeId, treeNode) {var zTree = $.fn.zTree.getZTreeObj(\"");
+            js.append(this.getId());
+            js.append("\"),");
+            if(StringUtils.isEmpty(type)) {
+                js.append("nodes = zTree.getSelectedNodes(),");
+            }else{
+                js.append("nodes = zTree.getCheckedNodes(true),");
+            }
+            js.append("rv=\"\";");
+            js.append("nodes.sort(function compare(a,b){return a.id-b.id;});");
+            js.append("for (var i=0, l=nodes.length; i<l; i++) {");
+            js.append("rv += nodes[i].id + \",\";");
+            js.append("}");
+            js.append("if (rv.length > 0 ) rv = rv.substring(0, rv.length-1);");
+            js.append("$(\"#");
+            js.append(this.getInputValId());
+            js.append("\").attr(\"value\", rv);");
+            js.append("}");
+
+            //onClick
+            js.append("function onClick(e, treeId, treeNode) {var zTree = $.fn.zTree.getZTreeObj(\"");
+            js.append(this.getId());
+            js.append("\");");
+            if(StringUtils.isEmpty(type)) {
+                js.append("var nodes = zTree.getSelectedNodes(),");
+                js.append("rv=\"\";");
+                js.append("nodes.sort(function compare(a,b){return a.id-b.id;});");
+                js.append("for (var i=0, l=nodes.length; i<l; i++) {");
+                js.append("rv += nodes[i].id + \",\";");
+                js.append("}");
+                js.append("if (rv.length > 0 ) rv = rv.substring(0, rv.length-1);");
+                js.append("$(\"#");
+                js.append(this.getInputValId());
+                js.append("\").attr(\"value\", rv);");
+            }else{
+                js.append("zTree.checkNode(treeNode, !treeNode.checked, null, true);");
+                js.append("return false;");
+            }
+
+            js.append("}");
+
+
+            //tree初始化
+            js.append("$(document).ready(function(){");
+
+            //tree初始化数据的引用名
+            String initDataName = "window."+this.getId()+"InitData";
+
+            //获取数据
+            js.append(initDataName);
+            js.append("=");
+            if(!StringUtils.isEmpty(this.scCode)) {
+                js.append(this.genData());
+            }else{
+                js.append("[]");
+            }
+            js.append(";");
+
+            js.append("$.fn.zTree.init($(\"#");
+            js.append(this.getId());
+            js.append("\"), ");
+            js.append(initSettingName);
+            js.append(", ");
+
+            js.append(initDataName);
+
+            js.append(");");
+
+
+            js.append("});");
         }
-        js.append(";");
 
-        //tree初始化
-        js.append("$.fn.zTree.init($(\"#");
-        js.append(this.getId());
-        js.append("\"), ");
-        js.append(initSettingName);
-        js.append(", ");
-        js.append(initDataName);
-        js.append(");");
-
-        //设置根节点di
-        js.append("var treeObj = $.fn.zTree.getZTreeObj(\"");
-        js.append(this.getId());
-        js.append("\");var node = treeObj.getNodesByFilter(function (node) { return node.level == 0 }, true);");
-        js.append("$(\"#");
-        js.append(inputRootId);
-        js.append("\").attr(\"value\", node.id);");
-        js.append("initTabel();");
-
-
-
-        js.append("});");
         js.append("</script>");
         return js.toString();
     }
@@ -253,6 +437,25 @@ public class MenuTreeTag extends BaseTag {
 
         try {
             data = jdbcTemplate.queryForList(sql);
+            if(!this.isInitTable) {
+                //判断是否有值
+                String value = this.getValue();
+                if(!StringUtils.isEmpty(value)) {
+                    String[] values = StringUtils.split(value,",");
+                    int selectNum = 0;
+                    for(int i = 0, len = data.size(); i < len; i++) {
+                        Map<String,Object> item = data.get(i);
+                        if(ArrayUtils.contains(values,item.get("id").toString())) {
+                            //选中
+                            data.get(i).put("checked",true);
+                            selectNum++;
+                            if(values.length == selectNum) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
         }catch (DataAccessException e){
             log.error("sql语句配置错误:语句码为{}",sysSqlConfCustom.getScCode());

@@ -30,6 +30,10 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         }
         int num = baseMapper.insertSelective(entityCustom);
         if(num > 0) {
+            serverResponse = insertAfter(entityCustom);
+            if(!serverResponse.isSuccess()) {
+                return serverResponse;
+            }
             return ServerResponse.createBySuccess(Const.ResponseMsg.ADD_SUCCE,entityCustom);
         }else {
             return ServerResponse.createByErrorMessage(Const.ResponseMsg.ADD_FAIL);
@@ -38,6 +42,10 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
     //添加之前的操作
     protected ServerResponse<T> insertBefore(T t){
+        return ServerResponse.createBySuccess(t);
+    }
+    //添加之后的操作
+    protected ServerResponse<T> insertAfter(T t){
         return ServerResponse.createBySuccess(t);
     }
 

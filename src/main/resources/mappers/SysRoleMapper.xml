@@ -26,7 +26,7 @@
     delete from tb_sys_role
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole">
+  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole" useGeneratedKeys="true" keyProperty="roleId">
     insert into tb_sys_role (role_id, role_flag, role_name, 
       descri, opt_id, record_status, 
       update_time, create_time)
@@ -34,7 +34,7 @@
       #{descri,jdbcType=VARCHAR}, #{optId,jdbcType=INTEGER}, #{recordStatus,jdbcType=CHAR}, 
       now(), now())
   </insert>
-  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole">
+  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysRole" useGeneratedKeys="true" keyProperty="roleId">
     insert into tb_sys_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -130,7 +130,12 @@
     <if test="null != sysRoleCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
       <if test="null != sysRoleCustom.roleFlag and '' != sysRoleCustom.roleFlag">
-        AND role_flag LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleFlag,jdbcType=VARCHAR},'%'))
+        <if test="isNoLike.roleFlag">
+          AND role_flag = #{sysRoleCustom.roleFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="!isNoLike.roleFlag">
+          AND role_flag LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleFlag,jdbcType=VARCHAR},'%'))
+        </if>
       </if>
       <if test="null != sysRoleCustom.roleName and '' != sysRoleCustom.roleName">
         AND role_name LIKE CONCAT('%',CONCAT(#{sysRoleCustom.roleName,jdbcType=VARCHAR},'%'))
@@ -149,7 +154,7 @@
       <include refid="base_query_condition"></include>
       AND record_status != '00'
     </where>
-
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
   <!--根据主键软删除-->

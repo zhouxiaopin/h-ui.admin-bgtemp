@@ -15,7 +15,7 @@ window.sk = {
      */
     ajaxRequest: function (path, data, success, ptype, error, timeout, async) {
 
-        if (!ptype || ptype.toLowerCase() != "get"){
+        if (!ptype || ptype.toLowerCase() != "get") {
             ptype = "post";
         }
         if (async == undefined) {
@@ -32,13 +32,13 @@ window.sk = {
             error: function (xhr, textStatus, errorThrown) {
                 console.log(errorThrown);
                 if (errorThrown == 'timeout') {
-                    sk.failMsg('网络请求失败',2000);
+                    sk.failMsg('网络请求失败', 2000);
                 }
             }
 
         });
     },
-    getBrowser: function(){
+    getBrowser: function () {
         var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
         var isOpera = userAgent.indexOf("Opera") > -1;
         //判断是否Opera浏览器
@@ -50,7 +50,7 @@ window.sk = {
             return "Firefox";
         }
         //判断是否Chrome浏览器
-        if (userAgent.indexOf("Chrome") > -1){
+        if (userAgent.indexOf("Chrome") > -1) {
             return "Chrome";
         }
         //判断是否Safari浏览器
@@ -68,35 +68,35 @@ window.sk = {
      * @param percent   百分比
      * @returns {number}
      */
-    getFixWidth: function(element,percent){
-        return ($(element).width()) * percent ;
+    getFixWidth: function (element, percent) {
+        return ($(element).width()) * percent;
     },
-    successMsg: function (msg,time) {
-        if (!time){
+    successMsg: function (msg, time) {
+        if (!time) {
             time = 1000;
         }
         layer.msg(msg, {icon: 1, time: time})
     },
-    failMsg: function (msg,time) {
-        if (!time){
+    failMsg: function (msg, time) {
+        if (!time) {
             time = 1000;
         }
         layer.msg(msg, {icon: 2, time: time})
     },
-    successFaceMsg: function (msg,time) {
-        if (!time){
+    successFaceMsg: function (msg, time) {
+        if (!time) {
             time = 1000;
         }
         layer.msg(msg, {icon: 6, time: time})
     },
-    failFaceMsg: function (msg,time) {
-        if (!time){
+    failFaceMsg: function (msg, time) {
+        if (!time) {
             time = 1000;
         }
         layer.msg(msg, {icon: 5, time: time})
     },
-    msg: function (msg,icon,time) {
-        if (!time){
+    msg: function (msg, icon, time) {
+        if (!time) {
             time = 1000;
         }
         layer.msg(msg, {icon: icon, time: time})
@@ -106,27 +106,27 @@ window.sk = {
      * @param url
      * @param title
      */
-    addFavorite: function(url,title){
+    addFavorite: function (url, title) {
         try {
             window.external.AddFavorite(url, title);
-        }catch(e) {
+        } catch (e) {
             ticc.alertInfo("加入收藏失败，请使用Ctrl+D进行添加");
         }
     },
     isNullOrEmpty: function (obj) {
-        if (null == obj || undefined == obj || "" == obj){
+        if (null == obj || undefined == obj || "" == obj) {
             return true;
         }
         return false;
     },
     isNull: function (obj) {
-        if (null == obj || undefined == obj){
+        if (null == obj || undefined == obj) {
             return true;
         }
         return false;
     },
     arrayIsNullOrEmpty: function (obj) {
-        if (null == obj || undefined == obj || obj.length <= 0){
+        if (null == obj || undefined == obj || obj.length <= 0) {
             return true;
         }
         return false;
@@ -135,7 +135,7 @@ window.sk = {
          * 设置数字滚动
          * target：目标元素的ID, start：开始值, end：结束值, decimals ：小数位数,默认值是0,duration： 动画延迟秒数，默认值是2
          */
-    setCountUp: function(target, start, end, decimals, duration) {
+    setCountUp: function (target, start, end, decimals, duration) {
         var countUp_item = new CountUp(target, start, end, decimals || 0, duration || 2, {
             useEasing: true,
             useGrouping: true,
@@ -153,13 +153,13 @@ window.sk = {
      * @param val
      * @returns {boolean}
      */
-    isNumber: function(val){
+    isNumber: function (val) {
 
         var regPos = /^\d+(\.\d+)?$/; //非负浮点数
         var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
-        if(regPos.test(val) || regNeg.test(val)){
+        if (regPos.test(val) || regNeg.test(val)) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
@@ -175,7 +175,7 @@ function updateDisableRs(obj, id, pk) {
         param[pk] = id;
         sk.ajaxRequest(url, param, function (r) {
             if (r.code == '0') {
-                $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+                $(obj).parents("tr").find("#td-manage").prepend('<a title="启用" href="javascript:;" onclick="updateAbleRs(this,' + id + ',\'' + pk + '\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
 
                 $.each(recordStatus, function (index, item) {
 //                            console.log(JSON.stringify(item))
@@ -195,6 +195,7 @@ function updateDisableRs(obj, id, pk) {
     });
 
 }
+
 //启用记录
 function updateAbleRs(obj, id, pk) {
     layer.confirm('确认要启用吗？', function (index) {
@@ -203,7 +204,7 @@ function updateAbleRs(obj, id, pk) {
         param[pk] = id;
         sk.ajaxRequest(url, param, function (r) {
             if (r.code == '0') {
-                $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ',\'' +pk+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+                $(obj).parents("tr").find("#td-manage").prepend('<a title="禁用" href="javascript:;" onclick="updateDisableRs(this,' + id + ',\'' + pk + '\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
                 $.each(recordStatus, function (index, item) {
 //                            console.log(JSON.stringify(item))
                     if (item.code == skConst.RecordStatus.ABLE) {
@@ -238,6 +239,7 @@ function to_del(obj, id) {
         });
     });
 }
+
 //批量删除
 function batchDel() {
     if ($(".checkchild:checked").length < 1) {
@@ -273,6 +275,7 @@ function batchDel() {
         });
     });
 }
+
 //批量硬删除
 function batchRealDel() {
     if ($(".checkchild:checked").length < 1) {
@@ -307,4 +310,76 @@ function batchRealDel() {
 
         });
     });
+}
+
+//DataTable配置一些默认参数
+function SkDataTable(tableId,obj) {
+    var defa = {
+        "lengthChange": true,
+        "searching": false,//禁用检索
+        "ordering": false,
+        "autoWidth": false,
+        'pagingType': 'full_numbers',
+        "pageLength": 10,
+        "serverSide": true,
+        "bInfo": true, //是否显示页脚信息，DataTables插件左下角显示记录数
+        "bProcessing": true, //DataTables载入数据时，是否显示‘进度’提示
+        "oLanguage": { //国际化配置
+            //"sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+            "sInfoEmpty": "当前显示 0 到 0 条，共 0 条记录",
+            "sInfoFiltered": "(每页 _MAX_ 条)",
+        },
+        "columns": [],
+        "ajax": {
+            "url": "query",
+            "type": "POST",
+            "data": function (d) {
+            },
+        },
+    };
+
+    if (obj.lengthChange){
+        defa.lengthChange = obj.lengthChange;
+    }
+    if (obj.searching){
+        defa.searching = obj.searching;
+    }
+    if (obj.ordering){
+        defa.ordering = obj.ordering;
+    }
+    if (obj.autoWidth){
+        defa.autoWidth = obj.autoWidth;
+    }
+    if (obj.pagingType){
+        defa.pagingType = obj.pagingType;
+    }
+    if (obj.pageLength){
+        defa.pageLength = obj.pageLength;
+    }
+    if (obj.serverSide){
+        defa.serverSide = obj.serverSide;
+    }
+    if (obj.bInfo){
+        defa.bInfo = obj.bInfo;
+    }
+    if (obj.bProcessing){
+        defa.bProcessing = obj.bProcessing;
+    }
+    if (obj.oLanguage){
+        defa.oLanguage = obj.oLanguage;
+    }
+    if (obj.columns){
+        defa.columns = obj.columns;
+    }
+    if (obj.ajax){
+        if (obj.ajax.url){
+            defa.ajax.url = obj.ajax.url;
+        }
+        if (obj.ajax.data){
+            defa.ajax.data = obj.ajax.data;
+        }
+
+    }
+
+    return $(tableId).DataTable(defa);
 }

@@ -1,9 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.pojo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -14,8 +11,12 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 public class SysRoleCustom extends SysRole {
+    //权限ID
+    private String permisIds;
+    //旧权限ID
+    private String oldPermisIds;
 
     public SysRoleCustom(Integer roleId, String roleFlag, String roleName, String descri, Integer optId, String recordStatus, Date updateTime, Date createTime) {
         super(roleId, roleFlag, roleName, descri, optId, recordStatus, updateTime, createTime);

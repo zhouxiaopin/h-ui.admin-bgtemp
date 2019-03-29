@@ -6,11 +6,14 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysRoleService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 系统角色 Controller
@@ -63,13 +66,51 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
     //参数检验
     @Override
     protected ServerResponse<SysRoleCustom> paramValidate(String oprt, SysRoleCustom sysRoleCustom) {
+        SysRoleQueryVo sysRoleQueryVo;
+        SysRoleCustom condition;
+        ServerResponse<List<SysRoleCustom>> serverResponse;
         switch (oprt) {
             case ADD_OPRT://添加
                 if (StringUtils.isEmpty(sysRoleCustom.getRoleFlag())||StringUtils.isEmpty(sysRoleCustom.getRoleName())) {
                     return ServerResponse.createByParamError();
                 }
+
+                //判断角色标识是否存在
+                sysRoleQueryVo = new SysRoleQueryVo();
+                condition = new SysRoleCustom();
+
+                sysRoleQueryVo.getIsNoLike().put("roleFlag",true);
+
+                condition.setRoleFlag(sysRoleCustom.getRoleFlag());
+
+                sysRoleQueryVo.setSysRoleCustom(condition);
+                serverResponse = this.queryAllByCondition(sysRoleQueryVo);
+                if(!CollectionUtils.isEmpty(serverResponse.getData())){
+                    return ServerResponse.createByErrorMessage("角色标识已存在");
+                }
+
                 //默认可用
                 sysRoleCustom.setRecordStatus(Const.RecordStatus.ABLE);
+                break;
+            case UPDATE_OPRT://修改
+                //判断角色标识是否存在
+                sysRoleQueryVo = new SysRoleQueryVo();
+                condition = new SysRoleCustom();
+
+                sysRoleQueryVo.getIsNoLike().put("roleFlag",true);
+
+                condition.setRoleFlag(sysRoleCustom.getRoleFlag());
+
+                sysRoleQueryVo.setSysRoleCustom(condition);
+                serverResponse = this.queryAllByCondition(sysRoleQueryVo);
+                List<SysRoleCustom> sysRoleCustoms = serverResponse.getData();
+                if(!CollectionUtils.isEmpty(sysRoleCustoms)){
+                    for (int i = 0, len = sysRoleCustoms.size(); i < len; i++){
+                        if(sysRoleCustom.getRoleId() != sysRoleCustoms.get(i).getRoleId()) {
+                            return ServerResponse.createByErrorMessage("角色标识已存在");
+                        }
+                    }
+                }
                 break;
         }
         return super.paramValidate(oprt, sysRoleCustom);

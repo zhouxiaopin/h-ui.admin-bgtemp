@@ -2,17 +2,24 @@ package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
 import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.CustomException;
+import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.mapper.SysUserMapper;
+import cn.sk.huiadminbgtemp.sys.mapper.SysUserRoleMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
+import cn.sk.huiadminbgtemp.sys.pojo.SysUserRole;
 import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * 系统用户业务逻辑接口实现类
@@ -21,6 +28,8 @@ import java.util.Date;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQueryVo> implements ISysUserService {
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     protected ServerResponse<SysUserCustom> insertBefore(SysUserCustom sysUserCustom) {
@@ -34,5 +43,76 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
         sysUserCustom.setRecordStatus(Const.RecordStatus.DISABLE);
 //        sysUserCustom.setCreateTime(new Date());
         return super.insertBefore(sysUserCustom);
+    }
+
+    @Override
+    protected ServerResponse<SysUserCustom> insertAfter(SysUserCustom sysUserCustom) {
+        //判断是否有设置角色
+        String[] roleIds = StringUtils.split(sysUserCustom.getRoleIds(),",");
+        if(!ArrayUtils.isEmpty(roleIds)) {
+            List<SysUserRole> sysUserRoles = Lists.newArrayList();
+            for(int i = 0,len = roleIds.length; i < len; i++) {
+                SysUserRole sysUserRole = new SysUserRole(null,sysUserCustom.getuId(),
+                        Integer.valueOf(roleIds[i]));
+                sysUserRoles.add(sysUserRole);
+            }
+            int num = sysUserRoleMapper.batchInsert(sysUserRoles);
+            if(num < 1) {
+                throw new CustomException(ResponseCode.ADD_FAIL);
+            }
+        }
+        return super.insertAfter(sysUserCustom);
+    }
+
+    @Override
+    public ServerResponse<SysUserCustom> queryObj(SysUserCustom entityCustom) {
+        ServerResponse<SysUserCustom> serverResponse = super.queryObj(entityCustom);
+        //查询用户角色
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectByUserId(entityCustom.getuId());
+        StringBuilder roleIds = new StringBuilder();
+        for(int i = 0,len = sysUserRoles.size(); i < len; i++) {
+            roleIds.append(sysUserRoles.get(i).getRoleId()).append(",");
+        }
+        if(roleIds.length()>1) {
+            roleIds.deleteCharAt(roleIds.length()-1);
+        }
+        serverResponse.getData().setRoleIds(roleIds.toString());
+        return serverResponse;
+    }
+
+    @Override
+    protected ServerResponse<SysUserCustom> updateBefore(SysUserCustom sysUserCustom) {
+        //判断是否有修改角色
+        if(StringUtils.equals(sysUserCustom.getRoleIds(),sysUserCustom.getOldRoleIds())) {
+            return super.updateBefore(sysUserCustom);
+        }
+
+        //查询系统用户之前是有拥有角色
+        Integer userId = sysUserCustom.getuId();
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectByUserId(userId);
+        if(!CollectionUtils.isEmpty(sysUserRoles)) {
+            //清除原来的角色
+            int num = sysUserRoleMapper.realDeleteInUserId(userId);
+            if(num < 1) {
+                throw new CustomException(ResponseCode.MDF_FAIL);
+            }
+        }
+
+
+        //判断是否有设置角色
+        String[] roleIds = StringUtils.split(sysUserCustom.getRoleIds(),",");
+        if(!ArrayUtils.isEmpty(roleIds)) {
+            sysUserRoles = Lists.newArrayList();
+            for(int i = 0,len = roleIds.length; i < len; i++) {
+                SysUserRole sysUserRole = new SysUserRole(null,sysUserCustom.getuId(),
+                        Integer.valueOf(roleIds[i]));
+                sysUserRoles.add(sysUserRole);
+            }
+            int num = sysUserRoleMapper.batchInsert(sysUserRoles);
+            if(num < 1) {
+                throw new CustomException(ResponseCode.MDF_FAIL);
+            }
+        }
+        return super.updateBefore(sysUserCustom);
     }
 }

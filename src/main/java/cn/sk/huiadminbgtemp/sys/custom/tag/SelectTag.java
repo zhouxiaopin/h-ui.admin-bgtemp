@@ -4,17 +4,24 @@ import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
+import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
+import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
+import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
 import org.thymeleaf.processor.element.IElementTagStructureHandler;
 import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -34,8 +41,12 @@ public class SelectTag extends BaseTag {
     //大小
     private String size;
     private String dictType;//字典类型
+    //语句编码
+    private String scCode;
 
     private ISysDictService sysDictService;
+    private ISysSqlConfService sysSqlConfService;
+    private JdbcTemplate jdbcTemplate;
 
     public SelectTag(String dialectPrefix) {
         super(
@@ -56,7 +67,10 @@ public class SelectTag extends BaseTag {
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
         //要调用，不能去除
         super.doProcess(context, tag, structureHandler);
+
         sysDictService = appCtx.getBean(ISysDictService.class);
+        sysSqlConfService = appCtx.getBean(ISysSqlConfService.class);
+        jdbcTemplate = appCtx.getBean(JdbcTemplate.class);
 
         /*
          * 指示引擎用指定的模型替换整个元素。
@@ -66,58 +80,6 @@ public class SelectTag extends BaseTag {
 //        log.debug(TAG_NAME+":{}",html);
         structureHandler.replaceWith(html, false);
 
-    }
-
-    private String genHtml(){
-        StringBuilder html = new StringBuilder();
-
-        html.append("<");
-        html.append(HTML_TAG_NAME);
-        //获取基本的属性值
-        html.append(this.getBaseAttrHtml());
-        html.append(attrHtml.toString());
-
-        if (IS_SINGLE_TAG){
-            html.append("/>");
-        }else {
-            html.append(">");
-            html.append("<option value=\"\">");
-            html.append("----请选择----");
-            html.append("</option>");
-            //根据数据生成
-            SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
-
-            SysDictCustom condition = new SysDictCustom();
-            condition.setDictType(dictType);
-            condition.setRecordStatus(Const.RecordStatus.ABLE);
-
-            sysDictQueryVo.getIsNoLike().put("dictType",true);
-            sysDictQueryVo.setSysDictCustom(condition);
-
-            ServerResponse<List<SysDictCustom>> sr = sysDictService.queryObjs(sysDictQueryVo);
-            List<SysDictCustom> data = sr.getData();
-            for (int i = 0,len = data.size(); i < len; i++){
-                SysDictCustom s = data.get(i);
-                html.append("<option value=\"");
-                String dictCode = s.getDictCode();
-                html.append(dictCode);
-                html.append("\" ");
-                //判断是否有值
-                String value = this.getValue();
-                if(!StringUtils.isEmpty(value)&&StringUtils.equals(value,dictCode)) {
-                    html.append("selected ");
-                }
-                html.append(">");
-                html.append(s.getCodeName());
-                html.append("</option>");
-            }
-            html.append("</");
-            html.append(HTML_TAG_NAME);
-            html.append(">");
-        }
-
-
-        return html.toString();
     }
 
     @Override
@@ -137,9 +99,10 @@ public class SelectTag extends BaseTag {
         attrHtml.append("\"");
 
         String dictType = tag.getAttributeValue("dictType");
-        if(!StringUtils.isEmpty(dictType)) {
-            this.setDictType(dictType);
-        }
+        this.setDictType(dictType);
+
+        String scCode = tag.getAttributeValue("scCode");
+        this.setScCode(scCode);
 
     }
 
@@ -147,4 +110,113 @@ public class SelectTag extends BaseTag {
     protected String getSubsClazz() {
         return subsClazz;
     }
+
+    //生成html
+    private String genHtml(){
+        StringBuilder html = new StringBuilder();
+
+        html.append("<");
+        html.append(HTML_TAG_NAME);
+        //获取基本的属性值
+        html.append(this.getBaseAttrHtml());
+        html.append(attrHtml.toString());
+
+        if (IS_SINGLE_TAG){
+            html.append("/>");
+        }else {
+            html.append(">");
+            html.append("<option value=\"\">");
+            html.append("----请选择----");
+            html.append("</option>");
+            //根据数据生成
+            if(!StringUtils.isEmpty(this.dictType)) {
+                html.append(this.genDataByDictType());
+            }else if(!StringUtils.isEmpty(this.scCode)) {
+                html.append(this.genDataByScCode());
+            }
+
+            html.append("</");
+            html.append(HTML_TAG_NAME);
+            html.append(">");
+        }
+
+
+        return html.toString();
+    }
+
+    //根据字典类型生成数据
+    private String genDataByDictType(){
+        StringBuilder html = new StringBuilder();
+
+        SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
+
+        SysDictCustom condition = new SysDictCustom();
+        condition.setDictType(dictType);
+        condition.setRecordStatus(Const.RecordStatus.ABLE);
+
+        sysDictQueryVo.getIsNoLike().put("dictType",true);
+        sysDictQueryVo.setSysDictCustom(condition);
+
+        ServerResponse<List<SysDictCustom>> sr = sysDictService.queryObjs(sysDictQueryVo);
+        List<SysDictCustom> data = sr.getData();
+        for (int i = 0,len = data.size(); i < len; i++){
+            SysDictCustom s = data.get(i);
+            html.append("<option value=\"");
+            String dictCode = s.getDictCode();
+            html.append(dictCode);
+            html.append("\" ");
+            //判断是否有值
+            String value = this.getValue();
+            if(!StringUtils.isEmpty(value)&&StringUtils.equals(value,dictCode)) {
+                html.append("selected ");
+            }
+            html.append(">");
+            html.append(s.getCodeName());
+            html.append("</option>");
+        }
+        return html.toString();
+    }
+    //根据语句编码生成数据
+    private String genDataByScCode(){
+        StringBuilder html = new StringBuilder();
+        SysSqlConfQueryVo sysSqlConfQueryVo = new SysSqlConfQueryVo();
+
+        SysSqlConfCustom sysSqlConfCustom = new SysSqlConfCustom();
+        sysSqlConfCustom.setScCode(this.getScCode());
+        sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
+
+        sysSqlConfQueryVo.setSysSqlConfCustom(sysSqlConfCustom);
+        ServerResponse<List<SysSqlConfCustom>> serverResponse = sysSqlConfService.queryObjs(sysSqlConfQueryVo);
+        List<SysSqlConfCustom> sysSqlConfCustoms = serverResponse.getData();
+        if(CollectionUtils.isEmpty(sysSqlConfCustoms)) {
+            log.error("sql语句没有配置:语句码为{}",sysSqlConfCustom.getScCode());
+            return null;
+        }
+        String sql = sysSqlConfCustoms.get(0).getScStatement();
+
+        try {
+            List<Map<String,Object>> data = jdbcTemplate.queryForList(sql);
+            for(int i = 0,len = data.size(); i < len; i++) {
+                Map<String,Object> item = data.get(i);
+                html.append("<option value=\"");
+                String dictCode = item.get("code").toString();
+                html.append(dictCode);
+                html.append("\" ");
+                //判断是否有值
+                String value = this.getValue();
+                if(!StringUtils.isEmpty(value)&&StringUtils.equals(value,dictCode)) {
+                    html.append("selected ");
+                }
+                html.append(">");
+                html.append(item.get("name").toString());
+                html.append("</option>");
+            }
+
+        }catch (DataAccessException e){
+            log.error("sql语句配置错误:语句码为{}",sysSqlConfCustom.getScCode());
+        }
+
+        return html.toString();
+    }
+
 }

@@ -94,23 +94,6 @@
         layer_show("修改"+modelTile, url, 800, 600);
     }
 
-    // //删除
-    // function to_del(obj, id) {
-    //     layer.confirm('确认要删除吗？', function (index) {
-    //         var url = "delete";
-    //         var param = {ids: [id]};
-    //         sk.ajaxRequest(url, param, function (r) {
-    //             if (r.code == '0') {
-    //                 $(obj).parents("tr").remove();
-    //                 sk.successMsg(r.msg);
-    //             } else {
-    //                 sk.failMsg(r.msg);
-    //             }
-    //
-    //         });
-    //     });
-    // }
-
     $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
@@ -118,57 +101,7 @@
                 _dataTables.ajax.reload();
             });
         });
-        //批量删除
-//         $('#batchDel').on('click', function () {
-//             if ($(".checkchild:checked").length < 1) {
-//                 sk.successFaceMsg('请选择要提交的记录!');
-//                 return;
-//             }
-//             //获取所有选中的id
-//             var ids = [];
-//             $.each($('input:checkbox:checked'), function () {
-//                 if ($(this).val().trim() == "on") {
-//                     return;
-//                 }
-//                 ids.push($(this).val().trim());
-//             });
-//             layer.confirm('确认要批量删除吗？', function (index) {
-//                 layer.close(index);
-//                 var url = "delete";
-//                 var param = {ids: ids};
-//                 sk.ajaxRequest(url, param, function (r) {
-//                     if (r.code == '0') {
-// //                        $(obj).parents("tr").remove();
-//                         $.each($('input:checkbox:checked'), function () {
-//                             if ($(this).val().trim() == "on") {
-//                                 return;
-//                             }
-//                             $(this).parents("tr").remove();
-//                         });
-//                         sk.successMsg(r.msg);
-//                     } else {
-//                         sk.failMsg(r.msg);
-//                     }
-//
-//                 });
-//             });
-//         });
-
-        var _dataTables = $('#skDataTable').DataTable({
-            "lengthChange": true,
-            "searching": false,//禁用检索
-            "ordering": false,
-            "autoWidth": false,
-            'pagingType': 'full_numbers',
-            "pageLength": 10,
-            "serverSide": true,
-            "bInfo": true, //是否显示页脚信息，DataTables插件左下角显示记录数
-            "bProcessing": true, //DataTables载入数据时，是否显示‘进度’提示
-            "oLanguage": { //国际化配置
-                //"sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
-                //"sInfoEmpty" : "记录数为0",
-                "sInfoFiltered": "(每页 _MAX_ 条)",
-            },
+        var _dataTables = SkDataTable('#skDataTable',{
             "columns": [
                 {
                     "data": function (dd) {
@@ -189,14 +122,14 @@
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
-                    if (data == skConst.RecordStatus.ABLE) {
-                        //启用
-                        return '<div id="td-status"><span class="label label-success radius">'+skConst.RecordStatus[data]+'</span></div>';
-                    } else {
-                        //禁用
-                        return '<div id="td-status"><span class="label radius">'+skConst.RecordStatus[data]+'</span></div>';
+                        if (data == skConst.RecordStatus.ABLE) {
+                            //启用
+                            return '<div id="td-status"><span class="label label-success radius">'+skConst.RecordStatus[data]+'</span></div>';
+                        } else {
+                            //禁用
+                            return '<div id="td-status"><span class="label radius">'+skConst.RecordStatus[data]+'</span></div>';
+                        }
                     }
-                }
                 },
                 {
                     "data": function (dd) {
@@ -215,8 +148,8 @@
                 }
             ],
             "ajax": {
-                "url": "query",
-                "type": "POST",
+                // "url": "query",
+                // "type": "POST",
                 "data": function (d) {
                     d['sysDictCustom.dictType'] = $("#dictType").val().trim();
                     d['sysDictCustom.dictCode'] = $("#dictCode").val().trim();

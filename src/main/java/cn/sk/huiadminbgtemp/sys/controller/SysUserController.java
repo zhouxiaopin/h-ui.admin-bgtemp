@@ -7,6 +7,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * 系统用户 Controller
@@ -123,11 +126,50 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
     //参数检验
     @Override
     protected ServerResponse<SysUserCustom> paramValidate(String oprt, SysUserCustom sysUserCustom) {
+        ServerResponse<List<SysUserCustom>> serverResponse;
+        SysUserQueryVo sysUserQueryVo;
+        SysUserCustom condition;
         switch (oprt) {
             case ADD_OPRT://添加
                 if (!StringUtils.equals(sysUserCustom.getPassword(), sysUserCustom.getPassword2())) {
                     return ServerResponse.createByErrorMessage("两次密码输入不一致");
                 }
+
+                //判断字用户名是否存在
+                sysUserQueryVo = new SysUserQueryVo();
+                condition = new SysUserCustom();
+
+                sysUserQueryVo.getIsNoLike().put("userName",true);
+
+                condition.setUserName(sysUserCustom.getUserName());
+
+                sysUserQueryVo.setSysUserCustom(condition);
+                serverResponse = this.queryAllByCondition(sysUserQueryVo);
+                if(!CollectionUtils.isEmpty(serverResponse.getData())){
+                    return ServerResponse.createByErrorMessage("用户名已存在");
+                }
+
+                break;
+            case UPDATE_OPRT://修改
+                //判断字用户名是否存在
+                sysUserQueryVo = new SysUserQueryVo();
+                condition = new SysUserCustom();
+
+                sysUserQueryVo.getIsNoLike().put("userName",true);
+
+                condition.setUserName(sysUserCustom.getUserName());
+
+                sysUserQueryVo.setSysUserCustom(condition);
+                serverResponse = this.queryAllByCondition(sysUserQueryVo);
+                List<SysUserCustom> sysUserCustoms = serverResponse.getData();
+                if(!CollectionUtils.isEmpty(sysUserCustoms)){
+                    for (int i = 0, len = sysUserCustoms.size(); i < len; i++){
+                        if(sysUserCustom.getuId() != sysUserCustoms.get(i).getuId()) {
+                            return ServerResponse.createByErrorMessage("用户名已存在");
+                        }
+                    }
+                }
+
                 break;
             case UPDATE_PASSWORD_OPRT://修改密码
                 if (StringUtils.isEmpty(sysUserCustom.getPassword()) || StringUtils.isEmpty(sysUserCustom.getPassword2())) {
@@ -136,6 +178,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
                 if (!StringUtils.equals(sysUserCustom.getPassword(), sysUserCustom.getPassword2())) {
                     return ServerResponse.createByErrorMessage("两次密码输入不一致");
                 }
+
                 break;
         }
         return super.paramValidate(oprt, sysUserCustom);

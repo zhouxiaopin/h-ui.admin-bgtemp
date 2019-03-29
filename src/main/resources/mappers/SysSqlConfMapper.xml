@@ -206,11 +206,11 @@
           AND sc_code = #{sysSqlConfCustom.scCode,jdbcType=VARCHAR}
         </if>
       </if>
-      <!--<if test="!isNoLike.dictType">-->
-        <!--<if test="null != sysDictCustom.dictType and '' != sysDictCustom.dictType">-->
-          <!--AND dict_type LIKE CONCAT('%',CONCAT(#{sysDictCustom.dictType,jdbcType=VARCHAR},'%'))-->
-        <!--</if>-->
-      <!--</if>-->
+      <if test="!isNoLike.scCode">
+        <if test="null != sysSqlConfCustom.scCode and '' != sysSqlConfCustom.scCode">
+          AND sc_code LIKE CONCAT('%',CONCAT(#{sysSqlConfCustom.scCode,jdbcType=VARCHAR},'%'))
+        </if>
+      </if>
       <!--<if test="null != sysDictCustom.dictCode and '' != sysDictCustom.dictCode">-->
         <!--AND dict_code = #{sysDictCustom.dictCode,jdbcType=VARCHAR}-->
       <!--</if>-->
@@ -232,7 +232,7 @@
       <include refid="base_query_condition"></include>
       AND record_status != '00'
     </where>
-
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
   <!--根据主键软删除-->

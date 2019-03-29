@@ -6,11 +6,14 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 系统sql语句配置 Controller
@@ -64,25 +67,43 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
     @Override
     protected ServerResponse<SysSqlConfCustom> paramValidate(String oprt, SysSqlConfCustom sysSqlConfCustom) {
         if(StringUtils.equals(oprt,ADD_OPRT)) {//添加
-            //判断字典编码是否存在
-//            SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
-//            SysDictCustom condition = new SysDictCustom();
-//
-//            sysDictQueryVo.getIsNoLike().put("dictType",true);
-//
-//            condition.setDictType(sysDictCustom.getDictType());
-//            condition.setDictCode(sysDictCustom.getDictCode());
-//
-//            sysDictQueryVo.setSysDictCustom(condition);
-//            ServerResponse<List<SysDictCustom>> serverResponse = this.queryAllByCondition(sysDictQueryVo);
-//            if(!CollectionUtils.isEmpty(serverResponse.getData())){
-//                return ServerResponse.createByErrorMessage("字典编码已存在");
-//            }
+            //判断语句编码是否存在
+            SysSqlConfQueryVo sysSqlConfQueryVo = new SysSqlConfQueryVo();
+            SysSqlConfCustom condition = new SysSqlConfCustom();
+
+            sysSqlConfQueryVo.getIsNoLike().put("dictType",true);
+
+            condition.setScCode(sysSqlConfCustom.getScCode());
+
+            sysSqlConfQueryVo.setSysSqlConfCustom(condition);
+            ServerResponse<List<SysSqlConfCustom>> serverResponse = this.queryAllByCondition(sysSqlConfQueryVo);
+            if(!CollectionUtils.isEmpty(serverResponse.getData())){
+                return ServerResponse.createByErrorMessage("语句编码已存在");
+            }
 
             //默认可用
             sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
         }
         if(StringUtils.equals(oprt,UPDATE_OPRT)) {//修改
+            //判断语句编码是否存在
+            SysSqlConfQueryVo sysSqlConfQueryVo = new SysSqlConfQueryVo();
+            SysSqlConfCustom condition = new SysSqlConfCustom();
+
+            sysSqlConfQueryVo.getIsNoLike().put("dictType",true);
+
+            condition.setScCode(sysSqlConfCustom.getScCode());
+
+            sysSqlConfQueryVo.setSysSqlConfCustom(condition);
+            ServerResponse<List<SysSqlConfCustom>> serverResponse = this.queryAllByCondition(sysSqlConfQueryVo);
+            List<SysSqlConfCustom> sysSqlConfCustoms = serverResponse.getData();
+            if(!CollectionUtils.isEmpty(sysSqlConfCustoms)){
+                for (int i = 0, len = sysSqlConfCustoms.size(); i < len; i++){
+                    if(sysSqlConfCustom.getScId() != sysSqlConfCustoms.get(i).getScId()) {
+                        return ServerResponse.createByErrorMessage("语句编码已存在");
+                    }
+                }
+            }
+
             //判断字典编码是否存在
 //            SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
 //            SysDictCustom condition = new SysDictCustom();

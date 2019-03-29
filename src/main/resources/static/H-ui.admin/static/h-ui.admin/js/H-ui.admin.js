@@ -213,7 +213,7 @@ function layer_show(title,url,w,h){
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 */
-function layer_show(title,url,w,h,cancel){
+function layer_show(title,url,w,h,end){
 	if (title == null || title == '') {
 		title=false;
 	};
@@ -234,7 +234,7 @@ function layer_show(title,url,w,h,cancel){
 		shade:0.4,
 		title: title,
 		content: url,
-        cancel: cancel
+        end: end
 	});
 }
 /*关闭弹出框口*/

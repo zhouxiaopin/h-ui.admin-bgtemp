@@ -163,11 +163,7 @@ public class TreeSelectTag extends BaseTag {
         html.append("<input readonly onclick=\"showMenu(); return false;\" id=\"");
         html.append(this.getInputShowId());
         html.append("\" placeholder=\"");
-
         html.append("----请选择----");
-        //判断是否有值
-        String value = this.getValue();
-
         html.append("\" class=\"input-text\" />");
 
         //表单提交的值
@@ -176,12 +172,15 @@ public class TreeSelectTag extends BaseTag {
         html.append("\"");
         html.append(" type=\"hidden\" name=\"");
         html.append(this.getName());
+        html.append("\"");
+        //判断是否有值
+        String value = this.getValue();
         if(!StringUtils.isEmpty(value)) {
             html.append(" value=\"");
             html.append(value);
             html.append("\"");
         }
-        html.append("\" />");
+        html.append(" />");
 
         html.append("<div id=\"");
         html.append(this.getDivId());
@@ -396,6 +395,8 @@ public class TreeSelectTag extends BaseTag {
                 for(int i = 0, len = data.size(); i < len; i++) {
                     Map<String,Object> item = data.get(i);
                     if(ArrayUtils.contains(values,item.get("id").toString())) {
+                        //选中
+                        data.get(i).put("checked",true);
                         temp.append(item.get("name").toString()).append(",");
                         selectNum++;
                         if(values.length == selectNum) {

@@ -31,7 +31,7 @@
     delete from tb_sys_user
     where u_id = #{uId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="SysUserCustom">
+  <insert id="insert" parameterType="SysUserCustom" useGeneratedKeys="true" keyProperty="uId">
     insert into tb_sys_user (u_id, user_name, password, 
       real_name, sex, email, 
       mobile_phone, salt, descri, 
@@ -43,7 +43,7 @@
       #{recordStatus,jdbcType=CHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="SysUserCustom">
+  <insert id="insertSelective" parameterType="SysUserCustom" useGeneratedKeys="true" keyProperty="uId">
     insert into tb_sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uId != null">
@@ -196,7 +196,12 @@
     <if test="null != sysUserCustom">
       <!-- ${}拼接字符串，有sql注入的维修，少用-->
       <if test="null != sysUserCustom.userName and '' != sysUserCustom.userName">
-        AND user_name LIKE CONCAT('%',CONCAT(#{sysUserCustom.userName,jdbcType=VARCHAR},'%'))
+        <if test="isNoLike.userName">
+          AND user_name = #{sysUserCustom.userName,jdbcType=VARCHAR}
+        </if>
+        <if test="!isNoLike.userName">
+          AND user_name LIKE CONCAT('%',CONCAT(#{sysUserCustom.userName,jdbcType=VARCHAR},'%'))
+        </if>
       </if>
 
     </if>
@@ -212,7 +217,7 @@
       <include refid="base_query_condition"></include>
       AND record_status != '00'
     </where>
-
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
   <!--根据主键软删除-->

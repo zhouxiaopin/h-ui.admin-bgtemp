@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统用户管理</title>
 </head>
-<body>
+<body class="pos-r">
 <article class="page-container">
     <form class="form form-horizontal" id="sysRoleForm">
+
     <!--<form th:action="${oprt}" method="post" class="form form-horizontal" id="sysRoleForm">-->
         <div>
             <label id="retMsg" style="display:block;text-align: center;color: #FF0000"
@@ -16,32 +17,35 @@
         <div th:switch="${oprt}">
             <!--添加开始-->
             <div th:case="add">
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>角色标识：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <input type="text" class="input-text" th:value="${obj.roleFlag}" id="roleFlag"
-                               name="roleFlag">
+                <div class="pos-a skMenuTreeOut">
+                    <sk:label text="拥有权限：" style="text-align: left;background:#fff;"/>
+                    <sk:menuTree id="permisTree" name="permisIds" th:value="${obj.permisIds}" scCode="sys_permis_tree" type="checkbox" isInitTable="false" hasOut="false" />
+                </div>
+                <div style="margin-left:200px;">
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="角色标识："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:input th:value="${obj.roleFlag}" id="roleFlag" name="roleFlag"/>
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="角色名："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:input th:value="${obj.roleName}" id="roleName" name="roleName"/>
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" text="描述："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <textarea name="descri" cols="22" rows="4" class="textarea"
+                                      onKeyUp="$.Huitextarealength(this,100)"
+                                      th:inline="text">
+                                [[${obj.descri}]]
+                            </textarea>
+                            <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>角色名：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <input type="text" class="input-text" th:value="${obj.roleName}" id="roleName"
-                               name="roleName">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4">描述：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <textarea name="descri" cols="22" rows="4" class="textarea"
-                                  onKeyUp="$.Huitextarealength(this,100)"
-                                  th:inline="text">
-                            [[${obj.descri}]]
-                        </textarea>
-                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-                    </div>
-                </div>
-
 
             </div>
             <!--添加结束-->
@@ -50,29 +54,34 @@
 
             <!--修改开始-->
             <div th:case="update">
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>角色标识：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <input type="text" class="input-text" th:value="${obj.roleFlag}" id="roleFlag"
-                               name="roleFlag">
-                    </div>
+                <div class="pos-a skMenuTreeOut">
+                    <sk:label text="拥有权限：" style="text-align: left;background:#fff;"/>
+                    <sk:menuTree id="permisTree" name="permisIds" th:value="${obj.permisIds}" scCode="sys_permis_tree" type="checkbox" isInitTable="false" hasOut="false" />
+                    <input type="hidden" name="oldPermisIds" th:value="${obj.permisIds}"/>
                 </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>角色名：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <input type="text" class="input-text" th:value="${obj.roleName}" id="roleName"
-                               name="roleName">
+                <div style="margin-left:200px;">
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="角色标识："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:input th:value="${obj.roleFlag}" id="roleFlag" name="roleFlag"/>
+                        </div>
                     </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-4">描述：</label>
-                    <div class="formControls col-xs-8 col-sm-8">
-                        <textarea name="descri" cols="22" rows="4" class="textarea"
-                                  onKeyUp="$.Huitextarealength(this,100)"
-                                  th:inline="text">
-                            [[${obj.descri}]]
-                        </textarea>
-                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="角色名："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:input th:value="${obj.roleName}" id="roleName" name="roleName"/>
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" text="描述："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <textarea name="descri" cols="22" rows="4" class="textarea"
+                                      onKeyUp="$.Huitextarealength(this,100)"
+                                      th:inline="text">
+                                [[${obj.descri}]]
+                            </textarea>
+                            <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,9 +93,9 @@
 
 
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-success radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            <div class="col-xs-6 col-sm-6 col-xs-offset-6 col-sm-offset-6">
+                <sk:button class="btn-success" type="reset" text="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+                <sk:button class="btn-primary" type="submit" text="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
             </div>
         </div>
     </form>
@@ -103,7 +112,7 @@
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
-
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     var oprt = [[${oprt}]];
@@ -140,11 +149,14 @@
                 sk.ajaxRequest(url, param, function (r) {
                     if (r.code == '0') {
                         sk.successMsg(r.msg);
-                        setTimeout(function () {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        },800);
+                        if (oprt != 'add') {
+                            setTimeout(function () {
+                                // parent.location.reload();
+//                                var index = parent.layer.getFrameIndex(window.name);
+//                                parent.layer.close(index);
+                                layer_close();
+                            }, 800);
+                        }
                     } else {
                         sk.failMsg(r.msg);
                     }

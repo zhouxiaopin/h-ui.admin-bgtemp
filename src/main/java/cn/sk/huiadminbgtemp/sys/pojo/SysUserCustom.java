@@ -15,6 +15,10 @@ import java.util.Date;
 public class SysUserCustom extends SysUser {
     //确认密码
     private String password2;
+    //角色ID
+    private String roleIds;
+    //旧角色ID
+    private String oldRoleIds;
 
     public SysUserCustom(Integer uId, String userName, String password, String realName, String sex, String email, String mobilePhone, String salt, String descri, String recordStatus, Date updateTime, Date createTime) {
         super(uId, userName, password, realName,sex, email, mobilePhone, salt, descri, recordStatus, updateTime, createTime);

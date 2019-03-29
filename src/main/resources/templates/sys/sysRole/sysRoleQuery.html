@@ -82,34 +82,25 @@
     //主键
     var pk = 'roleId';
 
+    var _dataTables;
+
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
-        layer_show("修改角色", url, 800, 600);
+        layer_show("修改角色", url, 800, 600, function () {//结束事件
+            _dataTables.ajax.reload();
+        });
     }
 
-
-    $(function () {
+        $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加角色', 'initAdd', 500, 420);
+            layer_show('添加角色', 'initAdd', 800, 600, function () {//结束事件
+                // _dataTables.ajax.reload();
+                location.reload();
+            });
         });
-
-        var _dataTables = $('#skDataTable').DataTable({
-            "lengthChange": true,
-            "searching": false,//禁用检索
-            "ordering": false,
-            "autoWidth": false,
-            'pagingType': 'full_numbers',
-            "pageLength": 10,
-            "serverSide": true,
-            "bInfo": true, //是否显示页脚信息，DataTables插件左下角显示记录数
-            "bProcessing": true, //DataTables载入数据时，是否显示‘进度’提示
-            "oLanguage": { //国际化配置
-                //"sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
-                //"sInfoEmpty" : "记录数为0",
-                "sInfoFiltered": "(每页 _MAX_ 条)",
-            },
+        _dataTables = SkDataTable('#skDataTable',{
             "columns": [
                 {
                     "data": function (dd) {
@@ -122,9 +113,9 @@
                 {"data": "optId"},
                 {
                     "data": "createTime", "render": function (data) {
-                    //时间格式化
-                    return moment(data).format(skConst.DEFALT_DATE_FORMAT);
-                }
+                        //时间格式化
+                        return moment(data).format(skConst.DEFALT_DATE_FORMAT);
+                    }
                 },
                 {
                     "data": "recordStatus", "render": function (data) {
@@ -138,7 +129,7 @@
                             htmlStr += 'radius">';
                         }
                         $.each(recordStatus,function (index,item) {
-    //                            console.log(JSON.stringify(item))
+                            //                            console.log(JSON.stringify(item))
                             if (item.code == data){
                                 htmlStr += item.name+'</span></div>';
                                 return false;
@@ -164,8 +155,8 @@
                 }
             ],
             "ajax": {
-                "url": "query",
-                "type": "POST",
+                // "url": "query",
+                // "type": "POST",
                 "data": function (d) {
                     d['sysRoleCustom.roleFlag'] = $("#roleFlag").val().trim();
                     d['sysRoleCustom.roleName'] = $("#roleName").val().trim();
