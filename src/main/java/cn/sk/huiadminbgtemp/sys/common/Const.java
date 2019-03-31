@@ -32,4 +32,16 @@ public class Const {
     public interface Dict{
         String RECORDSTATUS_DICTCODE = "record_status";
     }
+
+    public interface SessionKey{
+        String SYSUSER_INFO = "sysUserInfo";
+    }
+
+    public interface Permis{
+        //权限类型
+        String MENU = "01";
+        String BUTTON = "02";
+
+        Integer DEFAULT_PARENTID = 0;
+    }
 }

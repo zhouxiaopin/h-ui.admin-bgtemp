@@ -3,6 +3,24 @@
 自定义
  */
 
+/*登录页面开始*/
+.code
+{
+    background-image:url(code.jpg);
+    font-family:Arial;
+    font-style:italic;
+    color:Red;
+    border:0;
+    padding:2px 3px;
+    letter-spacing:3px;
+    font-weight:bolder;
+}
+.unchanged
+{
+    border:0;
+}
+/*登录页面结束*/
+
 .skTree{/*box-sizing:border-box;*/border:solid 1px #ddd;width:100%;
     padding: 4px;
     display:none; position: absolute; background-color: #F8F8FF;

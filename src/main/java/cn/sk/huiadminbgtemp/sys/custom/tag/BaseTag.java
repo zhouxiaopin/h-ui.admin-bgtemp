@@ -21,6 +21,7 @@ public abstract class BaseTag extends AbstractElementTagProcessor {
     private String onclick;//点击事件
     private String style;//样式
     private String value;//值
+    private String onfocus;//当获取焦点
 
     //获取应用程序上下文
     protected static ApplicationContext appCtx;
@@ -108,6 +109,14 @@ public abstract class BaseTag extends AbstractElementTagProcessor {
             this.setValue(value);
             baseAttrHtml.append(" value=\"");
             baseAttrHtml.append(value);
+            baseAttrHtml.append("\"");
+        }
+        //当获取焦点事件
+        String onfocus = tag.getAttributeValue("onfocus");
+        this.setOnfocus(onfocus);
+        if(!StringUtils.isEmpty(onfocus)) {
+            baseAttrHtml.append(" onfocus=\"");
+            baseAttrHtml.append(onfocus);
             baseAttrHtml.append("\"");
         }
     }

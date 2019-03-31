@@ -158,7 +158,7 @@ public class BaseController<T, V> {
 
     }
 
-//    @SkLog("查询")
+    @SkLog("查询")
     @PostMapping(value = "/query")
     public DataTableVo list(V v) {
         return baseService.queryObjsByPage(v);

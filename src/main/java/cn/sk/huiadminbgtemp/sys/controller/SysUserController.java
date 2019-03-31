@@ -2,6 +2,8 @@ package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
 import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.CustomException;
+import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
@@ -9,13 +11,14 @@ import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -26,15 +29,78 @@ import java.util.List;
 public class SysUserController extends BaseController<SysUserCustom, SysUserQueryVo> {
 
     private static final String UPDATE_PASSWORD_OPRT = "updatePassword";
+    private static final String LOGIN_OPRT = "login";
 
     @Autowired
     private ISysUserService sysUserService;
+
+
+    //进入登录页面
+    @GetMapping(value = "/initLogin")
+    public ModelAndView initLogin(ModelAndView model){
+        model.addObject(OPRT_KEY, LOGIN_OPRT);
+        model.setViewName(page(LOGIN_OPRT));
+        return model;
+    }
+
+    @PostMapping(value = "/login")
+    public ServerResponse login(SysUserCustom sysUserCustom){
+
+
+        try {
+            Subject currentUser = SecurityUtils.getSubject();
+
+            if (!currentUser.isAuthenticated()) {
+                // 把用户名和密码封装为 UsernamePasswordToken 对象
+                String account = sysUserCustom.getUserName();
+                String password = sysUserCustom.getPassword();
+                UsernamePasswordToken token = new UsernamePasswordToken(account, password);
+//            token.setRememberMe(true);
+                // 执行登录.
+                currentUser.login(token);
+
+                SysUserCustom sysUserInfo = (SysUserCustom) currentUser.getPrincipal();
+                currentUser.getSession().setAttribute(Const.SessionKey.SYSUSER_INFO,sysUserInfo);
+//                session.setAttribute("adminInfo",adminInfo);
+            }
+
+        }catch (UnknownAccountException uae) {
+            throw new CustomException(ResponseCode.LOGIN_NO_EXIST);
+        }catch (LockedAccountException lae)  {
+            throw new CustomException(ResponseCode.LOGIN_NO_USE);
+        }catch (IncorrectCredentialsException lce){
+            throw new CustomException(ResponseCode.LOGIN_PWD_FAIL);
+        }catch (AuthenticationException ae) { // 所有认证时异常的父类.
+            throw new CustomException(ResponseCode.LOGIN_FAIL);
+        }
+        return ServerResponse.createBySuccessMessage(ResponseCode.LOGIN_SUCCESS.getMsg());
+
+    }
+
+    @GetMapping(value = "/logout")
+    public ModelAndView logout(HttpSession session,ModelAndView model){
+        Subject currentUser = SecurityUtils.getSubject();
+
+        if (currentUser.isAuthenticated()) {
+            currentUser.logout();
+        }
+
+//        session.setAttribute("adminInfo", null);
+        session.removeAttribute(Const.SessionKey.SYSUSER_INFO);
+        session.invalidate();
+        model.setViewName("login");
+        return model;
+//        return "redirect:/index.jsp";
+    }
 
 
     //根据oprt返回对应的页面
     @Override
     protected String getPage(String oprt) {
         String prefix = "sys/sysUser/";
+        if (oprt.equals(LOGIN_OPRT)) {
+            return "login";
+        }
         if (oprt.equals(QUERY_OPRT)) {
             return prefix + "sysUserQuery";
         }

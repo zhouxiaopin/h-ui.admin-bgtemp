@@ -8,6 +8,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysPermisQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysPermisService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,6 +79,11 @@ public class SysPermisController extends BaseController<SysPermisCustom, SysPerm
 //                if (StringUtils.isEmpty(sysRoleCustom.getRoleFlag())||StringUtils.isEmpty(sysRoleCustom.getRoleName())) {
 //                    return ServerResponse.createByParamError();
 //                }
+
+                if(ObjectUtils.isEmpty(sysPermisCustom.getParentId())) {
+                    sysPermisCustom.setParentId(Const.Permis.DEFAULT_PARENTID);
+                }
+
                 //默认可用
                 sysPermisCustom.setRecordStatus(Const.RecordStatus.ABLE);
                 break;

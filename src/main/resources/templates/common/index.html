@@ -88,6 +88,9 @@
                     <li><a th:data-href="@{/sysPermis/initQuery}" data-title="系统权限管理"
                            href="javascript:void(0)">系统权限管理</a>
                     </li>
+                    <li><a th:data-href="@{/sysLog/initQuery}" data-title="系统日志"
+                           href="javascript:void(0)">系统日志管理</a>
+                    </li>
                 </ul>
             </dd>
         </dl>
@@ -205,7 +208,10 @@
         layer_show(title, url, w, h);
     }
 
-
+    //退出
+    function logout(){
+        window.location.href=basePath+"sysUser/logout";
+    }
 </script>
 
 

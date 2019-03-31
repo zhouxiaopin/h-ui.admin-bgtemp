@@ -9,8 +9,8 @@ public class TestController {
     //乘量分布
     @GetMapping("/toLogin")
     public ModelAndView transferDistr(ModelAndView mv){
-//        mv.setViewName("login");
-        mv.setViewName("common/index");
+        mv.setViewName("login");
+//        mv.setViewName("common/index");
         return mv;
     }
     //乘量分布

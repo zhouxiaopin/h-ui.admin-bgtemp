@@ -272,6 +272,27 @@
     <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
+  <!--根据角色id查找权限-->
+  <select id="selectListByRoleId" parameterType="map" resultMap="ResultMapCustom">
+    select sp.p_flag, sp.p_name, sp.p_url, sp.parent_id, sp.p_type,sp.p_level, sp.p_sort, sp.left_icon from tb_sys_role_permis rp
+      LEFT JOIN tb_sys_permis sp
+        on rp.permis_id = sp.p_id
+      <where>
+        role_id IN
+        <foreach collection="params.roleIds" open="(" close=")" separator="," item="roleId">
+          #{roleId,jdbcType=INTEGER}
+        </foreach>
+        and sp.record_status = #{params.recordStatus,jdbcType=CHAR}
+        <if test="null != params.pType and '' != params.pType">
+          sp.p_type = #{params.pType,jdbcType=CHAR}
+        </if>
+      </where>
+      <if test="null != params.orderBy and '' != params.orderBy">
+        order by ${params.orderBy}
+      </if>
+  </select>
+
+
   <!--根据主键软删除-->
   <update id="deleteInIds">
     update tb_sys_permis

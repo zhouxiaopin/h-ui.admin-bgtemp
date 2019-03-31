@@ -321,6 +321,7 @@ function SkDataTable(tableId,obj) {
         "autoWidth": false,
         'pagingType': 'full_numbers',
         "pageLength": 10,
+        "lengthMenu": [ 5,10, 25, 50, 75, 100],
         "serverSide": true,
         "bInfo": true, //是否显示页脚信息，DataTables插件左下角显示记录数
         "bProcessing": true, //DataTables载入数据时，是否显示‘进度’提示

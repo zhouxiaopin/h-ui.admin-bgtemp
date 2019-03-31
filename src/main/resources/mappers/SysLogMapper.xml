@@ -10,20 +10,25 @@
       <arg column="method_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="params" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="ip" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="request_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="request_type" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_1" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_2" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_3" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_4" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_5" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="expan_6" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="record_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, user_name, operation, method_name, params, ip, expan_1, expan_2, expan_3, 
-    expan_4, expan_5, expan_6, create_date
+    id, user_id, user_name, operation, method_name, params, ip, request_url, request_type,
+    expan_1, expan_2, expan_3, expan_4, expan_5, expan_6, record_status, update_time, 
+    create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapCustom">
     select 
     <include refid="Base_Column_List" />
     from tb_sys_log
@@ -36,14 +41,18 @@
   <insert id="insert" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
     insert into tb_sys_log (id, user_id, user_name, 
       operation, method_name, params, 
-      ip, expan_1, expan_2, 
-      expan_3, expan_4, expan_5, 
-      expan_6, create_date)
+      ip, request_url, request_type,
+      expan_1, expan_2, expan_3, 
+      expan_4, expan_5, expan_6, 
+      record_status, update_time, create_time
+      )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
       #{operation,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{expan1,jdbcType=VARCHAR}, #{expan2,jdbcType=VARCHAR}, 
-      #{expan3,jdbcType=VARCHAR}, #{expan4,jdbcType=VARCHAR}, #{expan5,jdbcType=VARCHAR}, 
-      #{expan6,jdbcType=VARCHAR}, now())
+      #{ip,jdbcType=VARCHAR}, #{requestUrl,jdbcType=VARCHAR}, #{requestType,jdbcType=VARCHAR},
+      #{expan1,jdbcType=VARCHAR}, #{expan2,jdbcType=VARCHAR}, #{expan3,jdbcType=VARCHAR}, 
+      #{expan4,jdbcType=VARCHAR}, #{expan5,jdbcType=VARCHAR}, #{expan6,jdbcType=VARCHAR}, 
+      #{recordStatus,jdbcType=CHAR}, now(), now()
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.sys.pojo.SysLog">
     insert into tb_sys_log
@@ -69,6 +78,12 @@
       <if test="ip != null">
         ip,
       </if>
+      <if test="requestUrl != null">
+        request_url,
+      </if>
+      <if test="requestType != null">
+        request_type,
+      </if>
       <if test="expan1 != null">
         expan_1,
       </if>
@@ -87,7 +102,11 @@
       <if test="expan6 != null">
         expan_6,
       </if>
-        create_date,
+      <if test="recordStatus != null">
+        record_status,
+      </if>
+        update_time,
+        create_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -111,6 +130,12 @@
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="requestUrl != null">
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        #{requestType,jdbcType=VARCHAR},
+      </if>
       <if test="expan1 != null">
         #{expan1,jdbcType=VARCHAR},
       </if>
@@ -129,6 +154,10 @@
       <if test="expan6 != null">
         #{expan6,jdbcType=VARCHAR},
       </if>
+      <if test="recordStatus != null">
+        #{recordStatus,jdbcType=CHAR},
+      </if>
+      now(),
       now(),
     </trim>
   </insert>
@@ -153,6 +182,12 @@
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="requestUrl != null">
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        request_type = #{requestType,jdbcType=VARCHAR},
+      </if>
       <if test="expan1 != null">
         expan_1 = #{expan1,jdbcType=VARCHAR},
       </if>
@@ -171,8 +206,12 @@
       <if test="expan6 != null">
         expan_6 = #{expan6,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
+      <if test="recordStatus != null">
+        record_status = #{recordStatus,jdbcType=CHAR},
+      </if>
+        update_time = now(),
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -185,13 +224,84 @@
       method_name = #{methodName,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
+      request_url = #{requestUrl,jdbcType=VARCHAR},
+      request_type = #{requestType,jdbcType=VARCHAR},
       expan_1 = #{expan1,jdbcType=VARCHAR},
       expan_2 = #{expan2,jdbcType=VARCHAR},
       expan_3 = #{expan3,jdbcType=VARCHAR},
       expan_4 = #{expan4,jdbcType=VARCHAR},
       expan_5 = #{expan5,jdbcType=VARCHAR},
       expan_6 = #{expan6,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP}
+      record_status = #{recordStatus,jdbcType=CHAR},
+      update_time = now(),
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <!--以下是自定义的-->
+
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="SysLogCustom" extends="BaseResultMap">
+
+  </resultMap>
+
+  <!-- 查询条件的sql片段 -->
+
+  <sql id="base_query_condition">
+    <if test="null != sysLogCustom">
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <if test="null != sysLogCustom.operation and '' != sysLogCustom.operation">
+        AND operation LIKE CONCAT('%',CONCAT(#{sysLogCustom.operation,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="null != sysLogCustom.userName and '' != sysLogCustom.userName">
+        AND user_name LIKE CONCAT('%',CONCAT(#{sysLogCustom.userName,jdbcType=VARCHAR},'%'))
+      </if>
+    </if>
+    <if test="null != startCreatTime and '' != startCreatTime">
+      AND create_time &gt;= #{startCreatTime,jdbcType=VARCHAR}
+    </if>
+    <if test="null != endCreatTime and '' != endCreatTime">
+      AND create_time &lt;= #{startCreatTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+
+  <!--根据条件查询-->
+  <select id="selectListByQueryVo" parameterType="SysLogQueryVo" resultMap="ResultMapCustom">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_log
+    <where>
+      <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
+      <include refid="base_query_condition"></include>
+      AND record_status != '00'
+    </where>
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
+  </select>
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sys_log
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds" >
+    delete from tb_sys_log
+    <where>
+      id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+
+
+
 </mapper>

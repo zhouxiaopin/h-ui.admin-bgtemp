@@ -68,9 +68,9 @@ public class SysLogAspect {
         sysLogCustom.setMethodName(simpleName + "_" + methodName);
         sysLogCustom.setExpan1(signature.getDeclaringTypeName() + "_" +methodName);
         //url
-        sysLogCustom.setExpan2(request.getRequestURL().toString());
+        sysLogCustom.setRequestUrl(request.getRequestURL().toString());
         //method
-        sysLogCustom.setExpan3(request.getMethod());
+        sysLogCustom.setRequestType(request.getMethod());
 
         //请求的参数
         Object[] args = joinPoint.getArgs();
@@ -83,6 +83,7 @@ public class SysLogAspect {
         //获取用户ip地址
         sysLogCustom.setIp(IpAdrressUtil.getIpAdrress(request));
 
+        sysLogCustom.setRecordStatus(Const.RecordStatus.ABLE);
         //调用service保存SysLog实体类到数据库
         sysLogService.insert(sysLogCustom);
 

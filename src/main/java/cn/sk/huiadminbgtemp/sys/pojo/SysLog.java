@@ -17,6 +17,10 @@ public class SysLog {
     private String params;
     //ip地址
     private String ip;
+    //请求url
+    private String requestUrl;
+    //请求类型
+    private String requestType;
 
     private String expan1;
 
@@ -30,10 +34,13 @@ public class SysLog {
 
     private String expan6;
 
-    //操作时间
-    private Date createDate;
+    private String recordStatus;
 
-    public SysLog(Long id, Integer userId, String userName, String operation, String methodName, String params, String ip, String expan1, String expan2, String expan3, String expan4, String expan5, String expan6, Date createDate) {
+    private Date updateTime;
+
+    private Date createTime;
+
+    public SysLog(Long id, Integer userId, String userName, String operation, String methodName, String params, String ip, String requestUrl, String requestType, String expan1, String expan2, String expan3, String expan4, String expan5, String expan6, String recordStatus, Date updateTime, Date createTime) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
@@ -41,13 +48,17 @@ public class SysLog {
         this.methodName = methodName;
         this.params = params;
         this.ip = ip;
+        this.requestUrl = requestUrl;
+        this.requestType = requestType;
         this.expan1 = expan1;
         this.expan2 = expan2;
         this.expan3 = expan3;
         this.expan4 = expan4;
         this.expan5 = expan5;
         this.expan6 = expan6;
-        this.createDate = createDate;
+        this.recordStatus = recordStatus;
+        this.updateTime = updateTime;
+        this.createTime = createTime;
     }
 
     public SysLog() {
@@ -110,6 +121,22 @@ public class SysLog {
         this.ip = ip == null ? null : ip.trim();
     }
 
+    public String getRequestUrl() {
+        return requestUrl;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl == null ? null : requestUrl.trim();
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType == null ? null : requestType.trim();
+    }
+
     public String getExpan1() {
         return expan1;
     }
@@ -158,11 +185,27 @@ public class SysLog {
         this.expan6 = expan6 == null ? null : expan6.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getRecordStatus() {
+        return recordStatus;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setRecordStatus(String recordStatus) {
+        this.recordStatus = recordStatus == null ? null : recordStatus.trim();
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

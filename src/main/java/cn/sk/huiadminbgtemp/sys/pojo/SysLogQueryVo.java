@@ -11,5 +11,7 @@ import lombok.Setter;
 @Setter
 public class SysLogQueryVo extends BaseQueryVo{
     private SysLogCustom sysLogCustom;
+    private String startCreatTime;
+    private String endCreatTime;
 
 }
