@@ -15,10 +15,12 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -50,6 +52,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         try {
             Subject currentUser = SecurityUtils.getSubject();
 
+
             if (!currentUser.isAuthenticated()) {
                 // 把用户名和密码封装为 UsernamePasswordToken 对象
                 String account = sysUserCustom.getUserName();
@@ -78,7 +81,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
     }
 
     @GetMapping(value = "/logout")
-    public ModelAndView logout(HttpSession session,ModelAndView model){
+    public ModelAndView logout(ModelAndView model){
         Subject currentUser = SecurityUtils.getSubject();
 
         if (currentUser.isAuthenticated()) {
@@ -86,8 +89,8 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         }
 
 //        session.setAttribute("adminInfo", null);
-        session.removeAttribute(Const.SessionKey.SYSUSER_INFO);
-        session.invalidate();
+//        session.removeAttribute(Const.SessionKey.SYSUSER_INFO);
+//        session.invalidate();
         model.setViewName("login");
         return model;
 //        return "redirect:/index.jsp";

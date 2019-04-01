@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface SysPermisMapper extends IBaseMapper<SysPermisCustom,SysPermisQueryVo> {
-    List<SysPermisCustom> selectListByRoleId(@Param("params") Map<String,Object> params);
+    List<Map<String,Object>> selectListByRoleId(@Param("params") Map<String,Object> params);
 }

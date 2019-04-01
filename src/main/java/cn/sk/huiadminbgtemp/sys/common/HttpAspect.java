@@ -57,7 +57,11 @@ public class HttpAspect {
 
     @AfterReturning(returning = "object", pointcut = "log()")
     public void doAfterReturning(Object object) {
-        log.debug("response={}", object.toString());
+        if(null != object) {
+            log.debug("response={}", object.toString());
+        }else{
+            log.debug("response={}", "");
+        }
         log.debug("*************请求结束**************");
     }
 }

@@ -4,8 +4,6 @@ import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysUserMapper;
-import cn.sk.huiadminbgtemp.sys.pojo.SysPermisCustom;
-import cn.sk.huiadminbgtemp.sys.pojo.SysRoleCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
@@ -138,16 +136,16 @@ public class SkShiroRealm extends AuthorizingRealm {
         Map<String,Object> params = Maps.newHashMap();
         params.put("userId",sysUserCustom.getuId());
         params.put("recordStatus",Const.RecordStatus.ABLE);
-        List<SysRoleCustom> sysRoleCustoms = sysRoleMapper.selectListByUserId(params);
+        List<Map<String,Object>> sysRoleCustoms = sysRoleMapper.selectListByUserId(params);
         //2. 利用登录的用户的信息来用户当前用户的角色或权限(可能需要查询数据库)
         Set<String> roles = new HashSet<>();
         Set<Integer> roleIds = Sets.newHashSet();
-        SysRoleCustom sysRoleCustom;
+        Map<String,Object> item;
         if(!CollectionUtils.isEmpty(sysRoleCustoms)) {
             for (int i = 0, len = sysRoleCustoms.size(); i < len; i++){
-                sysRoleCustom = sysRoleCustoms.get(i);
-                roles.add(sysRoleCustom.getRoleFlag());
-                roleIds.add(sysRoleCustom.getRoleId());
+                item = sysRoleCustoms.get(i);
+                roles.add(item.get("roleFlag").toString());
+                roleIds.add(Integer.valueOf(item.get("roleId").toString()));
             }
         }
 
@@ -156,13 +154,13 @@ public class SkShiroRealm extends AuthorizingRealm {
             params.clear();
             params.put("roleIds",roleIds);
             params.put("recordStatus",Const.RecordStatus.ABLE);
-            List<SysPermisCustom> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
+            List<Map<String,Object>> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
 
-            SysPermisCustom sysPermisCustom;
+            Map<String,Object> sysPermisItem;
             for (int i = 0, len = sysPermisCustoms.size(); i < len; i++){
-                sysPermisCustom = sysPermisCustoms.get(i);
+                sysPermisItem = sysPermisCustoms.get(i);
 //                permissions.add(sysMenuSysRole.getSysRoleNo()+":"+sysMenuSysRole.getSysMenuNo());
-                permissions.add(sysPermisCustom.getpFlag());
+                permissions.add(sysPermisItem.get("pFlag").toString());
             }
         }
 

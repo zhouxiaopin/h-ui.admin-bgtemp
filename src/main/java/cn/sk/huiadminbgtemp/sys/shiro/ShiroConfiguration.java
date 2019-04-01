@@ -1,8 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
-import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -28,6 +26,49 @@ import java.util.Set;
 @EnableAspectJAutoProxy(proxyTargetClass = true)//等价    <aop:config proxy-target-class="true"/>
 public class ShiroConfiguration {
 
+    /*@Bean("jdbcRealm")
+    public SkShiroRealm jdbcRealm(){
+        SkShiroRealm shiroRealm =  new SkShiroRealm();
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        hashedCredentialsMatcher.setHashIterations(1024);
+        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+        return shiroRealm;
+    }
+
+    @Bean("securityManager")
+    public DefaultWebSecurityManager getManager(SkShiroRealm realm) {
+        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+        // 使用自己的realm
+        manager.setRealm(realm);
+
+        *//*
+         * 关闭shiro自带的session，详情见文档
+         * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
+         *//*
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        manager.setSubjectDAO(subjectDAO);
+
+        return manager;
+    }
+
+    @Bean("shiroFilter")
+    public ShiroFilterFactoryBean factory(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setLoginUrl("/sysUser/initLogin");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/sysUser/initLogin");
+
+        FilterChainDefinitionMapBuilder filterChainDefinitionMapBuilder = new FilterChainDefinitionMapBuilder();
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMapBuilder.buildFilterChainDefinitionMap());
+        return shiroFilterFactoryBean;
+    }*/
+
 
 //    @Bean
 //    public ShiroRealm jdbcRealm(){
@@ -36,26 +77,15 @@ public class ShiroConfiguration {
 //    }
 
 
-    @Bean("securityManager")
-    public SecurityManager securityManager(){
-        DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
-//        securityManager.setCacheManager();
-//        securityManager.setAuthenticator();
-        Set<Realm> realms = new HashSet<>();
-        realms.add(jdbcRealm());
-        securityManager.setRealms(realms);
-
-        return securityManager;
-    }
     //权限认证器
-    @Bean("authenticator")
+  /*  @Bean("authenticator")
     public ModularRealmAuthenticator modularRealmAuthenticator(){
         ModularRealmAuthenticator modularRealmAuthenticator =  new ModularRealmAuthenticator();
         modularRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
         return modularRealmAuthenticator;
     }
 
-    /**
+    *//**
      * 3. 配置 Realm
         3.1 直接配置实现了 org.apache.shiro.realm.Realm 接口的 bean
      * @return
@@ -68,6 +98,18 @@ public class ShiroConfiguration {
         hashedCredentialsMatcher.setHashIterations(1024);
         shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         return shiroRealm;
+    }
+
+    @Bean("securityManager")
+    public SecurityManager securityManager(@Autowired @Qualifier("jdbcRealm") SkShiroRealm realm){
+        DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
+//        securityManager.setCacheManager();
+//        securityManager.setAuthenticator();
+        Set<Realm> realms = new HashSet<>();
+        realms.add(realm);
+        securityManager.setRealms(realms);
+
+        return securityManager;
     }
 
     /**

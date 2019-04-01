@@ -10,6 +10,6 @@ import java.util.Map;
 
 public interface SysRoleMapper extends IBaseMapper<SysRoleCustom,SysRoleQueryVo> {
 
-    List<SysRoleCustom> selectListByUserId(@Param("params") Map<String,Object> params);
+    List<Map<String,Object>> selectListByUserId(@Param("params") Map<String,Object> params);
 
 }
