@@ -51,7 +51,6 @@
     </div>
 </div>
 <div class="footer">Copyright 你的公司名称 by H-ui.admin v3.1</div>
-
 <!--_footer 作为公共模版分离出去-->
 <div th:replace="common/common :: common_footer">
 </div>
@@ -70,7 +69,6 @@
 <script type="text/javascript">
     $(function () {
         $('#verifCode2').val(drawPic());
-        
         //用户名失去焦点事件
         $('#userName').on('blur',function () {
             readPassword();
@@ -82,7 +80,6 @@
             $('#verifCode2').val(drawPic());
             
         });
-
         $("#loginForm").validate({
             rules: {
                 userName: {
@@ -100,7 +97,6 @@
             focusCleanup: true,
             success: "valid",
             submitHandler: function (form) {
-
                 if ($('#verifCode').val().trim() != $('#verifCode2').val().trim()){
                     //更新验证码
                     $('#verifCode2').val(drawPic());
@@ -112,26 +108,21 @@
                 // var url = basePath+'sysUser/'+oprt;
                 var param = $(form).serialize();
                 // console.log(url);
-                // $("#loginform").tips({
-                // 	side : 1,
-                // 	msg : '正在登录 , 请稍后 ...',
-                // 	bg : '#68B500',
-                // 	time : 10
-                // });
+                blockPage('正在登录 , 请稍后 ...');
                 sk.ajaxRequest(url, param, function (r) {
                     if (r.code == '0') {
-                        sk.successMsg(r.msg);
-                        if (oprt != 'add'){
-                            setTimeout(function () {
-                                window.location.href=basePath+"index";
-                            }, 800);
-                        }
-
+                        // sk.successMsg(r.msg);
+                        // setTimeout(function () {
+                        //     // console.info(basePath+"/index");
+                        //     window.location.href=basePath+"index";
+                        // }, 800);
+                        window.location.href=basePath+"index";
                     } else {
                         //更新验证码
                         $('#verifCode2').val(drawPic());
                         sk.failMsg(r.msg);
                     }
+                    unblockPage();
 
                 });
                return false; // 阻止表单自动提交事件

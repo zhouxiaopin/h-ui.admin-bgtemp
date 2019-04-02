@@ -187,7 +187,7 @@
 
   <!-- 表与实体映射 -->
   <resultMap id="ResultMapCustom" type="SysUserCustom" extends="BaseResultMap">
-
+    <!--<result property="roleName" column="role_ame" />-->
   </resultMap>
 
   <!-- 查询条件的sql片段 -->

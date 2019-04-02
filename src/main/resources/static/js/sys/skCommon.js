@@ -384,3 +384,22 @@ function SkDataTable(tableId,obj) {
 
     return $(tableId).DataTable(defa);
 }
+
+//提示
+function blockPage(msg){
+    var massge = '请稍候,提交数据中...';
+    if (msg){
+        massge = msg;
+    }
+    $.blockUI({
+        message: '<img src="'+basePath+'static/images/loading_s.gif" /><b>'+massge+'</b>',
+        css: {
+            border: '2px solid #64BBE9',
+        },
+        overlayCSS: {opacity:0.3}
+    });
+}
+//销毁提示
+function unblockPage(){
+    $.unblockUI();
+}

@@ -123,7 +123,9 @@
     //修改
     function to_edit(id) {
         var url = "initUpdate?" + pk + "=" + id;
-        layer_show("修改权限", url, 800, 600);
+        layer_show("修改权限", url, 800, 600, function () {//结束事件
+            _dataTables.ajax.reload();
+        });
     }
 
     //初始化tabel
@@ -213,8 +215,9 @@
 
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加权限', 'initAdd', 800, 600, function (index, layero) {//取消事件
-                _dataTables.ajax.reload();
+            layer_show('添加权限', 'initAdd', 800, 600, function () {//结束事件
+                // _dataTables.ajax.reload();
+                location.reload();
             });
         });
 

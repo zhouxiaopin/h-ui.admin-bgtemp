@@ -55,7 +55,7 @@
                     </div>
                     <sk:label class="col-xs-2 col-sm-2" text="左边图标："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <sk:input th:value="${obj.leftIcon}" id="leftIcon" name="leftIcon"/>
+                        <sk:select id="leftIcon" name="leftIcon" th:value="${obj.leftIcon}" dictType="menu_icon"/>
                     </div>
 
                 </div>
@@ -121,7 +121,7 @@
                     </div>
                     <sk:label class="col-xs-2 col-sm-2" text="左边图标："/>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <sk:input th:value="${obj.leftIcon}" id="leftIcon" name="leftIcon"/>
+                        <sk:select id="leftIcon" name="leftIcon" th:value="${obj.leftIcon}" dictType="menu_icon"/>
                     </div>
 
                 </div>
@@ -203,7 +203,7 @@
                         sk.successMsg(r.msg);
                         if (oprt != 'add') {
                             setTimeout(function () {
-                                parent.location.reload();
+                                // parent.location.reload();
 //                                var index = parent.layer.getFrameIndex(window.name);
 //                                parent.layer.close(index);
                                 layer_close();

@@ -1,17 +1,22 @@
 package cn.sk.huiadminbgtemp.sys.common;
 
 import cn.sk.huiadminbgtemp.sys.pojo.SysLogCustom;
+import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.service.ISysLogService;
 import cn.sk.huiadminbgtemp.sys.utils.IpAdrressUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -34,9 +39,23 @@ public class SysLogAspect {
     public void logPoinCut() {
     }
 
+    @Before("logPoinCut()")
+    public void doBefore(JoinPoint joinPoint) {
+        if(StringUtils.equals("sysLogout",joinPoint.getSignature().getName())) {
+            daSaveSysLog(joinPoint);
+        }
+
+    }
+
     //切面 配置通知
     @AfterReturning("logPoinCut()")
     public void saveSysLog(JoinPoint joinPoint) {
+        if(!StringUtils.equals("sysLogout",joinPoint.getSignature().getName())) {
+            daSaveSysLog(joinPoint);
+        }
+    }
+
+    private void daSaveSysLog(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         log.debug("======系统日志处理开始======");
@@ -48,15 +67,6 @@ public class SysLogAspect {
         //获取切入点所在的方法
         Method method = signature.getMethod();
 
-        //获取操作
-        StringBuilder operation = new StringBuilder();
-
-        SkLog skLog = method.getAnnotation(SkLog.class);
-        if (skLog != null) {
-            operation.append(skLog.value());
-        }
-        //保存获取的操作
-        sysLogCustom.setOperation(operation.toString());
 
         //获取请求的类名
 //        String className = joinPoint.getTarget().getClass().getName();
@@ -72,14 +82,32 @@ public class SysLogAspect {
         //method
         sysLogCustom.setRequestType(request.getMethod());
 
-        //请求的参数
-        Object[] args = joinPoint.getArgs();
-        //将参数所在的数组转换成json
-        String params = JSON.toJSONString(args);
-        sysLogCustom.setParams(params);
+
+        //获取操作
+        StringBuilder operation = new StringBuilder();
+
+        SkLog skLog = method.getAnnotation(SkLog.class);
+        if (skLog != null) {
+            operation.append(skLog.value());
+
+            //保存获取的操作
+            sysLogCustom.setOperation(operation.toString());
+
+            if(skLog.saveParams()) {
+                //请求的参数
+                Object[] args = joinPoint.getArgs();
+                //将参数所在的数组转换成json
+                String params = JSON.toJSONString(args);
+                sysLogCustom.setParams(params);
+            }
+        }
 
         //获取用户名
-        sysLogCustom.setUserName("以后修改");
+        SysUserCustom sysUserInfo = (SysUserCustom) SecurityUtils.getSubject().getPrincipal();
+        if(!ObjectUtils.isEmpty(sysUserInfo)) {
+            sysLogCustom.setUserId(sysUserInfo.getuId());
+            sysLogCustom.setUserName(sysUserInfo.getUserName());
+        }
         //获取用户ip地址
         sysLogCustom.setIp(IpAdrressUtil.getIpAdrress(request));
 
@@ -89,5 +117,4 @@ public class SysLogAspect {
 
         log.debug("======系统日志处理======");
     }
-
 }

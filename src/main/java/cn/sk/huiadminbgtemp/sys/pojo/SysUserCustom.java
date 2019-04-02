@@ -20,6 +20,9 @@ public class SysUserCustom extends SysUser {
     //旧角色ID
     private String oldRoleIds;
 
+    //角色名
+    private String roleName;
+
     public SysUserCustom(Integer uId, String userName, String password, String realName, String sex, String email, String mobilePhone, String salt, String descri, String recordStatus, Date updateTime, Date createTime) {
         super(uId, userName, password, realName,sex, email, mobilePhone, salt, descri, recordStatus, updateTime, createTime);
 

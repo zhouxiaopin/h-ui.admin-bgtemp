@@ -289,6 +289,7 @@ $(function(){
 	$(".Hui-aside").Huifold({
 		titCell:'.menu_dropdown dl dt',
 		mainCell:'.menu_dropdown dl dd',
+		type:3
 	});
 	
 	/*选项卡导航*/

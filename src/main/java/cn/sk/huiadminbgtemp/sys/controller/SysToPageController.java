@@ -5,6 +5,7 @@ import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.TreeNode;
+import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import cn.sk.huiadminbgtemp.sys.utils.TreeUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,7 +34,8 @@ public class SysToPageController {
 
     @GetMapping("/index")
     public ModelAndView index(ModelAndView mv, HttpServletResponse response){
-        SysUserCustom sysUserInfo = (SysUserCustom)SecurityUtils.getSubject().getSession().getAttribute(Const.SessionKey.SYSUSER_INFO);
+//        SysUserCustom sysUserInfo = (SysUserCustom)SecurityUtils.getSubject().getSession().getAttribute(Const.SessionKey.SYSUSER_INFO);
+        SysUserCustom sysUserInfo = SysUtils.getSysUser();
         if(ObjectUtils.isEmpty(sysUserInfo)) {
             Subject currentUser = SecurityUtils.getSubject();
 
@@ -49,6 +51,8 @@ public class SysToPageController {
             }
             return mv;
         }
+
+        mv.addObject("sysUserInfo",sysUserInfo);
         //        SysUserCustom sysUserInfo = (SysUserCustom)SecurityUtils.getSubject().getPrincipal();
 
         Map<String,Object> params = Maps.newHashMap();
@@ -84,6 +88,7 @@ public class SysToPageController {
                 treeNode.setName(sysPermisItem.get("pName").toString());
                 Map<String,Object> attrs = Maps.newHashMap();
                 attrs.put("leftIcon",sysPermisItem.get("leftIcon").toString());
+                attrs.put("pUrl",sysPermisItem.get("pUrl").toString());
                 treeNode.setAttrs(attrs);
 
                 treeNodes.add(treeNode);

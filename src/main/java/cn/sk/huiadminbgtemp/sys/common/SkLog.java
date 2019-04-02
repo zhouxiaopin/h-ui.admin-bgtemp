@@ -10,4 +10,5 @@ import java.lang.annotation.*;
 @Documented //生成文档
 public @interface SkLog {
     String value() default "";
+    boolean saveParams() default true;
 }

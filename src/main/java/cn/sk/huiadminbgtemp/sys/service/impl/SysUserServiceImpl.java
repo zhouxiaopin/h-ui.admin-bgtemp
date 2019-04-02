@@ -5,6 +5,7 @@ import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysUserMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysUserRoleMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
@@ -13,6 +14,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysUserRole;
 import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户业务逻辑接口实现类
@@ -30,6 +33,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
     private SysUserMapper sysUserMapper;
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
     @Override
     protected ServerResponse<SysUserCustom> insertBefore(SysUserCustom sysUserCustom) {
@@ -114,5 +119,30 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
             }
         }
         return super.updateBefore(sysUserCustom);
+    }
+
+    @Override
+    public ServerResponse<List<SysUserCustom>> queryObjs(SysUserQueryVo entityQueryVo) {
+
+        List<SysUserCustom> list = baseMapper.selectListByQueryVo(entityQueryVo);
+
+        Map<String,Object> params = Maps.newHashMap();
+        params.put("recordStatus",Const.RecordStatus.ABLE);
+        StringBuilder roleNames = new StringBuilder();
+        for(int i = 0,len = list.size(); i < len; i++) {
+            SysUserCustom sysUserCustom = list.get(i);
+
+            params.put("userId",sysUserCustom.getuId());
+            //根据用户id查找权限
+            List<Map<String,Object>> sysRoles = sysRoleMapper.selectListByUserId(params);
+            roleNames.delete(0,roleNames.length());
+            for(int j = 0,length = list.size(); j < length; j++) {
+                roleNames.append(sysRoles.get(j).get("roleName")).append(",");
+            }
+            roleNames.deleteCharAt(roleNames.length()-1);
+            list.get(i).setRoleName(roleNames.toString());
+        }
+
+        return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,list);
     }
 }

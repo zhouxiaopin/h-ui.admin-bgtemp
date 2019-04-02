@@ -3,9 +3,9 @@ package cn.sk.huiadminbgtemp.sys.shiro;
 import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
-import cn.sk.huiadminbgtemp.sys.mapper.SysUserMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
+import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
 import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -29,7 +29,7 @@ import java.util.Set;
 @Slf4j
 public class SkShiroRealm extends AuthorizingRealm {
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private ISysUserService sysUserService;
     @Autowired
     private SysRoleMapper sysRoleMapper;
     @Autowired
@@ -55,7 +55,7 @@ public class SkShiroRealm extends AuthorizingRealm {
         sysUserQueryVo.setSysUserCustom(condition);
 
 
-        List<SysUserCustom> sysUserCustoms = sysUserMapper.selectListByQueryVo(sysUserQueryVo);
+        List<SysUserCustom> sysUserCustoms = sysUserService.queryObjs(sysUserQueryVo).getData();
 
         //3. 调用数据库的方法, 从数据库中查询 username 对应的用户记录
         log.info("从数据库中获取 username: " + username + " 所对应的用户信息.");

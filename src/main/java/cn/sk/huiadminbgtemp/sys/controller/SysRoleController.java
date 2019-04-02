@@ -6,6 +6,7 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysRoleService;
+import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,7 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
                     return ServerResponse.createByErrorMessage("角色标识已存在");
                 }
 
+                sysRoleCustom.setOptId(SysUtils.getUserId());
                 //默认可用
                 sysRoleCustom.setRecordStatus(Const.RecordStatus.ABLE);
                 break;

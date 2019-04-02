@@ -57,6 +57,7 @@
     <script type="text/javascript" th:src="@{/static/H-ui.admin/static/h-ui.admin/js/H-ui.admin.js}"></script>
     <script type="text/javascript" th:src="@{/static/js/utils/date/moment.min.js}"></script>
     <script type="text/javascript" th:src="@{/static/js/sys/skCommon.js}"></script>
+    <script type="text/javascript" th:src="@{/static/extend/jqPlugin/jquery.blockUI.js}"></script>
     <!--/_footer 作为公共模版分离出去-->
 
 </div>
@@ -88,9 +89,9 @@
             </nav>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
-                    <li>超级管理员</li>
+                    <li th:text="${sysUserInfo.roleName}">超级管理员</li>
                     <li class="dropDown dropDown_hover">
-                        <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <a href="#" class="dropDown_A"><span th:text="${sysUserInfo.userName}"></span> <i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
                             <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
                             <li><a href="#">切换账户</a></li>
@@ -121,6 +122,7 @@
 <script th:fragment="commonVar" type="text/javascript" th:inline="javascript" xmlns:th="http://www.thymeleaf.org">
     //    var basePath = /*[[@{/}]]*/;
     var basePath = /*[[@{/}]]*/;
+    basePath = basePath.split(";")[0];
     //去掉后面的斜线
     //    basePath = basePath.substring(0,basePath.length-1);
 

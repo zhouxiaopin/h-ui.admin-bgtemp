@@ -1,10 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
-import cn.sk.huiadminbgtemp.sys.common.CustomException;
-import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
-import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.common.*;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysUserService;
@@ -45,9 +42,9 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         return model;
     }
 
+    @SkLog(value ="登录系统", saveParams=false)
     @PostMapping(value = "/login")
     public ServerResponse login(SysUserCustom sysUserCustom){
-
 
         try {
             Subject currentUser = SecurityUtils.getSubject();
@@ -62,8 +59,8 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
                 // 执行登录.
                 currentUser.login(token);
 
-                SysUserCustom sysUserInfo = (SysUserCustom) currentUser.getPrincipal();
-                currentUser.getSession().setAttribute(Const.SessionKey.SYSUSER_INFO,sysUserInfo);
+//                SysUserCustom sysUserInfo = (SysUserCustom) currentUser.getPrincipal();
+//                currentUser.getSession().setAttribute(Const.SessionKey.SYSUSER_INFO,sysUserInfo);
 //                session.setAttribute("adminInfo",adminInfo);
             }
 
@@ -80,8 +77,9 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
 
     }
 
-    @GetMapping(value = "/logout")
-    public ModelAndView logout(ModelAndView model){
+    @SkLog(value ="退出系统", saveParams=false)
+    @GetMapping(value = "/sysLogout")
+    public ModelAndView sysLogout(ModelAndView model){
         Subject currentUser = SecurityUtils.getSubject();
 
         if (currentUser.isAuthenticated()) {
@@ -91,7 +89,8 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
 //        session.setAttribute("adminInfo", null);
 //        session.removeAttribute(Const.SessionKey.SYSUSER_INFO);
 //        session.invalidate();
-        model.setViewName("login");
+        model.setViewName("redirect:initLogin");
+
         return model;
 //        return "redirect:/index.jsp";
     }
