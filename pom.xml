@@ -31,6 +31,7 @@
 		<mybatis.generator.maven.plugin.version>1.3.7</mybatis.generator.maven.plugin.version>
 		<pagehelper.spring.boot.starter.version>1.2.10</pagehelper.spring.boot.starter.version>
 		<shiro.version>1.4.0</shiro.version>
+		<jxl.version>2.6.12</jxl.version>
 
 	</properties>
 
@@ -178,6 +179,13 @@
 			<version>${shiro.version}</version>
 		</dependency>
 
+		<!--jxl excel工具类-->
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>${jxl.version}</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-core -->
 <!--		<dependency>
