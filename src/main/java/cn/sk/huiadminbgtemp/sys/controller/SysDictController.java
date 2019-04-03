@@ -8,6 +8,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysDict")
+@RequiresAuthentication
 public class SysDictController extends BaseController<SysDictCustom, SysDictQueryVo> {
 
     @Autowired

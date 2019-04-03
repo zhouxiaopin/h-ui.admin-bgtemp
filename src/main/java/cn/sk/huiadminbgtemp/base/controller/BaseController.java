@@ -9,6 +9,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
 import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
+import cn.sk.huiadminbgtemp.sys.utils.LogUtil;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import cn.sk.huiadminbgtemp.sys.vo.SelectBoxVo;
 import com.google.common.collect.Lists;
@@ -24,17 +25,25 @@ public class BaseController<T, V> {
     private IBaseService<T, V> baseService;
     @Autowired
     private ISysDictService sysDictService;
+    @Autowired
+    protected LogUtil logUtil;
 
     protected static final String OPRT_KEY = "oprt";
     protected static final String QUERY_OPRT = "query";
     protected static final String ADD_OPRT = "add";
     protected static final String UPDATE_OPRT = "update";
     protected static final String QUERYDETAIL_OPRT = "queryDetail";
+    protected static final String DEL_OPRT = "del";
+    protected static final String REAL_DEL_OPRT = "realDel";
+    protected static final String BATCH_DEL_OPRT = "batchDel";
+    protected static final String BATCH_REAL_DEL_OPRT = "batchRealDel";
 
-
+    //根据操作返回对应的页面
     protected String getPage(String oprt) {
         return null;
     }
+    //根据操作
+    protected void authorityValidate(String oprt){}
 
 
     //    protected ServerResponse<T> addBefore(T t){return null;}
@@ -65,6 +74,7 @@ public class BaseController<T, V> {
 
     @GetMapping(value = "/initQuery")
     public ModelAndView initQuery(ModelAndView model) throws Exception {
+        authorityValidate(QUERY_OPRT);
         model.addObject(OPRT_KEY, QUERY_OPRT);
         model.addObject(Const.Dict.RECORDSTATUS_DICTCODE,
                 querySelectBoxVoByDictType(Const.Dict.RECORDSTATUS_DICTCODE).getData());
@@ -75,6 +85,7 @@ public class BaseController<T, V> {
 
     @GetMapping(value = "/initAdd")
     public ModelAndView initAdd(ModelAndView model, T t) throws Exception {
+        authorityValidate(ADD_OPRT);
         try {
             model.addObject("obj", t);
             model.addObject(OPRT_KEY, ADD_OPRT);
@@ -89,6 +100,7 @@ public class BaseController<T, V> {
 
     @GetMapping(value = "/initUpdate")
     public ModelAndView initUpdate(ModelAndView model, T entity) throws Exception {
+        authorityValidate(UPDATE_OPRT);
         model.addObject(OPRT_KEY, UPDATE_OPRT);
         try {
             init(model, entity);
@@ -102,6 +114,7 @@ public class BaseController<T, V> {
 
     @GetMapping(value = "/initQueryDetail")
     public ModelAndView queryDetail(ModelAndView model, T entity) throws Exception {
+        authorityValidate(QUERYDETAIL_OPRT);
         model.addObject(OPRT_KEY, QUERYDETAIL_OPRT);
         try {
             init(model, entity);
@@ -116,6 +129,7 @@ public class BaseController<T, V> {
     @SkLog("添加")
     @PostMapping(value = "/add")
     public ServerResponse<T> add(T t) throws Exception {
+        authorityValidate(ADD_OPRT);
         ServerResponse<T> serverResponse = paramValidate(ADD_OPRT, t);
         if (null == serverResponse || serverResponse.isSuccess()) {
             return baseService.insert(t);
@@ -127,6 +141,7 @@ public class BaseController<T, V> {
     @SkLog("修改")
     @PostMapping(value = "/update")
     public ServerResponse<T> update(T t) throws Exception {
+        authorityValidate(UPDATE_OPRT);
         ServerResponse<T> sr = paramValidate(UPDATE_OPRT, t);
         if (null != sr&&!sr.isSuccess()) {
             return sr;
@@ -147,27 +162,43 @@ public class BaseController<T, V> {
     @SkLog("软删除")
     @PostMapping(value = "/delete")
     public ServerResponse<T> delete(@RequestParam("ids[]") String[] ids) throws Exception {
+        if(ids.length > 1) {
+            authorityValidate(BATCH_DEL_OPRT);
+        }else{
+            authorityValidate(DEL_OPRT);
+        }
         return baseService.deleteInIds(ids);
 
     }
+
     //硬删除
     @SkLog("硬删除")
     @PostMapping(value = "/realDelete")
     public ServerResponse<T> realDelete(@RequestParam("ids[]") String[] ids) throws Exception {
+        if(ids.length > 1) {
+            authorityValidate(BATCH_REAL_DEL_OPRT);
+        }else{
+            authorityValidate(REAL_DEL_OPRT);
+        }
         return baseService.realDeleteInIds(ids);
 
     }
 
+
+
 //    @SkLog("查询")
+    //根据条件查询记录（分页）
     @PostMapping(value = "/query")
     public DataTableVo list(V v) {
         return baseService.queryObjsByPage(v);
     }
+    //根据条件查询记录（非分页）
     @PostMapping(value = "/queryAllByCondition")
     public ServerResponse<List<T>> queryAllByCondition(V v) {
         return baseService.queryObjs(v);
     }
 
+    //需要根据主键获取数据的初始化方法
     protected void init(ModelAndView model, T entity) {
         try {
             T t = getObj(entity);
@@ -196,7 +227,6 @@ public class BaseController<T, V> {
     }
 
     //获取下拉框
-
     @PostMapping(value = "/querySelectBoxVoByDictType")
     public ServerResponse<List<SelectBoxVo>> querySelectBoxVoByDictType(String dictType) {
         SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();

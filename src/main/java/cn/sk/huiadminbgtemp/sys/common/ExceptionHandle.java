@@ -1,6 +1,8 @@
 package cn.sk.huiadminbgtemp.sys.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ServerResponse handle(Exception e, HttpServletRequest httpServletRequest) {
+    public Object handle(Exception e, HttpServletRequest httpServletRequest) {
         log.error("{} Exception",httpServletRequest.getRequestURI(),e);
         //以后要添加判断是否是ajax请求
         if (e instanceof CustomException) {
@@ -25,6 +27,13 @@ public class ExceptionHandle {
         }else if (e instanceof HttpRequestMethodNotSupportedException) {
             log.error("【请求方式异常】{}", e);
             return ServerResponse.createByErrorMessage(e.getMessage());
+        }else if (e instanceof UnauthenticatedException) {
+            log.error("【没有登录】{}", e.getMessage());
+//            return new ModelAndView("redirect:/sysUser/initLogin");
+            return ServerResponse.createByError(ResponseCode.NO_AUTHENTICATED);
+        }else if (e instanceof UnauthorizedException) {
+            log.error("【没有权限】{}", e.getMessage());
+            return ServerResponse.createByError(ResponseCode.NO_AUTHORIZED);
         }else {
             log.error("【系统异常】{}", e);
             return ServerResponse.createByErrorCodeMessage(ResponseCode.SYS_UNKNOWN_ERROR.getCode(),ResponseCode.SYS_UNKNOWN_ERROR.getMsg());

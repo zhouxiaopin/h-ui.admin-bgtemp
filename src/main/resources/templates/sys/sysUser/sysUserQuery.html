@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
     <!--title,metas,links,scripts-->
     <title>系统用户列表</title>
@@ -28,7 +28,9 @@
     <!--按钮栏开始-->
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <sk:aBtn id="addBtn" class="btn-primary" text="添加用户" dictType="oprt_icon" dictCode="01"/>
+            <shiro:hasPermission name="sysManag">
+                <sk:aBtn id="addBtn" class="btn-primary" text="添加用户" dictType="oprt_icon" dictCode="01"/>
+            </shiro:hasPermission>
             <sk:aBtn onclick="batchDel()" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>
             <sk:aBtn onclick="batchRealDel()" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>
         </span>
@@ -87,15 +89,19 @@
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
-        layer_show("修改"+modelTile, url, 800, 600, function () {//结束事件
+        requestPage(url,null,'修改'+modelTile, 800, 600, function () {//结束事件
             _dataTables.ajax.reload();
         });
+        // layer_show("修改"+modelTile, url, 800, 600, function () {//结束事件
+        //     _dataTables.ajax.reload();
+        // });
+
     }
 
     //修改密码
     function updatePassword(id) {
         var url = "initUpdatePassword?"+pk+"=" + id;
-        layer_show("修改密码", url, 500, 400);
+        requestPage(url,null,'修改密码', 500, 400);
     }
 
     var _dataTables;
@@ -103,10 +109,16 @@
     $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加用户', 'initAdd', 800, 600, function () {//结束事件
+            var url = "initAdd";
+            requestPage(url,null,'添加'+modelTile, 800, 600, function () {//结束事件
                 // _dataTables.ajax.reload();
                 location.reload();
             });
+
+            // layer_show('添加用户', 'initAdd', 800, 600, function () {//结束事件
+            //     // _dataTables.ajax.reload();
+            //     location.reload();
+            // });
         });
         _dataTables = SkDataTable('#skDataTable',{
             "columns": [

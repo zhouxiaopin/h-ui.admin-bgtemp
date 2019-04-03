@@ -32,6 +32,7 @@
 		<pagehelper.spring.boot.starter.version>1.2.10</pagehelper.spring.boot.starter.version>
 		<shiro.version>1.4.0</shiro.version>
 		<jxl.version>2.6.12</jxl.version>
+		<thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
 
 	</properties>
 
@@ -178,6 +179,13 @@
 			<artifactId>shiro-spring</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.theborakompanioni/thymeleaf-extras-shiro -->
+		<dependency>
+			<groupId>com.github.theborakompanioni</groupId>
+			<artifactId>thymeleaf-extras-shiro</artifactId>
+			<version>${thymeleaf.extras.shiro.version}</version>
+		</dependency>
+
 
 		<!--jxl excel工具类-->
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
@@ -186,7 +194,6 @@
 			<artifactId>jxl</artifactId>
 			<version>${jxl.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-core -->
 <!--		<dependency>
 			<groupId>org.mybatis.generator</groupId>

@@ -1,5 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.config.template;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import cn.sk.huiadminbgtemp.sys.custom.dialect.SkDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,6 +53,7 @@ public class TemplateEngineConfiguration {
         //自定义方言
 //        additionalDialects.add(new TiccDialect());
 //        additionalDialects.add(new SkDialect());
+        additionalDialects.add(new ShiroDialect());
         additionalDialects.add(skDialect);
         templateEngine.setAdditionalDialects(additionalDialects);
 //        templateEngine.setDialect(ticcDialect);

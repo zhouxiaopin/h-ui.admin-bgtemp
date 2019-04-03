@@ -5,6 +5,10 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.util.ObjectUtils;
 
 public class SysUtils {
+    /**
+     * 获取登录用户的id
+     * @return
+     */
     public static Integer getUserId() {
         Integer id = null;
         SysUserCustom sysUserInfo = (SysUserCustom) SecurityUtils.getSubject().getPrincipal();
@@ -14,6 +18,10 @@ public class SysUtils {
         return id;
     }
 
+    /**
+     * 获取登录用户
+     * @return
+     */
     public static SysUserCustom getSysUser() {
         SysUserCustom sysUserInfo = (SysUserCustom) SecurityUtils.getSubject().getPrincipal();
         return sysUserInfo;

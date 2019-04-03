@@ -44,4 +44,34 @@ public class Const {
 
         Integer DEFAULT_PARENTID = 0;
     }
+    //shiro权限配置
+    public interface ShiroPermis{
+        //添加
+        String ADD = "add";
+        //修改
+        String UPDATE = "update";
+        //禁用启用
+        String UPDATE_RECORDSTATUS = "updateRecordStatus";
+        //删除
+        String DEL = "del";
+        //硬删除
+        String REAL_DEL = "realDel";
+        //批量删除
+        String BATCH_DEL = "batchDel";
+        //批量硬删除
+        String BATCH_REAL_DEL = "batchRealDel";
+
+        //系统用户
+        String SYSUSER = "sysUser";
+        String SYSUSER_ADD = SYSUSER+":"+ADD;
+        String SYSUSER_UPDATE = SYSUSER+":"+UPDATE;
+        String SYSUSER_UPDATE_RECORDSTATUS = SYSUSER+":"+UPDATE_RECORDSTATUS;
+        String SYSUSER_UPDATE_PSD = SYSUSER+":updatePsd";
+        String SYSUSER_DEL = SYSUSER+":"+DEL;
+        String SYSUSER_REAL_DEL = SYSUSER+":"+REAL_DEL;
+        String SYSUSER_BATCH_DEL = SYSUSER+":"+BATCH_DEL;
+        String SYSUSER_BATCH_REAL_DEL = SYSUSER+":"+BATCH_REAL_DEL;
+
+    }
+
 }

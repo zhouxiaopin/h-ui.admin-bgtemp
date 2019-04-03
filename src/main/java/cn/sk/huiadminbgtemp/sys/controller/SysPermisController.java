@@ -6,7 +6,9 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysPermisCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysPermisQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysPermisService;
+import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sysPermis")
+@RequiresAuthentication
 public class SysPermisController extends BaseController<SysPermisCustom, SysPermisQueryVo> {
 
     @Autowired
@@ -83,7 +86,7 @@ public class SysPermisController extends BaseController<SysPermisCustom, SysPerm
                 if(ObjectUtils.isEmpty(sysPermisCustom.getParentId())) {
                     sysPermisCustom.setParentId(Const.Permis.DEFAULT_PARENTID);
                 }
-
+                sysPermisCustom.setOptId(SysUtils.getUserId());
                 //默认可用
                 sysPermisCustom.setRecordStatus(Const.RecordStatus.ABLE);
                 break;

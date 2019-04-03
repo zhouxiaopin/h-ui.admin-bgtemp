@@ -125,19 +125,22 @@ public class ShiroConfiguration {
      * 5. 启用 IOC 容器中使用 shiro 的注解. 但必须在配置了 LifecycleBeanPostProcessor 之后才可以使用.
      * @return
      */
-    @Bean()
+    @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
         DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         defaultAdvisorAutoProxyCreator.setBeanName("lifecycleBeanPostProcessor");
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
         return defaultAdvisorAutoProxyCreator;
     }
-    @Bean()
+
+    @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Autowired @Qualifier("securityManager") SecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
 
     /**
      *
@@ -177,4 +180,5 @@ public class ShiroConfiguration {
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
     }
+
 }

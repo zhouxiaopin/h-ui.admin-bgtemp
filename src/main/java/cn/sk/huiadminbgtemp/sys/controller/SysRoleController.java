@@ -9,6 +9,7 @@ import cn.sk.huiadminbgtemp.sys.service.ISysRoleService;
 import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysRole")
+@RequiresAuthentication
 public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQueryVo> {
 
     @Autowired

@@ -20,6 +20,8 @@ public enum ResponseCode {
     LOGIN_NO_USE(-8,"用户被禁用了"),
     LOGIN_PWD_FAIL(-9,"密码错误"),
     LOGIN_FAIL(-10,"登录失败"),
+    NO_AUTHORIZED(-11,"没有权限"),
+    NO_AUTHENTICATED(-12,"请先登录"),
     SYS_UNKNOWN_ERROR(-200,"系统繁忙,请稍后再试");
 
     private final int code;

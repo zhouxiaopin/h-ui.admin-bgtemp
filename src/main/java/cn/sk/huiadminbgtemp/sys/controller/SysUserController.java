@@ -28,6 +28,7 @@ import java.util.List;
 public class SysUserController extends BaseController<SysUserCustom, SysUserQueryVo> {
 
     private static final String UPDATE_PASSWORD_OPRT = "updatePassword";
+    private static final String UPDATE_RECORDSTATUS_OPRT = "updateRecordStatus";
     private static final String LOGIN_OPRT = "login";
 
     @Autowired
@@ -95,6 +96,92 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
 //        return "redirect:/index.jsp";
     }
 
+    //更新记录状态，禁用启用切换
+    @PostMapping(value = "updateRecordStatus")
+    public ServerResponse<SysUserCustom> updateRecordStatus(SysUserCustom sysUserCustom) {
+        //权限校验
+        authorityValidate(UPDATE_RECORDSTATUS_OPRT);
+
+        String rs = sysUserCustom.getRecordStatus();
+
+        ServerResponse<SysUserCustom> serverResponse = sysUserService.update(sysUserCustom);
+        if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (serverResponse.isSuccess()) {
+                serverResponse.setMsg("启用成功");
+            }else{
+                serverResponse.setMsg("启用失败");
+            }
+            logUtil.writLog(this.getClass(),"updateRecordStatus","系统用户启用");
+        } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            if (serverResponse.isSuccess()) {
+                serverResponse.setMsg("禁用成功");
+            }else{
+                serverResponse.setMsg("禁用失败");
+            }
+            logUtil.writLog(this.getClass(),"updateRecordStatus","系统用户禁用");
+        }
+
+        return serverResponse;
+    }
+
+    //进入修改密码页面
+    @GetMapping(value = "/initUpdatePassword")
+    public ModelAndView initUpdatePassword(ModelAndView model, SysUserCustom sysUserCustom) throws Exception {
+        //权限校验
+        authorityValidate(UPDATE_PASSWORD_OPRT);
+        model.addObject(OPRT_KEY, UPDATE_PASSWORD_OPRT);
+        try {
+            init(model, sysUserCustom);
+        } catch (Exception e) {
+            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+        }
+        model.setViewName(page(UPDATE_PASSWORD_OPRT));
+        return model;
+    }
+
+    //修改密码
+    @SkLog(value ="修改密码", saveParams=false)
+    @PostMapping(value = "updatePassword")
+    public ServerResponse<SysUserCustom> updatePassword(SysUserCustom sysUserCustom) {
+        //权限校验
+        authorityValidate(UPDATE_PASSWORD_OPRT);
+        //参数检验
+        ServerResponse sr = paramValidate(UPDATE_PASSWORD_OPRT, sysUserCustom);
+        if (!sr.isSuccess()) {
+            return sr;
+        }
+
+        //业务逻辑
+        SysUserCustom oldObj = getObj(sysUserCustom);
+        //判断盐值是否存在
+        String salt = oldObj.getSalt();
+        if (StringUtils.isEmpty(salt)) {
+            salt = ShiroUtils.DEFALT_SALT;
+            sysUserCustom.setSalt(salt);
+        }
+        sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt, sysUserCustom.getPassword()));
+
+        return sysUserService.update(sysUserCustom);
+    }
+
+
+
+    /****************************以下是重新父类的方法*****************************/
+    //修改之前
+    @Override
+    protected ServerResponse<SysUserCustom> updateBefore(SysUserCustom oldObj, SysUserCustom sysUserCustom) {
+        //判断是否有修改密码
+        if (!StringUtils.equals(sysUserCustom.getPassword(), sysUserCustom.getPassword2())) {
+            //判断盐值是否存在
+            String salt = oldObj.getSalt();
+            if (StringUtils.isEmpty(salt)) {
+                salt = ShiroUtils.DEFALT_SALT;
+                sysUserCustom.setSalt(salt);
+            }
+            sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt, sysUserCustom.getPassword()));
+        }
+        return super.updateBefore(oldObj, sysUserCustom);
+    }
 
     //根据oprt返回对应的页面
     @Override
@@ -116,79 +203,6 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
             return prefix + "sysUser";
         }
         return super.getPage(oprt);
-    }
-
-
-    @Override
-    protected ServerResponse<SysUserCustom> updateBefore(SysUserCustom oldObj, SysUserCustom sysUserCustom) {
-        //判断是否有修改密码
-        if (!StringUtils.equals(sysUserCustom.getPassword(), sysUserCustom.getPassword2())) {
-            //判断盐值是否存在
-            String salt = oldObj.getSalt();
-            if (StringUtils.isEmpty(salt)) {
-                salt = ShiroUtils.DEFALT_SALT;
-                sysUserCustom.setSalt(salt);
-            }
-            sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt, sysUserCustom.getPassword()));
-        }
-        return super.updateBefore(oldObj, sysUserCustom);
-    }
-
-    //更新记录状态，禁用启用切换
-    @PostMapping(value = "updateRecordStatus")
-    public ServerResponse<SysUserCustom> updateRecordStatus(SysUserCustom sysUserCustom) {
-        String rs = sysUserCustom.getRecordStatus();
-        ServerResponse<SysUserCustom> serverResponse = sysUserService.update(sysUserCustom);
-        if (serverResponse.isSuccess()) {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
-                serverResponse.setMsg("启用成功");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
-                serverResponse.setMsg("禁用成功");
-            }
-        } else {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
-                serverResponse.setMsg("启用失败");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
-                serverResponse.setMsg("禁用失败");
-            }
-        }
-        return serverResponse;
-    }
-
-    //进入修改密码页面
-    @GetMapping(value = "/initUpdatePassword")
-    public ModelAndView initUpdatePassword(ModelAndView model, SysUserCustom sysUserCustom) throws Exception {
-        model.addObject(OPRT_KEY, UPDATE_PASSWORD_OPRT);
-        try {
-            init(model, sysUserCustom);
-        } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
-        }
-        model.setViewName(page(UPDATE_PASSWORD_OPRT));
-        return model;
-    }
-
-    //修改密码
-    //更新记录状态，禁用启用切换
-    @PostMapping(value = "updatePassword")
-    public ServerResponse<SysUserCustom> updatePassword(SysUserCustom sysUserCustom) {
-        //参数检验
-        ServerResponse sr = paramValidate(UPDATE_PASSWORD_OPRT, sysUserCustom);
-        if (!sr.isSuccess()) {
-            return sr;
-        }
-
-        //业务逻辑
-        SysUserCustom oldObj = getObj(sysUserCustom);
-        //判断盐值是否存在
-        String salt = oldObj.getSalt();
-        if (StringUtils.isEmpty(salt)) {
-            salt = ShiroUtils.DEFALT_SALT;
-            sysUserCustom.setSalt(salt);
-        }
-        sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt, sysUserCustom.getPassword()));
-
-        return sysUserService.update(sysUserCustom);
     }
 
     //参数检验
@@ -252,4 +266,34 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         return super.paramValidate(oprt, sysUserCustom);
     }
 
+    //权限校验
+    @Override
+    protected void authorityValidate(String oprt) {
+        switch (oprt) {
+            case ADD_OPRT://添加
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_ADD);
+                break;
+            case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE_RECORDSTATUS);
+                break;
+            case UPDATE_OPRT://修改
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE);
+                break;
+            case UPDATE_PASSWORD_OPRT://修改密码
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE_PSD);
+                break;
+            case DEL_OPRT://删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_DEL);
+                break;
+            case REAL_DEL_OPRT://硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_REAL_DEL);
+                break;
+            case BATCH_DEL_OPRT://批量删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_BATCH_DEL);
+                break;
+            case BATCH_REAL_DEL_OPRT://批量硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_BATCH_REAL_DEL);
+                break;
+        }
+    }
 }

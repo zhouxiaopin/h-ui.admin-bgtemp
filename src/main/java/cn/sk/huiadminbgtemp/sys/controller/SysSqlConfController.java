@@ -6,6 +6,7 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
+import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
             if(!CollectionUtils.isEmpty(serverResponse.getData())){
                 return ServerResponse.createByErrorMessage("语句编码已存在");
             }
-
+            sysSqlConfCustom.setOptId(SysUtils.getUserId());
             //默认可用
             sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
         }

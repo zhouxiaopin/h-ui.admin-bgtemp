@@ -23,13 +23,13 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    p_id, p_flag, p_name, p_url, parent_id, p_type, p_level, p_sort, descri, opt_id, left_icon,
-    expand_1, expand_2, expand_3, record_status, update_time, create_time
+    p_id, p_flag, p_name, p_url, parent_id, p_type, p_level, p_sort, sp.descri, opt_id, left_icon,
+    expand_1, expand_2, expand_3, sp.record_status, sp.update_time, sp.create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
     select 
     <include refid="Base_Column_List" />
-    from tb_sys_permis
+    from tb_sys_permis sp
     where p_id = #{pId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -229,7 +229,7 @@
 
   <!-- 表与实体映射 -->
   <resultMap id="ResultMapCustom" type="SysPermisCustom" extends="BaseResultMap">
-
+    <result property="userName" column="user_name" />
   </resultMap>
 
   <!-- 查询条件的sql片段 -->
@@ -253,7 +253,7 @@
         AND p_name = #{sysPermisCustom.pName,jdbcType=INTEGER}
       </if>
       <if test="null != sysPermisCustom.recordStatus and '' != sysPermisCustom.recordStatus">
-        AND record_status = #{recordStatus,jdbcType=VARCHAR}
+        AND sp.record_status = #{recordStatus,jdbcType=VARCHAR}
       </if>
 
     </if>
@@ -262,12 +262,13 @@
   <!--根据条件查询-->
   <select id="selectListByQueryVo" parameterType="SysPermisQueryVo" resultMap="ResultMapCustom">
     select
-    <include refid="Base_Column_List" />
-    from tb_sys_permis
+    <include refid="Base_Column_List" />,su.user_name
+    from tb_sys_permis sp left join tb_sys_user su
+    on sp.opt_id = su.u_id
     <where>
       <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
       <include refid="base_query_condition"></include>
-      AND record_status != '00'
+      AND sp.record_status != '00'
     </where>
     <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
