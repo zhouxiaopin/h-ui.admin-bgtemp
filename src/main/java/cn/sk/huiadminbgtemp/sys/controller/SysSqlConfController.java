@@ -9,6 +9,7 @@ import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
 import cn.sk.huiadminbgtemp.sys.utils.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,25 +23,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/sysSqlConf")
 public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSqlConfQueryVo> {
-
+    private static final String UPDATE_RECORDSTATUS_OPRT = "updateRecordStatus";
     @Autowired
     private ISysSqlConfService sysSqlConfService;
-
-    //根据oprt返回对应的页面
-    @Override
-    protected String getPage(String oprt) {
-        String prefix = "sys/sysSqlConf/";
-        if (oprt.equals(QUERY_OPRT)) {
-            return prefix + "sysSqlConfQuery";
-        }
-        if (oprt.equals(UPDATE_OPRT)) {
-            return prefix + "sysSqlConf";
-        }
-        if (oprt.equals(ADD_OPRT)) {
-            return prefix + "sysSqlConf";
-        }
-        return super.getPage(oprt);
-    }
 
     //更新记录状态，禁用启用切换
     @PostMapping(value = "updateRecordStatus")
@@ -64,6 +49,23 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
     }
 
 
+    /****************************以下是重新父类的方法*****************************/
+
+    //根据oprt返回对应的页面
+    @Override
+    protected String getPage(String oprt) {
+        String prefix = "sys/sysSqlConf/";
+        if (oprt.equals(QUERY_OPRT)) {
+            return prefix + "sysSqlConfQuery";
+        }
+        if (oprt.equals(UPDATE_OPRT)) {
+            return prefix + "sysSqlConf";
+        }
+        if (oprt.equals(ADD_OPRT)) {
+            return prefix + "sysSqlConf";
+        }
+        return super.getPage(oprt);
+    }
     //参数检验
     @Override
     protected ServerResponse<SysSqlConfCustom> paramValidate(String oprt, SysSqlConfCustom sysSqlConfCustom) {
@@ -129,5 +131,31 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
 
         return super.paramValidate(oprt, sysSqlConfCustom);
     }
-
+    //权限校验
+    @Override
+    protected void authorityValidate(String oprt) {
+        switch (oprt) {
+            case ADD_OPRT://添加
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.ADD);
+                break;
+            case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.UPDATE_RECORDSTATUS);
+                break;
+            case UPDATE_OPRT://修改
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.UPDATE);
+                break;
+            case DEL_OPRT://删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.DEL);
+                break;
+            case REAL_DEL_OPRT://硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.REAL_DEL);
+                break;
+            case BATCH_DEL_OPRT://批量删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.BATCH_DEL);
+                break;
+            case BATCH_REAL_DEL_OPRT://批量硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.BATCH_REAL_DEL);
+                break;
+        }
+    }
 }

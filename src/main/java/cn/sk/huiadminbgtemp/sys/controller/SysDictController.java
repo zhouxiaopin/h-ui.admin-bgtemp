@@ -8,6 +8,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,30 +24,18 @@ import java.util.List;
 @RequestMapping("/sysDict")
 @RequiresAuthentication
 public class SysDictController extends BaseController<SysDictCustom, SysDictQueryVo> {
-
+    private static final String UPDATE_RECORDSTATUS_OPRT = "updateRecordStatus";
     @Autowired
     private ISysDictService sysDictService;
 
 
-    //根据oprt返回对应的页面
-    @Override
-    protected String getPage(String oprt) {
-        String prefix = "sys/sysDict/";
-        if (oprt.equals(QUERY_OPRT)) {
-            return prefix + "sysDictQuery";
-        }
-        if (oprt.equals(UPDATE_OPRT)) {
-            return prefix + "sysDict";
-        }
-        if (oprt.equals(ADD_OPRT)) {
-            return prefix + "sysDict";
-        }
-        return super.getPage(oprt);
-    }
 
     //更新记录状态，禁用启用切换
     @PostMapping(value = "updateRecordStatus")
     public ServerResponse<SysDictCustom> updateRecordStatus(SysDictCustom sysDictCustom) {
+        //权限校验
+        authorityValidate(UPDATE_RECORDSTATUS_OPRT);
+
         String rs = sysDictCustom.getRecordStatus();
         ServerResponse<SysDictCustom> serverResponse = sysDictService.update(sysDictCustom);
         if (serverResponse.isSuccess()) {
@@ -66,6 +55,25 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
     }
 
 
+
+
+    /****************************以下是重新父类的方法*****************************/
+
+    //根据oprt返回对应的页面
+    @Override
+    protected String getPage(String oprt) {
+        String prefix = "sys/sysDict/";
+        if (oprt.equals(QUERY_OPRT)) {
+            return prefix + "sysDictQuery";
+        }
+        if (oprt.equals(UPDATE_OPRT)) {
+            return prefix + "sysDict";
+        }
+        if (oprt.equals(ADD_OPRT)) {
+            return prefix + "sysDict";
+        }
+        return super.getPage(oprt);
+    }
     //参数检验
     @Override
     protected ServerResponse<SysDictCustom> paramValidate(String oprt, SysDictCustom sysDictCustom) {
@@ -113,5 +121,31 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
 
         return super.paramValidate(oprt, sysDictCustom);
     }
-
+    //权限校验
+    @Override
+    protected void authorityValidate(String oprt) {
+        switch (oprt) {
+            case ADD_OPRT://添加
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.ADD);
+                break;
+            case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.UPDATE_RECORDSTATUS);
+                break;
+            case UPDATE_OPRT://修改
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.UPDATE);
+                break;
+            case DEL_OPRT://删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.DEL);
+                break;
+            case REAL_DEL_OPRT://硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.REAL_DEL);
+                break;
+            case BATCH_DEL_OPRT://批量删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.BATCH_DEL);
+                break;
+            case BATCH_REAL_DEL_OPRT://批量硬删除
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.BATCH_REAL_DEL);
+                break;
+        }
+    }
 }

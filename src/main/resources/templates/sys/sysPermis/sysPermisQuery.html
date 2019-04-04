@@ -119,11 +119,12 @@
 
     //主键
     var pk = 'pId';
-
+    //模块标题
+    var modelTile = '角色';
     //修改
     function to_edit(id) {
         var url = "initUpdate?" + pk + "=" + id;
-        layer_show("修改权限", url, 800, 600, function () {//结束事件
+        requestPage(url,{'oprt':skConst.Oprt.UPDATE_OPRT},'修改'+modelTile, 800, 600, function () {//结束事件
             _dataTables.ajax.reload();
         });
     }
@@ -215,7 +216,8 @@
 
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加权限', 'initAdd', 800, 600, function () {//结束事件
+            var url = "initAdd";
+            requestPage(url,{'oprt':skConst.Oprt.ADD_OPRT},'添加'+modelTile, 800, 600, function () {//结束事件
                 // _dataTables.ajax.reload();
                 location.reload();
             });

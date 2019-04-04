@@ -138,7 +138,7 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-//                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.UPDATE);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.UPDATE);
                 break;
             case DEL_OPRT://删除
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.DEL);

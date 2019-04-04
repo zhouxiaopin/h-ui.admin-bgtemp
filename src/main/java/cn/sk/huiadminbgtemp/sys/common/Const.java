@@ -85,6 +85,50 @@ public class Const {
             public static final String BATCH_DEL = SYSROLE+":"+ShiroPermis.BATCH_DEL;
             public static final String BATCH_REAL_DEL = SYSROLE+":"+ShiroPermis.BATCH_REAL_DEL;
         }
+        //系统权限
+        class SysPermis{
+            public static final String SYSPERMIS = "sysPermis";
+            public static final String ADD = SYSPERMIS+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSPERMIS+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSPERMIS+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSPERMIS+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSPERMIS+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSPERMIS+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSPERMIS+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
+        //系统日志
+        class SysLog{
+            public static final String SYSlOG = "sysLog";
+            public static final String ADD = SYSlOG+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSlOG+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSlOG+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSlOG+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSlOG+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSlOG+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSlOG+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
+        //数字字典
+        class SysDict{
+            public static final String SYSDICT = "sysDict";
+            public static final String ADD = SYSDICT+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSDICT+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSDICT+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSDICT+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSDICT+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSDICT+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSDICT+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
+        //sql语句配置
+        class SysSqlConf{
+            public static final String SYSSQLCONF = "sysSqlConf";
+            public static final String ADD = SYSSQLCONF+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSSQLCONF+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSSQLCONF+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSSQLCONF+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSSQLCONF+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSSQLCONF+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSSQLCONF+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
     }
 
 }
