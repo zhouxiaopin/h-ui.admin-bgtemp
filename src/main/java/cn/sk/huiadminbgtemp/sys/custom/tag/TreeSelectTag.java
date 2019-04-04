@@ -5,7 +5,7 @@ import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
-import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
+import cn.sk.huiadminbgtemp.sys.utils.JackJsonUtil;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -415,6 +415,6 @@ public class TreeSelectTag extends BaseTag {
         if(CollectionUtils.isEmpty(data)) {
             return null;
         }
-        return FastJsonUtil.obj2String(data);
+        return JackJsonUtil.obj2String(data);
     }
 }

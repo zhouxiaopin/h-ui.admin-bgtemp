@@ -18,3 +18,19 @@ skConst.RecordStatus = {
 skConst.Dict = {
     RECORDSTATUS_DICTCODE:'record_status',//记录删除
 };
+
+//操作相关
+skConst.Oprt = {
+    QUERY_OPRT : "query",
+    ADD_OPRT : "add",
+    UPDATE_OPRT : "update",
+    QUERYDETAIL_OPRT : "queryDetail",
+    DEL_OPRT : "del",
+    REAL_DEL_OPRT : "realDel",
+    BATCH_DEL_OPRT : "batchDel",
+    BATCH_REAL_DEL_OPRT : "batchRealDel",
+    UPDATE_RECORDSTATUS_OPRT : "updateRecordStatus",
+    SysUser:{
+        UPDATE_PASSWORD_OPRT : "updatePassword"
+    }
+};

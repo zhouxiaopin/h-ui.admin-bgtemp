@@ -136,10 +136,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
             //根据用户id查找权限
             List<Map<String,Object>> sysRoles = sysRoleMapper.selectListByUserId(params);
             roleNames.delete(0,roleNames.length());
-            for(int j = 0,length = list.size(); j < length; j++) {
+            for(int j = 0,length = sysRoles.size(); j < length; j++) {
                 roleNames.append(sysRoles.get(j).get("roleName")).append(",");
             }
-            roleNames.deleteCharAt(roleNames.length()-1);
+            if(roleNames.length() >1 )roleNames.deleteCharAt(roleNames.length()-1);
             list.get(i).setRoleName(roleNames.toString());
         }
 

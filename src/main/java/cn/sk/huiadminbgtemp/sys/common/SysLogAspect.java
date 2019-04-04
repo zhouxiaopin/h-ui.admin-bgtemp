@@ -4,7 +4,7 @@ import cn.sk.huiadminbgtemp.sys.pojo.SysLogCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.service.ISysLogService;
 import cn.sk.huiadminbgtemp.sys.utils.IpAdrressUtil;
-import com.alibaba.fastjson.JSON;
+import cn.sk.huiadminbgtemp.sys.utils.JackJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -97,7 +97,7 @@ public class SysLogAspect {
                 //请求的参数
                 Object[] args = joinPoint.getArgs();
                 //将参数所在的数组转换成json
-                String params = JSON.toJSONString(args);
+                String params = JackJsonUtil.obj2String(args);
                 sysLogCustom.setParams(params);
             }
         }

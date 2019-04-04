@@ -38,30 +38,6 @@ window.sk = {
 
         });
     },
-    ajaxRequestPage: function (path, data, success, ptype, error, timeout, async) {
-        if (!ptype || ptype.toLowerCase() != "post") {
-            ptype = "get";
-        }
-        if (async == undefined) {
-            async = true;
-        }
-        $.ajax({
-            url: path,
-            type: ptype,
-            data: data,
-            async: async,
-            dataType: "html",
-            timeout: (timeout == undefined || timeout == null) ? 20000 : timeout,
-            success: success,
-            error: function (xhr, textStatus, errorThrown) {
-                console.log(errorThrown);
-                if (errorThrown == 'timeout') {
-                    sk.failMsg('网络请求失败', 2000);
-                }
-            }
-
-        });
-    },
     getBrowser: function () {
         var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
         var isOpera = userAgent.indexOf("Opera") > -1;
@@ -442,13 +418,11 @@ function unblockPage(){
 	h		弹出层高度（缺省调默认值）
 */
 function layer_show_page(title,content,w,h,end){
-    var type = 1;
     if (title == null || title == '') {
         title=false;
     };
     if (content == null || content == '') {
         content="404.html";
-        type = 2
     };
     if (w == null || w == '') {
         w=800;
@@ -457,13 +431,27 @@ function layer_show_page(title,content,w,h,end){
         h=($(window).height() - 50);
     };
     layer.open({
-        type: type,
+        type: 2,
         area: [w+'px', h +'px'],
         fix: false, //不固定
         maxmin: true,
-        shade:0.4,
+        // shade:0.4,
         title: title,
         content: content,
+        success: function(layero, index){
+            var body = layer.getChildFrame('body pre', index);
+            try {
+                var r = JSON.parse(body.text());
+                if (r.code && r.code != '0') {
+                    sk.failMsg(r.msg);
+                    layer.close(index);
+                }else{
+
+                }
+            }catch (e) {
+
+            }
+        },
         end: end
     });
 }
@@ -478,17 +466,27 @@ function layer_show_page(title,content,w,h,end){
  * @param end 结束事件
  */
 function requestPage(url,param,title,w,h,end){
-    sk.ajaxRequestPage(url, param, function (r) {
-        try {
-            r = JSON.parse(r);
-            if (r.code && r.code != '0') {
-                sk.failMsg(r.msg);
+    sk.ajaxRequest('authValidate', param, function (r) {
+            if (r.code == '0') {
+                layer_show(title, url, w, h, end);
             }else{
-
+                sk.failMsg(r.msg);
             }
-        }catch (e) {
-            layer_show_page(title, r, w, h, end);
-        }
+    });
+}
+function requestPageCustom(url,param,title,w,h,end){
+    sk.ajaxRequestPage(url, param, function (r) {
+        layer_show_page(title, url, w, h, end);
+        // try {
+        //     r = JSON.parse(r);
+        //     if (r.code && r.code != '0') {
+        //         sk.failMsg(r.msg);
+        //     }else{
+        //
+        //     }
+        // }catch (e) {
+        //     layer_show_page(title, url, w, h, end);
+        // }
     });
 }
 /***********************h-ui.admin扩展结束*************************/

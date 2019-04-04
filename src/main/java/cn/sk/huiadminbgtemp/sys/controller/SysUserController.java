@@ -271,28 +271,28 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_ADD);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE);
                 break;
             case UPDATE_PASSWORD_OPRT://修改密码
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_UPDATE_PSD);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE_PSD);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_DEL);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SYSUSER_BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.BATCH_REAL_DEL);
                 break;
         }
     }

@@ -46,15 +46,24 @@
         <table id="skDataTable" class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
                 <tr class="text-c">
-                    <th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
-                    <th width="60">用户名</th>
-                    <th width="60">姓名</th>
-                    <th width="40">性别</th>
-                    <th width="60">手机</th>
-                    <th width="80">邮箱</th>
-                    <th width="80">创建时间</th>
-                    <th width="50">状态</th>
-                    <th width="100">操作</th>
+                    <th><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>手机</th>
+                    <th>邮箱</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                    <!--<th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>-->
+                    <!--<th width="60">用户名</th>-->
+                    <!--<th width="60">姓名</th>-->
+                    <!--<th width="40">性别</th>-->
+                    <!--<th width="60">手机</th>-->
+                    <!--<th width="80">邮箱</th>-->
+                    <!--<th width="80">创建时间</th>-->
+                    <!--<th width="50">状态</th>-->
+                    <!--<th width="100">操作</th>-->
                 </tr>
             </thead>
             <tbody class="text-c">
@@ -89,7 +98,7 @@
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
-        requestPage(url,null,'修改'+modelTile, 800, 600, function () {//结束事件
+        requestPage(url,{'oprt':skConst.Oprt.UPDATE_OPRT},'修改'+modelTile, 800, 600, function () {//结束事件
             _dataTables.ajax.reload();
         });
         // layer_show("修改"+modelTile, url, 800, 600, function () {//结束事件
@@ -101,7 +110,7 @@
     //修改密码
     function updatePassword(id) {
         var url = "initUpdatePassword?"+pk+"=" + id;
-        requestPage(url,null,'修改密码', 500, 400);
+        requestPage(url,{'oprt':skConst.Oprt.SysUser.UPDATE_PASSWORD_OPRT},'修改密码', 500, 400);
     }
 
     var _dataTables;
@@ -110,12 +119,12 @@
         //添加按钮
         $('#addBtn').on('click', function () {
             var url = "initAdd";
-            requestPage(url,null,'添加'+modelTile, 800, 600, function () {//结束事件
+            requestPage(url,{'oprt':skConst.Oprt.ADD_OPRT},'添加'+modelTile, 800, 600, function () {//结束事件
                 // _dataTables.ajax.reload();
                 location.reload();
             });
 
-            // layer_show('添加用户', 'initAdd', 800, 600, function () {//结束事件
+            // layer_show('添加'+modelTile, 'initAdd', 800, 600, function () {//结束事件
             //     // _dataTables.ajax.reload();
             //     location.reload();
             // });

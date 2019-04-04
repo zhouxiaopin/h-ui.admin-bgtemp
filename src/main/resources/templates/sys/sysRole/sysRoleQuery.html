@@ -32,6 +32,7 @@
         <span class="l">
             <sk:aBtn id="addBtn" class="btn-primary" text="添加角色" dictType="oprt_icon" dictCode="01"/>
             <sk:aBtn onclick="batchDel()" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>
+            <sk:aBtn onclick="batchRealDel()" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>
         </span>
         <!--<span-->
         <!--class="r">共有数据：<strong>88</strong> 条</span>-->
@@ -45,14 +46,22 @@
         <table id="skDataTable" class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr class="text-c">
-                <th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
-                <th width="60">角色标识</th>
-                <th width="60">角色名</th>
-                <th width="80">描述</th>
-                <th width="60">创建人</th>
-                <th width="80">创建时间</th>
-                <th width="50">状态</th>
-                <th width="100">操作</th>
+                <th><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>
+                <th>角色标识</th>
+                <th>角色名</th>
+                <th>描述</th>
+                <th>创建人</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
+                <!--<th width="25"><input type="checkbox" id="checkbox" name="checkbox" class="checkall"/></th>-->
+                <!--<th width="60">角色标识</th>-->
+                <!--<th width="60">角色名</th>-->
+                <!--<th width="80">描述</th>-->
+                <!--<th width="60">创建人</th>-->
+                <!--<th width="80">创建时间</th>-->
+                <!--<th width="50">状态</th>-->
+                <!--<th width="50">操作</th>-->
             </tr>
 
             </thead>
@@ -81,13 +90,15 @@
 <script th:inline="none" type="text/javascript">
     //主键
     var pk = 'roleId';
+    //模块标题
+    var modelTile = '角色';
 
     var _dataTables;
 
     //修改
     function to_edit(id) {
         var url = "initUpdate?"+pk+"=" + id;
-        layer_show("修改角色", url, 800, 600, function () {//结束事件
+        requestPage(url,{'oprt':skConst.Oprt.UPDATE_OPRT},'修改'+modelTile, 800, 600, function () {//结束事件
             _dataTables.ajax.reload();
         });
     }
@@ -95,7 +106,8 @@
         $(function () {
         //添加按钮
         $('#addBtn').on('click', function () {
-            layer_show('添加角色', 'initAdd', 800, 600, function () {//结束事件
+            var url = "initAdd";
+            requestPage(url,{'oprt':skConst.Oprt.ADD_OPRT},'添加'+modelTile, 800, 600, function () {//结束事件
                 // _dataTables.ajax.reload();
                 location.reload();
             });

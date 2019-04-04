@@ -8,7 +8,7 @@ import cn.sk.huiadminbgtemp.sys.common.SkLog;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
-import cn.sk.huiadminbgtemp.sys.utils.FastJsonUtil;
+import cn.sk.huiadminbgtemp.sys.utils.JackJsonUtil;
 import cn.sk.huiadminbgtemp.sys.utils.LogUtil;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import cn.sk.huiadminbgtemp.sys.vo.SelectBoxVo;
@@ -205,7 +205,7 @@ public class BaseController<T, V> {
             if (null != t) {
                 model.addObject("obj", t);
 //                model.addAttribute("jsonObj", GsonUtils.objToJsonStr(t));
-                model.addObject("jsonObj", FastJsonUtil.obj2String(t));
+                model.addObject("jsonObj", JackJsonUtil.obj2String(t));
                 model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
             } else {
                 model.addObject("msg", Const.ResponseMsg.RECORD_EXISTS_NO);
@@ -248,4 +248,11 @@ public class BaseController<T, V> {
         }
         return ServerResponse.createBySuccess(selectBoxVos);
     }
+    //权限校验
+    @PostMapping(value = "/authValidate")
+    public ServerResponse authValidate(String oprt) {
+        authorityValidate(oprt);
+        return ServerResponse.createBySuccess();
+    }
+
 }

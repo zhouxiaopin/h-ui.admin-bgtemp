@@ -22,8 +22,8 @@
 		<guava.version>20.0</guava.version>
 		<mybatis.springboot.version>2.0.0</mybatis.springboot.version>
 		<commons.lang3.version>3.5</commons.lang3.version>
-		<jackson.mapper.asl.version>1.9.12</jackson.mapper.asl.version>
-		<fastjson.version>1.2.3</fastjson.version>
+		<jackson.mapper.asl.version>1.9.13</jackson.mapper.asl.version>
+		<fastjson.version>1.2.56</fastjson.version>
 		<joda.time.version>2.3</joda.time.version>
 		<httpclient.version>4.5.2</httpclient.version>
 		<commons.beanutils.version>1.9.3</commons.beanutils.version>
@@ -128,6 +128,7 @@
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
+
 		<!--日期处理神器-->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -160,10 +161,11 @@
 		<!--shiro权限框架-->
 		<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
 
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring-boot-web-starter</artifactId>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.apache.shiro</groupId>-->
+			<!--<artifactId>shiro-spring-boot-web-starter</artifactId>-->
+			<!--<version>${shiro.version}</version>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>

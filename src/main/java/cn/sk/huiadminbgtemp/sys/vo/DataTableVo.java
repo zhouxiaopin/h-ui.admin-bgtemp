@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+
 public class DataTableVo<T> {
     private Integer draw;//表示请求次数
     private Long recordsTotal;//总记录数

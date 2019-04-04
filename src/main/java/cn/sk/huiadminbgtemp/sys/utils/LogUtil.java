@@ -4,7 +4,6 @@ import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.pojo.SysLogCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.service.ISysLogService;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class LogUtil {
         if(saveParams) {
             //请求的参数
             //将参数所在的数组转换成json
-            String params = JSON.toJSONString(request.getParameterMap());
+            String params = JackJsonUtil.obj2String(request.getParameterMap());
             sysLogCustom.setParams(params);
         }
 

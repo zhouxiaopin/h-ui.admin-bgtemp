@@ -62,16 +62,29 @@ public class Const {
         String BATCH_REAL_DEL = "batchRealDel";
 
         //系统用户
-        String SYSUSER = "sysUser";
-        String SYSUSER_ADD = SYSUSER+":"+ADD;
-        String SYSUSER_UPDATE = SYSUSER+":"+UPDATE;
-        String SYSUSER_UPDATE_RECORDSTATUS = SYSUSER+":"+UPDATE_RECORDSTATUS;
-        String SYSUSER_UPDATE_PSD = SYSUSER+":updatePsd";
-        String SYSUSER_DEL = SYSUSER+":"+DEL;
-        String SYSUSER_REAL_DEL = SYSUSER+":"+REAL_DEL;
-        String SYSUSER_BATCH_DEL = SYSUSER+":"+BATCH_DEL;
-        String SYSUSER_BATCH_REAL_DEL = SYSUSER+":"+BATCH_REAL_DEL;
+        class SysUser{
+            public static final String SYSUSER = "sysUser";
+            public static final String ADD = SYSUSER+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSUSER+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSUSER+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String UPDATE_PSD = SYSUSER+":updatePsd";
+            public static final String DEL = SYSUSER+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSUSER+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSUSER+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSUSER+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
 
+        //系统角色
+        class SysRole{
+            public static final String SYSROLE = "sysRole";
+            public static final String ADD = SYSROLE+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSROLE+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSROLE+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSROLE+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSROLE+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSROLE+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSROLE+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
     }
 
 }

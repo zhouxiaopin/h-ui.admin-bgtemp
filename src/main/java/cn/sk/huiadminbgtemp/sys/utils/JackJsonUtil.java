@@ -1,27 +1,29 @@
 package cn.sk.huiadminbgtemp.sys.utils;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.text.SimpleDateFormat;
 
 
+
 /**
  *Json转换工具类
  */
 @Slf4j
-public class FastJsonUtil {
+public class JackJsonUtil {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
     static{
         //对象的所有字段全部列入
-        objectMapper.setSerializationInclusion(Inclusion.ALWAYS);
+        objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.ALWAYS);
 
         //取消默认转换timestamps形式
         objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,false);
@@ -121,8 +123,8 @@ public class FastJsonUtil {
 
         //{"name":"Geely","id":666}
 //        String json = "{\"name\":\"Geely\",\"color\":\"blue\",\"id\":666}";
-//        TestPojo testPojoObject = FastJsonUtil.string2Obj(json,TestPojo.class);
-//        String testPojoJson = FastJsonUtil.obj2String(testPojo);
+//        TestPojo testPojoObject = JackJsonUtil.string2Obj(json,TestPojo.class);
+//        String testPojoJson = JackJsonUtil.obj2String(testPojo);
 //        log.info("testPojoJson:{}",testPojoJson);
 
 //        log.info("end");
@@ -131,7 +133,7 @@ public class FastJsonUtil {
 //        user.setId(2);
 //        user.setEmail("geely@happymmall.com");
 //        user.setCreateTime(new Date());
-//        String userJsonPretty = FastJsonUtil.obj2StringPretty(user);
+//        String userJsonPretty = JackJsonUtil.obj2StringPretty(user);
 //        log.info("userJson:{}",userJsonPretty);
 
 
@@ -141,34 +143,34 @@ public class FastJsonUtil {
 //
 //
 //
-//        String user1Json = FastJsonUtil.obj2String(u1);
+//        String user1Json = JackJsonUtil.obj2String(u1);
 //
-//        String user1JsonPretty = FastJsonUtil.obj2StringPretty(u1);
+//        String user1JsonPretty = JackJsonUtil.obj2StringPretty(u1);
 //
 //        log.info("user1Json:{}",user1Json);
 //
 //        log.info("user1JsonPretty:{}",user1JsonPretty);
 //
 //
-//        User user = FastJsonUtil.string2Obj(user1Json,User.class);
+//        User user = JackJsonUtil.string2Obj(user1Json,User.class);
 //
 //
 //        List<User> userList = Lists.newArrayList();
 //        userList.add(u1);
 //        userList.add(u2);
 //
-//        String userListStr = FastJsonUtil.obj2StringPretty(userList);
+//        String userListStr = JackJsonUtil.obj2StringPretty(userList);
 //
 //        log.info("==================");
 //
 //        log.info(userListStr);
 //
 //
-//        List<User> userListObj1 = FastJsonUtil.string2Obj(userListStr, new TypeReference<List<User>>() {
+//        List<User> userListObj1 = JackJsonUtil.string2Obj(userListStr, new TypeReference<List<User>>() {
 //        });
 //
 //
-//        List<User> userListObj2 = FastJsonUtil.string2Obj(userListStr,List.class,User.class);
+//        List<User> userListObj2 = JackJsonUtil.string2Obj(userListStr,List.class,User.class);
 
         System.out.println("end");
 
