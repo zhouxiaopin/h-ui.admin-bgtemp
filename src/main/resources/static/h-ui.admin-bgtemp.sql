@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local_root
+Source Server         : MySQL
 Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : h-ui.admin-bgtemp
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-04-04 17:20:12
+Date: 2019-04-04 23:24:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,7 +99,7 @@ CREATE TABLE `tb_sys_log` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=740 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=763 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_log
@@ -843,6 +843,29 @@ INSERT INTO `tb_sys_log` VALUES ('736', '24', 'zhoucp', '登录系统', 'SysUser
 INSERT INTO `tb_sys_log` VALUES ('737', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysLog:batchDel\",\"pName\":\"批量删除\",\"pUrl\":\"\",\"parentId\":20,\"pType\":\"02\",\"pLevel\":7,\"pSort\":1,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '172.31.211.181', 'http://172.31.211.181:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 16:50:22', '2019-04-04 16:50:22');
 INSERT INTO `tb_sys_log` VALUES ('738', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysLog:batchRealDel\",\"pName\":\"批量硬删除\",\"pUrl\":\"\",\"parentId\":20,\"pType\":\"02\",\"pLevel\":7,\"pSort\":2,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '172.31.211.181', 'http://172.31.211.181:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 16:50:38', '2019-04-04 16:50:38');
 INSERT INTO `tb_sys_log` VALUES ('739', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysLog:del\",\"pName\":\"删除\",\"pUrl\":\"\",\"parentId\":20,\"pType\":\"02\",\"pLevel\":8,\"pSort\":1,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '172.31.211.181', 'http://172.31.211.181:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 16:50:53', '2019-04-04 16:50:53');
+INSERT INTO `tb_sys_log` VALUES ('740', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 21:25:32', '2019-04-04 21:25:32');
+INSERT INTO `tb_sys_log` VALUES ('741', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict\",\"pName\":\"添加\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":7,\"pSort\":null,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:30:23', '2019-04-04 21:30:23');
+INSERT INTO `tb_sys_log` VALUES ('742', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict:batchDel\",\"pName\":\"批量删除\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":7,\"pSort\":2,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:31:12', '2019-04-04 21:31:12');
+INSERT INTO `tb_sys_log` VALUES ('743', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict:batchRealDel\",\"pName\":\"批量硬删除\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":7,\"pSort\":3,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:31:29', '2019-04-04 21:31:29');
+INSERT INTO `tb_sys_log` VALUES ('744', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict:updateRecordStatus\",\"pName\":\"禁用/启用\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":8,\"pSort\":1,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:31:56', '2019-04-04 21:31:56');
+INSERT INTO `tb_sys_log` VALUES ('745', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict:update\",\"pName\":\"修改\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":8,\"pSort\":2,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:32:14', '2019-04-04 21:32:14');
+INSERT INTO `tb_sys_log` VALUES ('746', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysDict:del\",\"pName\":\"删除\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":8,\"pSort\":3,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 21:32:32', '2019-04-04 21:32:32');
+INSERT INTO `tb_sys_log` VALUES ('747', '24', 'zhoucp', '修改', 'SysPermisController_update', '[{\"pId\":46,\"pFlag\":\"sysDict:add\",\"pName\":\"添加\",\"pUrl\":\"\",\"parentId\":18,\"pType\":\"02\",\"pLevel\":7,\"pSort\":1,\"descri\":\"\",\"optId\":null,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 21:33:04', '2019-04-04 21:33:04');
+INSERT INTO `tb_sys_log` VALUES ('748', '24', 'zhoucp', '修改', 'SysRoleController_update', '[{\"roleId\":5,\"roleFlag\":\"superAdmin\",\"roleName\":\"超级管理员\",\"descri\":\"拥有最高的权限\",\"optId\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"permisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,46,47,48,49,50,51\",\"oldPermisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42\",\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysRole/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 21:33:24', '2019-04-04 21:33:24');
+INSERT INTO `tb_sys_log` VALUES ('749', '24', 'zhoucp', '修改', 'SysRoleController_update', '[{\"roleId\":5,\"roleFlag\":\"superAdmin\",\"roleName\":\"超级管理员\",\"descri\":\"拥有最高的权限\",\"optId\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"permisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,47,48,49,50,51\",\"oldPermisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,46,47,48,49,50,51\",\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysRole/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 21:33:41', '2019-04-04 21:33:41');
+INSERT INTO `tb_sys_log` VALUES ('750', '24', 'zhoucp', '修改', 'SysRoleController_update', '[{\"roleId\":5,\"roleFlag\":\"superAdmin\",\"roleName\":\"超级管理员\",\"descri\":\"拥有最高的权限\",\"optId\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"permisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,46,47,48,49,50,51\",\"oldPermisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,47,48,49,50,51\",\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysRole/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 21:33:51', '2019-04-04 21:33:51');
+INSERT INTO `tb_sys_log` VALUES ('751', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 21:51:04', '2019-04-04 21:51:04');
+INSERT INTO `tb_sys_log` VALUES ('752', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 22:15:56', '2019-04-04 22:15:56');
+INSERT INTO `tb_sys_log` VALUES ('753', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 23:15:55', '2019-04-04 23:15:55');
+INSERT INTO `tb_sys_log` VALUES ('754', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:add\",\"pName\":\"添加\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":7,\"pSort\":1,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:18:54', '2019-04-04 23:18:54');
+INSERT INTO `tb_sys_log` VALUES ('755', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:batchDel\",\"pName\":\"批量删除\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":7,\"pSort\":2,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:19:08', '2019-04-04 23:19:08');
+INSERT INTO `tb_sys_log` VALUES ('756', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:batchRealDel\",\"pName\":\"批量硬删除\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":7,\"pSort\":3,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:19:25', '2019-04-04 23:19:25');
+INSERT INTO `tb_sys_log` VALUES ('757', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:updateRecordStatus\",\"pName\":\"禁用/启用\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":8,\"pSort\":1,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:19:48', '2019-04-04 23:19:48');
+INSERT INTO `tb_sys_log` VALUES ('758', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:update\",\"pName\":\"修改\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":8,\"pSort\":2,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:20:05', '2019-04-04 23:20:05');
+INSERT INTO `tb_sys_log` VALUES ('759', '24', 'zhoucp', '添加', 'SysPermisController_add', '[{\"pId\":null,\"pFlag\":\"sysSqlConf:del\",\"pName\":\"删除\",\"pUrl\":\"\",\"parentId\":19,\"pType\":\"02\",\"pLevel\":8,\"pSort\":3,\"descri\":\"\",\"optId\":24,\"leftIcon\":\"\",\"expand1\":null,\"expand2\":null,\"expand3\":null,\"recordStatus\":\"01\",\"updateTime\":null,\"createTime\":null,\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysPermis/add', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_add', null, null, null, null, null, '01', '2019-04-04 23:20:17', '2019-04-04 23:20:17');
+INSERT INTO `tb_sys_log` VALUES ('760', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 23:22:28', '2019-04-04 23:22:28');
+INSERT INTO `tb_sys_log` VALUES ('761', '24', 'zhoucp', '修改', 'SysRoleController_update', '[{\"roleId\":5,\"roleFlag\":\"superAdmin\",\"roleName\":\"超级管理员\",\"descri\":\"拥有最高的权限\",\"optId\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"permisIds\":\"11,13,14,15,16,17,18,19,20,24,27,28,29,31,34,36,37,40,41,46,49,50,52,55,56\",\"oldPermisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,46,47,48,49,50,51\",\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysRole/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 23:23:35', '2019-04-04 23:23:35');
+INSERT INTO `tb_sys_log` VALUES ('762', '24', 'zhoucp', '退出系统', 'SysUserController_sysLogout', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/sysLogout', 'GET', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_sysLogout', null, null, null, null, null, '01', '2019-04-04 23:23:41', '2019-04-04 23:23:41');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
@@ -867,7 +890,7 @@ CREATE TABLE `tb_sys_permis` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of tb_sys_permis
@@ -905,6 +928,18 @@ INSERT INTO `tb_sys_permis` VALUES ('42', 'sysPermis:del', '删除', '', '16', '
 INSERT INTO `tb_sys_permis` VALUES ('43', 'sysLog:batchDel', '批量删除', '', '20', '02', '7', '1', '', '24', '', null, null, null, '01', '2019-04-04 16:50:21', '2019-04-04 16:50:21');
 INSERT INTO `tb_sys_permis` VALUES ('44', 'sysLog:batchRealDel', '批量硬删除', '', '20', '02', '7', '2', '', '24', '', null, null, null, '01', '2019-04-04 16:50:38', '2019-04-04 16:50:38');
 INSERT INTO `tb_sys_permis` VALUES ('45', 'sysLog:del', '删除', '', '20', '02', '8', '1', '', '24', '', null, null, null, '01', '2019-04-04 16:50:53', '2019-04-04 16:50:53');
+INSERT INTO `tb_sys_permis` VALUES ('46', 'sysDict:add', '添加', '', '18', '02', '7', '1', '', '24', '', null, null, null, '01', '2019-04-04 21:33:04', '2019-04-04 21:30:23');
+INSERT INTO `tb_sys_permis` VALUES ('47', 'sysDict:batchDel', '批量删除', '', '18', '02', '7', '2', '', '24', '', null, null, null, '01', '2019-04-04 21:31:12', '2019-04-04 21:31:12');
+INSERT INTO `tb_sys_permis` VALUES ('48', 'sysDict:batchRealDel', '批量硬删除', '', '18', '02', '7', '3', '', '24', '', null, null, null, '01', '2019-04-04 21:31:28', '2019-04-04 21:31:28');
+INSERT INTO `tb_sys_permis` VALUES ('49', 'sysDict:updateRecordStatus', '禁用/启用', '', '18', '02', '8', '1', '', '24', '', null, null, null, '01', '2019-04-04 21:31:56', '2019-04-04 21:31:56');
+INSERT INTO `tb_sys_permis` VALUES ('50', 'sysDict:update', '修改', '', '18', '02', '8', '2', '', '24', '', null, null, null, '01', '2019-04-04 21:32:14', '2019-04-04 21:32:14');
+INSERT INTO `tb_sys_permis` VALUES ('51', 'sysDict:del', '删除', '', '18', '02', '8', '3', '', '24', '', null, null, null, '01', '2019-04-04 21:32:32', '2019-04-04 21:32:32');
+INSERT INTO `tb_sys_permis` VALUES ('52', 'sysSqlConf:add', '添加', '', '19', '02', '7', '1', '', '24', '', null, null, null, '01', '2019-04-04 23:18:54', '2019-04-04 23:18:54');
+INSERT INTO `tb_sys_permis` VALUES ('53', 'sysSqlConf:batchDel', '批量删除', '', '19', '02', '7', '2', '', '24', '', null, null, null, '01', '2019-04-04 23:19:08', '2019-04-04 23:19:08');
+INSERT INTO `tb_sys_permis` VALUES ('54', 'sysSqlConf:batchRealDel', '批量硬删除', '', '19', '02', '7', '3', '', '24', '', null, null, null, '01', '2019-04-04 23:19:25', '2019-04-04 23:19:25');
+INSERT INTO `tb_sys_permis` VALUES ('55', 'sysSqlConf:updateRecordStatus', '禁用/启用', '', '19', '02', '8', '1', '', '24', '', null, null, null, '01', '2019-04-04 23:19:47', '2019-04-04 23:19:47');
+INSERT INTO `tb_sys_permis` VALUES ('56', 'sysSqlConf:update', '修改', '', '19', '02', '8', '2', '', '24', '', null, null, null, '01', '2019-04-04 23:20:05', '2019-04-04 23:20:05');
+INSERT INTO `tb_sys_permis` VALUES ('57', 'sysSqlConf:del', '删除', '', '19', '02', '8', '3', '', '24', '', null, null, null, '01', '2019-04-04 23:20:17', '2019-04-04 23:20:17');
 
 -- ----------------------------
 -- Table structure for `tb_sys_role`
@@ -929,7 +964,7 @@ INSERT INTO `tb_sys_role` VALUES ('1', 'admin', '超级管理员', '系统最大
 INSERT INTO `tb_sys_role` VALUES ('2', '1', '1', '1', null, '00', '2019-03-21 15:01:13', '2019-03-21 14:34:22');
 INSERT INTO `tb_sys_role` VALUES ('3', '2', '2', '2', null, '00', '2019-03-21 15:01:16', '2019-03-21 14:36:18');
 INSERT INTO `tb_sys_role` VALUES ('4', '3', '3', '3', null, '00', '2019-03-21 14:38:53', '2019-03-21 14:38:53');
-INSERT INTO `tb_sys_role` VALUES ('5', 'superAdmin', '超级管理员', '拥有最高的权限', '24', '01', '2019-04-04 16:48:10', '2019-03-21 14:38:59');
+INSERT INTO `tb_sys_role` VALUES ('5', 'superAdmin', '超级管理员', '拥有最高的权限', '24', '01', '2019-04-04 23:23:35', '2019-03-21 14:38:59');
 INSERT INTO `tb_sys_role` VALUES ('6', 'sysUser', '系统用户管理', '管理系统用户信息', null, '01', '2019-03-28 14:13:39', '2019-03-21 16:34:10');
 INSERT INTO `tb_sys_role` VALUES ('7', '6', '6', '6', null, '02', '2019-03-22 14:05:53', '2019-03-21 16:42:35');
 INSERT INTO `tb_sys_role` VALUES ('8', '7', '7', '7', null, '01', '2019-03-22 14:05:50', '2019-03-21 16:42:56');
@@ -951,39 +986,36 @@ CREATE TABLE `tb_sys_role_permis` (
   `role_id` int(10) unsigned DEFAULT NULL COMMENT '角色id',
   `permis_id` int(10) unsigned DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COMMENT='系统角色和系统权限中间表';
+) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8 COMMENT='系统角色和系统权限中间表';
 
 -- ----------------------------
 -- Records of tb_sys_role_permis
 -- ----------------------------
-INSERT INTO `tb_sys_role_permis` VALUES ('160', '5', '11');
-INSERT INTO `tb_sys_role_permis` VALUES ('161', '5', '13');
-INSERT INTO `tb_sys_role_permis` VALUES ('162', '5', '14');
-INSERT INTO `tb_sys_role_permis` VALUES ('163', '5', '15');
-INSERT INTO `tb_sys_role_permis` VALUES ('164', '5', '16');
-INSERT INTO `tb_sys_role_permis` VALUES ('165', '5', '17');
-INSERT INTO `tb_sys_role_permis` VALUES ('166', '5', '18');
-INSERT INTO `tb_sys_role_permis` VALUES ('167', '5', '19');
-INSERT INTO `tb_sys_role_permis` VALUES ('168', '5', '20');
-INSERT INTO `tb_sys_role_permis` VALUES ('169', '5', '24');
-INSERT INTO `tb_sys_role_permis` VALUES ('170', '5', '25');
-INSERT INTO `tb_sys_role_permis` VALUES ('171', '5', '26');
-INSERT INTO `tb_sys_role_permis` VALUES ('172', '5', '27');
-INSERT INTO `tb_sys_role_permis` VALUES ('173', '5', '28');
-INSERT INTO `tb_sys_role_permis` VALUES ('174', '5', '29');
-INSERT INTO `tb_sys_role_permis` VALUES ('175', '5', '30');
-INSERT INTO `tb_sys_role_permis` VALUES ('176', '5', '31');
-INSERT INTO `tb_sys_role_permis` VALUES ('177', '5', '32');
-INSERT INTO `tb_sys_role_permis` VALUES ('178', '5', '33');
-INSERT INTO `tb_sys_role_permis` VALUES ('179', '5', '34');
-INSERT INTO `tb_sys_role_permis` VALUES ('180', '5', '35');
-INSERT INTO `tb_sys_role_permis` VALUES ('181', '5', '36');
-INSERT INTO `tb_sys_role_permis` VALUES ('182', '5', '37');
-INSERT INTO `tb_sys_role_permis` VALUES ('183', '5', '38');
-INSERT INTO `tb_sys_role_permis` VALUES ('184', '5', '39');
-INSERT INTO `tb_sys_role_permis` VALUES ('185', '5', '40');
-INSERT INTO `tb_sys_role_permis` VALUES ('186', '5', '41');
-INSERT INTO `tb_sys_role_permis` VALUES ('187', '5', '42');
+INSERT INTO `tb_sys_role_permis` VALUES ('289', '5', '11');
+INSERT INTO `tb_sys_role_permis` VALUES ('290', '5', '13');
+INSERT INTO `tb_sys_role_permis` VALUES ('291', '5', '14');
+INSERT INTO `tb_sys_role_permis` VALUES ('292', '5', '15');
+INSERT INTO `tb_sys_role_permis` VALUES ('293', '5', '16');
+INSERT INTO `tb_sys_role_permis` VALUES ('294', '5', '17');
+INSERT INTO `tb_sys_role_permis` VALUES ('295', '5', '18');
+INSERT INTO `tb_sys_role_permis` VALUES ('296', '5', '19');
+INSERT INTO `tb_sys_role_permis` VALUES ('297', '5', '20');
+INSERT INTO `tb_sys_role_permis` VALUES ('298', '5', '24');
+INSERT INTO `tb_sys_role_permis` VALUES ('299', '5', '27');
+INSERT INTO `tb_sys_role_permis` VALUES ('300', '5', '28');
+INSERT INTO `tb_sys_role_permis` VALUES ('301', '5', '29');
+INSERT INTO `tb_sys_role_permis` VALUES ('302', '5', '31');
+INSERT INTO `tb_sys_role_permis` VALUES ('303', '5', '34');
+INSERT INTO `tb_sys_role_permis` VALUES ('304', '5', '36');
+INSERT INTO `tb_sys_role_permis` VALUES ('305', '5', '37');
+INSERT INTO `tb_sys_role_permis` VALUES ('306', '5', '40');
+INSERT INTO `tb_sys_role_permis` VALUES ('307', '5', '41');
+INSERT INTO `tb_sys_role_permis` VALUES ('308', '5', '46');
+INSERT INTO `tb_sys_role_permis` VALUES ('309', '5', '49');
+INSERT INTO `tb_sys_role_permis` VALUES ('310', '5', '50');
+INSERT INTO `tb_sys_role_permis` VALUES ('311', '5', '52');
+INSERT INTO `tb_sys_role_permis` VALUES ('312', '5', '55');
+INSERT INTO `tb_sys_role_permis` VALUES ('313', '5', '56');
 
 -- ----------------------------
 -- Table structure for `tb_sys_sql_conf`
@@ -1011,7 +1043,7 @@ CREATE TABLE `tb_sys_sql_conf` (
 -- Records of tb_sys_sql_conf
 -- ----------------------------
 INSERT INTO `tb_sys_sql_conf` VALUES ('1', 'sys_permis_tree', '系统权限树', 'select sp.p_id id,sp.parent_id pId,sp.p_name name,\'true\' open,\'false\' nocheck \r\nfrom tb_sys_permis sp WHERE sp.record_status = \'01\' order by sp.p_level', '01', '系统权限页面的父权限树', null, '', '', '', '', '01', '2019-03-28 15:09:24', '2019-03-24 15:22:17');
-INSERT INTO `tb_sys_sql_conf` VALUES ('2', 'sys_role_select', '系统角色下拉框', 'select sr.role_id id,sr.role_name name,0 pId,\'true\' open,\'false\' nocheck from tb_sys_role sr where sr.record_status=\'01\'', '01', '', null, '', '', '', '', '01', '2019-03-28 16:49:07', '2019-03-28 15:16:36');
+INSERT INTO `tb_sys_sql_conf` VALUES ('2', 'sys_role_select', '系统角色下拉框', 'select sr.role_id id,sr.role_name name,0 pId,\'true\' open,\'false\' nocheck from tb_sys_role sr where sr.record_status=\'01\'', '01', '', null, '', '', '', '', '01', '2019-04-04 21:51:27', '2019-03-28 15:16:36');
 
 -- ----------------------------
 -- Table structure for `tb_sys_user`
