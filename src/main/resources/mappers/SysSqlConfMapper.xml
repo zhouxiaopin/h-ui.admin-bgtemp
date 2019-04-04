@@ -247,4 +247,15 @@
     </where>
   </update>
 
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds">
+    delete from tb_sys_sql_conf
+    <where>
+      sc_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+
 </mapper>

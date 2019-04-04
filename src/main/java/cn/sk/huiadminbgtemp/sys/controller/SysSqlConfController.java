@@ -30,6 +30,9 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
     //更新记录状态，禁用启用切换
     @PostMapping(value = "updateRecordStatus")
     public ServerResponse<SysSqlConfCustom> updateRecordStatus(SysSqlConfCustom sysSqlConfCustom) {
+        //权限校验
+        authorityValidate(UPDATE_RECORDSTATUS_OPRT);
+
         String rs = sysSqlConfCustom.getRecordStatus();
         ServerResponse<SysSqlConfCustom> serverResponse = sysSqlConfService.update(sysSqlConfCustom);
         if (serverResponse.isSuccess()) {
