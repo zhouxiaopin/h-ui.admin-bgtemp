@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2019-04-04 23:24:41
+Date: 2019-04-07 18:46:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,7 +99,7 @@ CREATE TABLE `tb_sys_log` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=763 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=764 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_log
@@ -866,6 +866,7 @@ INSERT INTO `tb_sys_log` VALUES ('759', '24', 'zhoucp', '添加', 'SysPermisCont
 INSERT INTO `tb_sys_log` VALUES ('760', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-04 23:22:28', '2019-04-04 23:22:28');
 INSERT INTO `tb_sys_log` VALUES ('761', '24', 'zhoucp', '修改', 'SysRoleController_update', '[{\"roleId\":5,\"roleFlag\":\"superAdmin\",\"roleName\":\"超级管理员\",\"descri\":\"拥有最高的权限\",\"optId\":null,\"recordStatus\":null,\"updateTime\":null,\"createTime\":null,\"permisIds\":\"11,13,14,15,16,17,18,19,20,24,27,28,29,31,34,36,37,40,41,46,49,50,52,55,56\",\"oldPermisIds\":\"11,13,14,15,16,17,18,19,20,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,46,47,48,49,50,51\",\"userName\":null}]', '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysRole/update', 'POST', 'cn.sk.huiadminbgtemp.base.controller.BaseController_update', null, null, null, null, null, '01', '2019-04-04 23:23:35', '2019-04-04 23:23:35');
 INSERT INTO `tb_sys_log` VALUES ('762', '24', 'zhoucp', '退出系统', 'SysUserController_sysLogout', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/sysLogout', 'GET', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_sysLogout', null, null, null, null, null, '01', '2019-04-04 23:23:41', '2019-04-04 23:23:41');
+INSERT INTO `tb_sys_log` VALUES ('763', '24', 'zhoucp', '登录系统', 'SysUserController_login', null, '0:0:0:0:0:0:0:1', 'http://localhost:8083/temp/sysUser/login', 'POST', 'cn.sk.huiadminbgtemp.sys.controller.SysUserController_login', null, null, null, null, null, '01', '2019-04-07 18:44:53', '2019-04-07 18:44:53');
 
 -- ----------------------------
 -- Table structure for `tb_sys_permis`
