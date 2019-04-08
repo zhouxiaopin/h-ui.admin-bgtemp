@@ -242,8 +242,12 @@ function to_del(obj, id) {
 
 //批量删除
 function batchDel() {
-    if ($(".checkchild:checked").length < 1) {
-        sk.successFaceMsg('请选择要提交的记录!');
+    // if ($(".checkchild:checked").length < 1) {
+    //     sk.successFaceMsg('请选择要提交的记录!');
+    //     return;
+    // }
+    if ($(".checkchild:checked").length < 2) {
+        sk.successFaceMsg('最少选择2条记录!');
         return;
     }
     //获取所有选中的id
@@ -278,8 +282,12 @@ function batchDel() {
 
 //批量硬删除
 function batchRealDel() {
-    if ($(".checkchild:checked").length < 1) {
-        sk.successFaceMsg('请选择要提交的记录!');
+    // if ($(".checkchild:checked").length < 1) {
+    //     sk.successFaceMsg('请选择要提交的记录!');
+    //     return;
+    // }
+    if ($(".checkchild:checked").length < 2) {
+        sk.successFaceMsg('最少选择2条记录!');
         return;
     }
     //获取所有选中的id

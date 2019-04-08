@@ -31,6 +31,25 @@ public class Const {
 
     public interface Dict{
         String RECORDSTATUS_DICTCODE = "record_status";
+        //系统权限
+        class SysPermis{
+            //类型
+            public static final String MENU_TYPE = "menu_type";
+            //级别
+            public static final String MENU_LEVEL = "menu_level";
+        }
+        //系统资源
+        class SysResource{
+            //类型
+            public static final String RES_TYPE = "res_type";
+            //级别
+            public static final String RES_LEVEL = "res_level";
+        }
+        //sql语句配置
+        class SysSqlConf{
+            //类型
+            public static final String STATEMENT_TYPE = "statement_type";
+        }
     }
 
     public interface SessionKey{
@@ -42,6 +61,9 @@ public class Const {
         String MENU = "01";
         String BUTTON = "02";
 
+        Integer DEFAULT_PARENTID = 0;
+    }
+    public interface SysResource{
         Integer DEFAULT_PARENTID = 0;
     }
     //shiro权限配置
@@ -95,6 +117,17 @@ public class Const {
             public static final String REAL_DEL = SYSPERMIS+":"+ShiroPermis.REAL_DEL;
             public static final String BATCH_DEL = SYSPERMIS+":"+ShiroPermis.BATCH_DEL;
             public static final String BATCH_REAL_DEL = SYSPERMIS+":"+ShiroPermis.BATCH_REAL_DEL;
+        }
+        //系统资源
+        class SysResource{
+            public static final String SYSRESOURCE = "sysResource";
+            public static final String ADD = SYSRESOURCE+":"+ShiroPermis.ADD;
+            public static final String UPDATE = SYSRESOURCE+":"+ShiroPermis.UPDATE;
+            public static final String UPDATE_RECORDSTATUS = SYSRESOURCE+":"+ShiroPermis.UPDATE_RECORDSTATUS;
+            public static final String DEL = SYSRESOURCE+":"+ShiroPermis.DEL;
+            public static final String REAL_DEL = SYSRESOURCE+":"+ShiroPermis.REAL_DEL;
+            public static final String BATCH_DEL = SYSRESOURCE+":"+ShiroPermis.BATCH_DEL;
+            public static final String BATCH_REAL_DEL = SYSRESOURCE+":"+ShiroPermis.BATCH_REAL_DEL;
         }
         //系统日志
         class SysLog{

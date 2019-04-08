@@ -145,4 +145,23 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
 
         return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,list);
     }
+
+    @Override
+    protected ServerResponse<SysUserCustom> deleteInIdsAfter(String[] ids) {
+        deleteAfter(ids);
+        return super.deleteInIdsAfter(ids);
+    }
+
+    @Override
+    protected ServerResponse<SysUserCustom> realDeleteInIdsAfter(String[] ids) {
+        deleteAfter(ids);
+        return super.realDeleteInIdsAfter(ids);
+    }
+
+    private void deleteAfter(String[] ids){
+        for(int i = 0,len = ids.length; i < len; i++) {
+            sysUserRoleMapper.realDeleteInUserId(Integer.valueOf(ids[i]));
+        }
+    }
+
 }

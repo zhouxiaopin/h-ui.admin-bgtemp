@@ -35,6 +35,13 @@
                         </div>
                     </div>
                     <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="拥有资源："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:treeSelect id="resIds" name="resIds" th:value="${obj.resIds}" type="checkbox" scCode="sys_resource_tree"/>
+                        </div>
+                    </div>
+
+                    <div class="row cl">
                         <sk:label class="col-xs-4 col-sm-4" text="描述："/>
                         <div class="formControls col-xs-8 col-sm-8">
                             <textarea name="descri" cols="22" rows="4" class="textarea"
@@ -70,6 +77,13 @@
                         <sk:label class="col-xs-4 col-sm-4" required="true" text="角色名："/>
                         <div class="formControls col-xs-8 col-sm-8">
                             <sk:input th:value="${obj.roleName}" id="roleName" name="roleName"/>
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <sk:label class="col-xs-4 col-sm-4" required="true" text="拥有资源："/>
+                        <div class="formControls col-xs-8 col-sm-8">
+                            <sk:treeSelect id="resIds" name="resIds" th:value="${obj.resIds}" type="checkbox" scCode="sys_resource_tree"/>
+                            <input type="hidden" name="oldResIds" th:value="${obj.resIds}"/>
                         </div>
                     </div>
                     <div class="row cl">

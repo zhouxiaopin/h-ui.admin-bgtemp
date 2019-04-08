@@ -2,12 +2,13 @@ package cn.sk.huiadminbgtemp.sys.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
-
+@ToString
 public class DataTableVo<T> {
     private Integer draw;//表示请求次数
     private Long recordsTotal;//总记录数

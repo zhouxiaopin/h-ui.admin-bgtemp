@@ -3,12 +3,9 @@ package cn.sk.huiadminbgtemp.sys.service.impl;
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
 import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
-import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
-import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
-import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
-import cn.sk.huiadminbgtemp.sys.pojo.SysPermisCustom;
-import cn.sk.huiadminbgtemp.sys.pojo.SysPermisQueryVo;
-import cn.sk.huiadminbgtemp.sys.service.ISysPermisService;
+import cn.sk.huiadminbgtemp.sys.mapper.SysResourceMapper;
+import cn.sk.huiadminbgtemp.sys.pojo.*;
+import cn.sk.huiadminbgtemp.sys.service.ISysResourceService;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -19,27 +16,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统权限业务逻辑接口实现类
+ * 系统资源业务逻辑接口实现类
  */
 @Service
-public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPermisQueryVo> implements ISysPermisService {
+public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceCustom, SysResourceQueryVo> implements ISysResourceService {
     @Autowired
-    private SysPermisMapper sysPermisMapper;
-
+    private SysResourceMapper sysResourceMapper;
 
     @Override
-    public ServerResponse<List<Map<String, Object>>> querySysPermisTree(SysPermisQueryVo sysPermisQueryVo) {
-        List<SysPermisCustom> sysPermisCustoms = sysPermisMapper.selectListByQueryVo(sysPermisQueryVo);
+    public ServerResponse<List<Map<String, Object>>> querySysResourceTree(SysResourceQueryVo sysResourceQueryVo) {
+        List<SysResourceCustom> sysResourceCustoms = sysResourceMapper.selectListByQueryVo(sysResourceQueryVo);
         List<Map<String, Object>> data = Lists.newArrayList();
-        for (int i = 0,len = sysPermisCustoms.size(); i < len; i++){
-            SysPermisCustom sysPermisCustom = sysPermisCustoms.get(i);
+        for (int i = 0,len = sysResourceCustoms.size(); i < len; i++){
+            SysResourceCustom sysResourceCustom = sysResourceCustoms.get(i);
 //            {id:6, pId:0, name:"福建省", open:true, nocheck:true},
 //            { id:1, pId:0, name:"一级分类", open:true},
             Map<String,Object> item = Maps.newHashMap();
-            item.put("id",sysPermisCustom.getpId());
-            item.put("pId",sysPermisCustom.getParentId());
-            item.put("name",sysPermisCustom.getpName());
-            item.put("level",sysPermisCustom.getpLevel());
+            item.put("id",sysResourceCustom.getrId());
+            item.put("pId",sysResourceCustom.getParentId());
+            item.put("name",sysResourceCustom.getrName());
+            item.put("level",sysResourceCustom.getrLevel());
             item.put("open",true);
             data.add(item);
 //
@@ -48,13 +44,13 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
     }
 
     @Override
-    public DataTableVo<SysPermisCustom> queryObjsByPage(SysPermisQueryVo entityQueryVo) {
+    public DataTableVo<SysResourceCustom> queryObjsByPage(SysResourceQueryVo entityQueryVo) {
         SysDictQueryVo sysDictQueryVo = new SysDictQueryVo();
         SysDictCustom condition = new SysDictCustom();
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
 
-        condition.setDictType(Const.Dict.SysPermis.MENU_TYPE);
+        condition.setDictType(Const.Dict.SysResource.RES_TYPE);
         condition.setRecordStatus(Const.RecordStatus.ABLE);
 
         sysDictQueryVo.setSysDictCustom(condition);
@@ -66,7 +62,7 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
             menuTypeMap.put(sysDictCustom.getDictCode(),sysDictCustom.getCodeName());
         }
         //级别
-        condition.setDictType(Const.Dict.SysPermis.MENU_LEVEL);
+        condition.setDictType(Const.Dict.SysResource.RES_LEVEL);
         sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
         Map<String,String> menuLevelMap = Maps.newHashMap();
         for(int i = 0,len = sysDictCustoms.size(); i < len; i++) {
@@ -75,12 +71,12 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
         }
 
         //数据封装
-        DataTableVo<SysPermisCustom> dataTableVo = super.queryObjsByPage(entityQueryVo);
-        List<SysPermisCustom> data = dataTableVo.getData();
+        DataTableVo<SysResourceCustom> dataTableVo = super.queryObjsByPage(entityQueryVo);
+        List<SysResourceCustom> data = dataTableVo.getData();
         for(int i = 0,len = data.size(); i < len; i++) {
-            SysPermisCustom sysPermisCustom = data.get(i);
-            sysPermisCustom.setpType(menuTypeMap.get(sysPermisCustom.getpType()));
-            sysPermisCustom.setPLevelStr(menuLevelMap.get(sysPermisCustom.getpLevel().toString()));
+            SysResourceCustom sysResourceCustom = data.get(i);
+            sysResourceCustom.setrType(menuTypeMap.get(sysResourceCustom.getrType()));
+            sysResourceCustom.setRLevelStr(menuLevelMap.get(sysResourceCustom.getrLevel().toString()));
         }
         return dataTableVo;
     }

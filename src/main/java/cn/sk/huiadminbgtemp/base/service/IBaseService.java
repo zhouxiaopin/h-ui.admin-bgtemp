@@ -31,7 +31,7 @@ public interface IBaseService<T,V> {
 
     //分页查询数据列表
 //    ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo);
-    DataTableVo queryObjsByPage(V entityQueryVo);
+    DataTableVo<T> queryObjsByPage(V entityQueryVo);
 
     //分页查询数据列表
 //    ServerResponse<DataTableVo> queryObjsByPage(V entityQueryVo);

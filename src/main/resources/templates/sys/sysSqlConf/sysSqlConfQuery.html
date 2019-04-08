@@ -85,6 +85,7 @@
     var pk = 'scId';
     //模块标题
     var modelTile = '配置';
+    var _dataTables;
 
     //修改
     function to_edit(id) {
@@ -110,7 +111,7 @@
             // });
         });
 
-        var _dataTables = SkDataTable('#skDataTable',{
+        _dataTables = SkDataTable('#skDataTable',{
             "columns": [
                 {
                     "data": function (dd) {

@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.sys.common.Const;
-import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
+import cn.sk.huiadminbgtemp.sys.mapper.SysResourceMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.TreeNode;
@@ -29,8 +29,10 @@ import java.util.Set;
 public class SysToPageController {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+//    @Autowired
+//    private SysPermisMapper sysPermisMapper;
     @Autowired
-    private SysPermisMapper sysPermisMapper;
+    private SysResourceMapper sysResourceMapper;
 
     @GetMapping("/index")
     public ModelAndView index(ModelAndView mv, HttpServletResponse response){
@@ -73,27 +75,28 @@ public class SysToPageController {
             params.clear();
             params.put("roleIds",roleIds);
             params.put("recordStatus", Const.RecordStatus.ABLE);
-            params.put("pType", Const.Permis.MENU);
-            params.put("orderBy", "p_sort");
-            List<Map<String,Object>> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
+            params.put("rType", Const.Permis.MENU);
+            params.put("orderBy", "r_sort");
+//            List<Map<String,Object>> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
+            List<Map<String,Object>> sysResourceCustoms = sysResourceMapper.selectListByRoleId(params);
             List<TreeNode> treeNodes = Lists.newArrayList();
-            Map<String,Object> sysPermisItem;
+            Map<String,Object> sysResourceItem;
             TreeNode treeNode;
-            for(int i = 0, len = sysPermisCustoms.size(); i < len; i++) {
-                sysPermisItem = sysPermisCustoms.get(i);
+            for(int i = 0, len = sysResourceCustoms.size(); i < len; i++) {
+                sysResourceItem = sysResourceCustoms.get(i);
                 treeNode = new TreeNode();
-                treeNode.setId(sysPermisItem.get("pId").toString());
-                treeNode.setLevel(Integer.valueOf(sysPermisItem.get("pLevel").toString()));
-                treeNode.setParentId(sysPermisItem.get("parentId").toString());
-                treeNode.setName(sysPermisItem.get("pName").toString());
+                treeNode.setId(sysResourceItem.get("rId").toString());
+                treeNode.setLevel(Integer.valueOf(sysResourceItem.get("rLevel").toString()));
+                treeNode.setParentId(sysResourceItem.get("parentId").toString());
+                treeNode.setName(sysResourceItem.get("rName").toString());
                 Map<String,Object> attrs = Maps.newHashMap();
-                attrs.put("leftIcon",sysPermisItem.get("leftIcon").toString());
-                attrs.put("pUrl",sysPermisItem.get("pUrl").toString());
+                attrs.put("leftIcon",sysResourceItem.get("leftIcon").toString());
+                attrs.put("url",sysResourceItem.get("rUrl").toString());
                 treeNode.setAttrs(attrs);
 
                 treeNodes.add(treeNode);
             }
-            treeNodes = TreeUtil.bulid(treeNodes,Const.Permis.DEFAULT_PARENTID.toString());
+            treeNodes = TreeUtil.bulid(treeNodes,Const.SysResource.DEFAULT_PARENTID.toString());
             mv.addObject("menuList", treeNodes);
         }
 

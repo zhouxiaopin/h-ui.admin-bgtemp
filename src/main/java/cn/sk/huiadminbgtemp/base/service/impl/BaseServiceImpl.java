@@ -5,7 +5,9 @@ import cn.sk.huiadminbgtemp.base.pojo.BaseQueryVo;
 import cn.sk.huiadminbgtemp.base.service.IBaseService;
 import cn.sk.huiadminbgtemp.sys.common.Const;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
+import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.mapper.SysDictMapper;
 import cn.sk.huiadminbgtemp.sys.vo.DataTableVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +21,8 @@ import java.util.List;
 public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     @Autowired
     protected IBaseMapper<T,V> baseMapper;
+    @Autowired
+    protected SysDictMapper sysDictMapper;
 
 
     @Override
@@ -32,7 +36,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         if(num > 0) {
             serverResponse = insertAfter(entityCustom);
             if(!serverResponse.isSuccess()) {
-                return serverResponse;
+                throw new CustomException(ResponseCode.ADD_FAIL);
             }
             return ServerResponse.createBySuccess(Const.ResponseMsg.ADD_SUCCE,entityCustom);
         }else {
@@ -65,22 +69,38 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
         }
     }
 
+    //删除之后的操作
+    protected ServerResponse<T> deleteInIdsAfter(String[] ids){
+        return ServerResponse.createBySuccess();
+    }
     @Override
     @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> deleteInIds(String[] ids) {
         int num = baseMapper.deleteInIds(ids,Const.RecordStatus.DELETE);
         if(num > 0) {
+            ServerResponse serverResponse = deleteInIdsAfter(ids);
+            if(!serverResponse.isSuccess()) {
+                throw new CustomException(ResponseCode.DEL_FAIL);
+            }
             return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
         }else {
             return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
         }
     }
 
+    //硬删除之后的操作
+    protected ServerResponse<T> realDeleteInIdsAfter(String[] ids){
+        return ServerResponse.createBySuccess();
+    }
     @Override
     @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> realDeleteInIds(String[] ids) {
         int num = baseMapper.realDeleteInIds(ids);
         if(num > 0) {
+            ServerResponse serverResponse = realDeleteInIdsAfter(ids);
+            if(!serverResponse.isSuccess()) {
+                throw new CustomException(ResponseCode.DEL_FAIL);
+            }
             return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
         }else {
             return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
@@ -131,7 +151,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 //        return ServerResponse.createBySuccess(dataTableVo);
 //    }
     @Override
-    public DataTableVo queryObjsByPage(V entityQueryVo) {
+    public DataTableVo<T> queryObjsByPage(V entityQueryVo) {
 
         //startPage--start
         //填充自己的sql查询逻辑

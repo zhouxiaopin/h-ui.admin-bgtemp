@@ -43,7 +43,7 @@
         <!--<dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
         <!--<dd>-->
         <!--<ul>-->
-        <!--<li><a data-href="sysPermisQuery.html" data-title="会员列表" href="javascript:;">会员列表</a></li>-->
+        <!--<li><a data-href="sysResourceQuery.html" data-title="会员列表" href="javascript:;">会员列表</a></li>-->
         <!--<li><a data-href="member-del.html" data-title="删除的会员" href="javascript:;">删除的会员</a></li>-->
         <!--<li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>-->
         <!--<li><a data-href="member-scoreoperation.html" data-title="积分管理" href="javascript:;">积分管理</a></li>-->
@@ -87,7 +87,7 @@
                 <ul>
                     <!--二级菜单-->
                     <li th:each="item2 : ${item1.children}">
-                        <a th:if="${#lists.isEmpty(item2.children)}" th:data-href="${item2.attrs.pUrl}" th:data-title="${item2.name}" th:text="${item2.name}">系统用户管理</a>
+                        <a th:if="${#lists.isEmpty(item2.children)}" th:data-href="${item2.attrs.url}" th:data-title="${item2.name}" th:text="${item2.name}">系统用户管理</a>
                         <!--三级菜单-->
                         <dl th:unless="${#lists.isEmpty(item2.children)}" style="padding-left: 10px">
                             <dt>
@@ -98,7 +98,7 @@
                             <dd>
                                 <ul>
                                     <li th:each="item3 : ${item2.children}" >
-                                        <a th:if="${#lists.isEmpty(item3.children)}" th:data-href="${item3.attrs.pUrl}" th:data-title="${item3.name}" th:text="${item3.name}">系统用户管理</a>
+                                        <a th:if="${#lists.isEmpty(item3.children)}" th:data-href="${item3.attrs.url}" th:data-title="${item3.name}" th:text="${item3.name}">系统用户管理</a>
                                     </li>
                                 </ul>
                             </dd>

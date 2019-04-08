@@ -19,6 +19,10 @@ public class SysRoleCustom extends SysRole {
     private String oldPermisIds;
     //用户名
     private String userName;
+    //资源ID
+    private String resIds;
+    //旧资源ID
+    private String oldResIds;
 
     public SysRoleCustom(Integer roleId, String roleFlag, String roleName, String descri, Integer optId, String recordStatus, Date updateTime, Date createTime) {
         super(roleId, roleFlag, roleName, descri, optId, recordStatus, updateTime, createTime);
