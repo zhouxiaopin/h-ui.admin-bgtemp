@@ -155,6 +155,7 @@ public class SelectTag extends BaseTag {
         condition.setRecordStatus(Const.RecordStatus.ABLE);
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
+        sysDictQueryVo.setOrderBy(" sort asc");
         sysDictQueryVo.setSysDictCustom(condition);
 
         ServerResponse<List<SysDictCustom>> sr = sysDictService.queryObjs(sysDictQueryVo);

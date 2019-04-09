@@ -79,15 +79,20 @@
         <!--</dl>-->
         <dl th:each="item1 : ${menuList[0].children}">
             <dt>
-                <i th:if="${not #strings.isEmpty(item1.attrs.leftIcon)}" th:class="'Hui-iconfont ' + ${item1.attrs.leftIcon}" ></i>
-                <span th:text="${item1.name}"></span>
-                <i th:if="${not #lists.isEmpty(item1.children)}" class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+                <a th:if="${#lists.isEmpty(item1.children)}" th:data-href="${item1.attrs.url}"
+                   th:data-title="${item1.name}" th:text="${item1.name}"></a>
+                <span th:unless="${#lists.isEmpty(item1.children)}">
+                    <i th:if="${not #strings.isEmpty(item1.attrs.leftIcon)}" th:class="'Hui-iconfont ' + ${item1.attrs.leftIcon}"></i>
+                    <span th:text="${item1.name}"></span>
+                    <i th:if="${not #lists.isEmpty(item1.children)}" class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+                </span>
             </dt>
             <dd>
                 <ul>
                     <!--二级菜单-->
                     <li th:each="item2 : ${item1.children}">
-                        <a th:if="${#lists.isEmpty(item2.children)}" th:data-href="${item2.attrs.url}" th:data-title="${item2.name}" th:text="${item2.name}">系统用户管理</a>
+                        <a th:if="${#lists.isEmpty(item2.children)}" th:data-href="${item2.attrs.url}"
+                           th:data-title="${item2.name}" th:text="${item2.name}">系统用户管理</a>
                         <!--三级菜单-->
                         <dl th:unless="${#lists.isEmpty(item2.children)}" style="padding-left: 10px">
                             <dt>
@@ -97,8 +102,9 @@
                             </dt>
                             <dd>
                                 <ul>
-                                    <li th:each="item3 : ${item2.children}" >
-                                        <a th:if="${#lists.isEmpty(item3.children)}" th:data-href="${item3.attrs.url}" th:data-title="${item3.name}" th:text="${item3.name}">系统用户管理</a>
+                                    <li th:each="item3 : ${item2.children}">
+                                        <a th:if="${#lists.isEmpty(item3.children)}" th:data-href="${item3.attrs.url}"
+                                           th:data-title="${item3.name}" th:text="${item3.name}">系统用户管理</a>
                                     </li>
                                 </ul>
                             </dd>
@@ -109,30 +115,30 @@
         </dl>
         <!--<dl id="menu-system">-->
 
-            <!--<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
-            <!--<dd>-->
-                <!--<ul>-->
-                    <!--<li><a th:data-href="@{sysUser/initQuery}" data-title="系统用户管理">系统用户管理</a></li>-->
-                    <!--&lt;!&ndash;<li><a data-href="system-base.html" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a></li>&ndash;&gt;-->
-                    <!--<li><a th:data-href="@{/sysRole/initQuery}" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a>-->
-                    <!--</li>-->
-                    <!--<li><a th:data-href="@{/sysPermis/initQuery}" data-title="系统权限管理"-->
-                           <!--href="javascript:void(0)">系统权限管理</a>-->
-                    <!--</li>-->
-                    <!--<li><a th:data-href="@{/sysLog/initQuery}" data-title="系统日志"-->
-                           <!--href="javascript:void(0)">系统日志管理</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</dd>-->
+        <!--<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        <!--<dd>-->
+        <!--<ul>-->
+        <!--<li><a th:data-href="@{sysUser/initQuery}" data-title="系统用户管理">系统用户管理</a></li>-->
+        <!--&lt;!&ndash;<li><a data-href="system-base.html" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a></li>&ndash;&gt;-->
+        <!--<li><a th:data-href="@{/sysRole/initQuery}" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a>-->
+        <!--</li>-->
+        <!--<li><a th:data-href="@{/sysPermis/initQuery}" data-title="系统权限管理"-->
+        <!--href="javascript:void(0)">系统权限管理</a>-->
+        <!--</li>-->
+        <!--<li><a th:data-href="@{/sysLog/initQuery}" data-title="系统日志"-->
+        <!--href="javascript:void(0)">系统日志管理</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</dd>-->
         <!--</dl>-->
         <!--<dl id="menu-article">-->
-            <!--<dt><i class="Hui-iconfont">&#xe63c;</i> 系统配置<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
-            <!--<dd>-->
-                <!--<ul>-->
-                    <!--<li><a th:data-href="@{/sysDict/initQuery}" data-title="数据字典">数据字典</a></li>-->
-                    <!--<li><a th:data-href="@{/sysSqlConf/initQuery}" data-title="sql语句配置">sql语句配置</a></li>-->
-                <!--</ul>-->
-            <!--</dd>-->
+        <!--<dt><i class="Hui-iconfont">&#xe63c;</i> 系统配置<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        <!--<dd>-->
+        <!--<ul>-->
+        <!--<li><a th:data-href="@{/sysDict/initQuery}" data-title="数据字典">数据字典</a></li>-->
+        <!--<li><a th:data-href="@{/sysSqlConf/initQuery}" data-title="sql语句配置">sql语句配置</a></li>-->
+        <!--</ul>-->
+        <!--</dd>-->
         <!--</dl>-->
     </div>
 </aside>
@@ -241,10 +247,10 @@
     }
 
     //退出
-    function logout(){
+    function logout() {
         layer.confirm('确定要退出系统吗？', function (index) {
             layer.close(index);
-            window.location.href=basePath+"sysUser/sysLogout";
+            window.location.href = basePath + "sysUser/sysLogout";
             /*var url = "sysUser/logout";
             var param = null;
             sk.ajaxRequest(url, param, function (r) {

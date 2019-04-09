@@ -44,6 +44,8 @@ public class Const {
             public static final String RES_TYPE = "res_type";
             //级别
             public static final String RES_LEVEL = "res_level";
+            //左边图标
+            public static final String LEFT_ICON = "menu_icon";
         }
         //sql语句配置
         class SysSqlConf{

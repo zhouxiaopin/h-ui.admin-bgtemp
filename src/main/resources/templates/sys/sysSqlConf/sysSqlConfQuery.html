@@ -31,8 +31,8 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <sk:aBtn id="addBtn" class="btn-primary" text="添加配置" dictType="oprt_icon" dictCode="01"/>
-            <sk:aBtn onclick="batchDel()" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>
-            <sk:aBtn onclick="batchRealDel()" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>
+            <!--<sk:aBtn onclick="batchDel()" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>-->
+            <!--<sk:aBtn onclick="batchRealDel()" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>-->
         </span>
         <!--<span-->
         <!--class="r">共有数据：<strong>88</strong> 条</span>-->
@@ -150,7 +150,7 @@
                         }
 
                         str += '<a title="修改" href="javascript:;" onclick="to_edit(' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
-                        str += '<a title="删除" href="javascript:;" onclick="to_del(this,' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
+                        // str += '<a title="删除" href="javascript:;" onclick="to_del(this,' + dd.scId + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
                         str += '</div>';
                         return str;
                     }

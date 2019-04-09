@@ -2,9 +2,11 @@ package cn.sk.huiadminbgtemp.sys.mapper;
 
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserRole;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface SysUserRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
