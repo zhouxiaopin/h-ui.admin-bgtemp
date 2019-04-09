@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.shiro;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
@@ -97,7 +97,7 @@ public class SkShiroRealm extends AuthorizingRealm {
             throw new IncorrectCredentialsException("密码错误");
         }
 
-        if(StringUtils.equals(Const.RecordStatus.DISABLE,sysUserCustom.getRecordStatus())) {
+        if(StringUtils.equals(SysConst.RecordStatus.DISABLE,sysUserCustom.getRecordStatus())) {
             throw new LockedAccountException("用户被禁用");
         }
 //        if("admin".equals(username)){
@@ -135,7 +135,7 @@ public class SkShiroRealm extends AuthorizingRealm {
         SysUserCustom sysUserCustom = (SysUserCustom) principals.getPrimaryPrincipal();
         Map<String,Object> params = Maps.newHashMap();
         params.put("userId",sysUserCustom.getuId());
-        params.put("recordStatus",Const.RecordStatus.ABLE);
+        params.put("recordStatus", SysConst.RecordStatus.ABLE);
         List<Map<String,Object>> sysRoleCustoms = sysRoleMapper.selectListByUserId(params);
         //2. 利用登录的用户的信息来用户当前用户的角色或权限(可能需要查询数据库)
         Set<String> roles = new HashSet<>();
@@ -153,7 +153,7 @@ public class SkShiroRealm extends AuthorizingRealm {
         if(!CollectionUtils.isEmpty(sysRoleCustoms)) {
             params.clear();
             params.put("roleIds",roleIds);
-            params.put("recordStatus",Const.RecordStatus.ABLE);
+            params.put("recordStatus", SysConst.RecordStatus.ABLE);
             List<Map<String,Object>> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
 
             Map<String,Object> sysPermisItem;

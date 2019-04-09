@@ -61,7 +61,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
                 currentUser.login(token);
 
 //                SysUserCustom sysUserInfo = (SysUserCustom) currentUser.getPrincipal();
-//                currentUser.getSession().setAttribute(Const.SessionKey.SYSUSER_INFO,sysUserInfo);
+//                currentUser.getSession().setAttribute(SysConst.SessionKey.SYSUSER_INFO,sysUserInfo);
 //                session.setAttribute("adminInfo",adminInfo);
             }
 
@@ -88,7 +88,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         }
 
 //        session.setAttribute("adminInfo", null);
-//        session.removeAttribute(Const.SessionKey.SYSUSER_INFO);
+//        session.removeAttribute(SysConst.SessionKey.SYSUSER_INFO);
 //        session.invalidate();
         model.setViewName("redirect:initLogin");
 
@@ -105,14 +105,14 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         String rs = sysUserCustom.getRecordStatus();
 
         ServerResponse<SysUserCustom> serverResponse = sysUserService.update(sysUserCustom);
-        if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+        if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
             if (serverResponse.isSuccess()) {
                 serverResponse.setMsg("启用成功");
             }else{
                 serverResponse.setMsg("启用失败");
             }
             logUtil.writLog(this.getClass(),"updateRecordStatus","系统用户启用");
-        } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+        } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
             if (serverResponse.isSuccess()) {
                 serverResponse.setMsg("禁用成功");
             }else{
@@ -133,7 +133,7 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
         try {
             init(model, sysUserCustom);
         } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(UPDATE_PASSWORD_OPRT));
         return model;
@@ -271,28 +271,28 @@ public class SysUserController extends BaseController<SysUserCustom, SysUserQuer
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.UPDATE);
                 break;
             case UPDATE_PASSWORD_OPRT://修改密码
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.UPDATE_PSD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.UPDATE_PSD);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysUser.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysUser.BATCH_REAL_DEL);
                 break;
         }
     }

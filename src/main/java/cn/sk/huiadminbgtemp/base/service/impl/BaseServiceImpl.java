@@ -3,7 +3,7 @@ package cn.sk.huiadminbgtemp.base.service.impl;
 import cn.sk.huiadminbgtemp.base.mapper.IBaseMapper;
 import cn.sk.huiadminbgtemp.base.pojo.BaseQueryVo;
 import cn.sk.huiadminbgtemp.base.service.IBaseService;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
@@ -38,9 +38,9 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
             if(!serverResponse.isSuccess()) {
                 throw new CustomException(ResponseCode.ADD_FAIL);
             }
-            return ServerResponse.createBySuccess(Const.ResponseMsg.ADD_SUCCE,entityCustom);
+            return ServerResponse.createBySuccess(SysConst.ResponseMsg.ADD_SUCCE,entityCustom);
         }else {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.ADD_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.ADD_FAIL);
         }
     }
 
@@ -63,9 +63,9 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
 
         int num = baseMapper.updateByPrimaryKeySelective(entityCustom);
         if(num > 0) {
-            return ServerResponse.createBySuccess(Const.ResponseMsg.UPDATE_SUCCE,entityCustom);
+            return ServerResponse.createBySuccess(SysConst.ResponseMsg.UPDATE_SUCCE,entityCustom);
         }else {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.UPDATE_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.UPDATE_FAIL);
         }
     }
 
@@ -76,15 +76,15 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     @Override
     @Transactional(rollbackFor={CustomException.class, Exception.class})
     public ServerResponse<T> deleteInIds(String[] ids) {
-        int num = baseMapper.deleteInIds(ids,Const.RecordStatus.DELETE);
+        int num = baseMapper.deleteInIds(ids, SysConst.RecordStatus.DELETE);
         if(num > 0) {
             ServerResponse serverResponse = deleteInIdsAfter(ids);
             if(!serverResponse.isSuccess()) {
                 throw new CustomException(ResponseCode.DEL_FAIL);
             }
-            return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
+            return ServerResponse.createBySuccessMessage(SysConst.ResponseMsg.DELET_SUCCE);
         }else {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.DELET_FAIL);
         }
     }
 
@@ -101,9 +101,9 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
             if(!serverResponse.isSuccess()) {
                 throw new CustomException(ResponseCode.DEL_FAIL);
             }
-            return ServerResponse.createBySuccessMessage(Const.ResponseMsg.DELET_SUCCE);
+            return ServerResponse.createBySuccessMessage(SysConst.ResponseMsg.DELET_SUCCE);
         }else {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.DELET_FAIL);
         }
     }
 
@@ -117,9 +117,9 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     public ServerResponse<T> delete(T entityCustom) {
         int num = baseMapper.deleteByPrimaryKey(entityCustom);
         if(num > 0) {
-            return ServerResponse.createBySuccess(Const.ResponseMsg.DELET_SUCCE,entityCustom);
+            return ServerResponse.createBySuccess(SysConst.ResponseMsg.DELET_SUCCE,entityCustom);
         }else {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.DELET_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.DELET_FAIL);
         }
     }
 
@@ -127,9 +127,9 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     public ServerResponse<T> queryObj(T entityCustom) {
         T t = baseMapper.selectByPrimaryKey(entityCustom);
         if(null == t) {
-            return ServerResponse.createByErrorMessage(Const.ResponseMsg.QUERY_FAIL);
+            return ServerResponse.createByErrorMessage(SysConst.ResponseMsg.QUERY_FAIL);
         }
-        return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,t);
+        return ServerResponse.createBySuccess(SysConst.ResponseMsg.QUERY_SUCCE,t);
     }
 
 //    @Override
@@ -181,7 +181,7 @@ public class BaseServiceImpl<T,V> implements IBaseService<T,V> {
     @Override
     public ServerResponse<List<T>> queryObjs(V entityQueryVo) {
         List<T> list = baseMapper.selectListByQueryVo(entityQueryVo);
-        return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,list);
+        return ServerResponse.createBySuccess(SysConst.ResponseMsg.QUERY_SUCCE,list);
     }
 
 }

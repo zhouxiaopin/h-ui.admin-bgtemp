@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sk.huiadminbgtemp.business.mapper.OrganMapper">
+  <resultMap id="BaseResultMap" type="cn.sk.huiadminbgtemp.business.pojo.Organ">
+    <constructor>
+      <idArg column="org_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="org_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="org_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="org_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="org_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="org_sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="org_desc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="record_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    bo.org_id, bo.org_no, bo.org_name, bo.parent_id, bo.org_type, bo.org_phone, bo.org_sort, bo.org_desc, bo.record_status, bo.update_time,
+    bo.create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapCustom">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sk_base_organ bo
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_sk_base_organ
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.business.pojo.Organ">
+    insert into tb_sk_base_organ (org_id, org_no, org_name, 
+      parent_id, org_type, org_phone, org_sort, org_desc,
+      record_status, update_time, create_time
+      )
+    values (#{orgId,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{orgType,jdbcType=VARCHAR}, #{orgPhone,jdbcType=VARCHAR},
+      #{orgSort,jdbcType=INTEGER},#{orgDesc,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.business.pojo.Organ">
+    insert into tb_sk_base_organ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="orgNo != null">
+        org_no,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orgType != null">
+        org_type,
+      </if>
+      <if test="orgPhone != null">
+        org_phone,
+      </if>
+      <if test="orgSort != null">
+        org_sort,
+      </if>
+      <if test="orgDesc != null">
+        org_desc,
+      </if>
+      <if test="recordStatus != null">
+        record_status,
+      </if>
+        update_time,
+        create_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgNo != null">
+        #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgType != null">
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgPhone != null">
+        #{orgPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSort != null">
+        #{orgSort,jdbcType=INTEGER},
+      </if>
+      <if test="orgDesc != null">
+        #{orgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        #{recordStatus,jdbcType=CHAR},
+      </if>
+      now(),
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.business.pojo.Organ">
+    update tb_sk_base_organ
+    <set>
+      <if test="orgNo != null">
+        org_no = #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgType != null">
+        org_type = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgPhone != null">
+        org_phone = #{orgPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSort != null">
+        org_sort = #{orgSort,jdbcType=INTEGER},
+      </if>
+      <if test="orgDesc != null">
+        org_desc = #{orgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        record_status = #{recordStatus,jdbcType=CHAR},
+      </if>
+        update_time = now(),
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sk.huiadminbgtemp.business.pojo.Organ">
+    update tb_sk_base_organ
+    set org_no = #{orgNo,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      org_phone = #{orgPhone,jdbcType=VARCHAR},
+      org_sort = #{orgSort,jdbcType=INTEGER},
+      org_desc = #{orgDesc,jdbcType=VARCHAR},
+      record_status = #{recordStatus,jdbcType=CHAR},
+      update_time = now(),
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </update>
+
+  <!--以下是自定义的-->
+
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="OrganCustom" extends="BaseResultMap">
+    <result property="parentOrgName" column="parentOrgName"/>
+  </resultMap>
+
+  <!-- 查询条件的sql片段 -->
+
+  <sql id="base_query_condition">
+    <if test="null != organCustom">
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <if test="null != organCustom.parentId and '' != organCustom.parentId">
+        AND bo.parent_id = #{organCustom.parentId,jdbcType=INTEGER}
+      </if>
+      <if test="null != organCustom.orgName and '' != organCustom.orgName">
+        AND bo.org_name LIKE CONCAT('%',CONCAT(#{organCustom.orgName,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="null != organCustom.recordStatus and '' != organCustom.recordStatus">
+        AND bo.record_status = #{recordStatus,jdbcType=VARCHAR}
+      </if>
+
+    </if>
+  </sql>
+
+  <!--根据条件查询-->
+  <select id="selectListByQueryVo" parameterType="OrganQueryVo" resultMap="ResultMapCustom">
+    select
+    <include refid="Base_Column_List"/>,bo2.org_name parentOrgName
+    from tb_sk_base_organ bo left join tb_sk_base_organ bo2
+    on bo.parent_id = bo2.org_id
+    <where>
+      <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
+      <include refid="base_query_condition"></include>
+      AND bo.record_status != '00'
+    </where>
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
+  </select>
+
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sk_base_organ
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      org_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds">
+    delete from tb_sk_base_organ
+    <where>
+      org_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+</mapper>

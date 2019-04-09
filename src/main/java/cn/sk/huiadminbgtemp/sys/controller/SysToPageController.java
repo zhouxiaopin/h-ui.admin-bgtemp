@@ -15,7 +15,12 @@ public class SysToPageController {
 
     @GetMapping("/index")
     public ModelAndView index(ModelAndView mv, HttpServletResponse response){
-//        SysUserCustom sysUserInfo = (SysUserCustom)SecurityUtils.getSubject().getSession().getAttribute(Const.SessionKey.SYSUSER_INFO);
+//        SysUserCustom sysUserInfo = (SysUserCustom)SecurityUtils.getSubject().getSession().getAttribute(SysConst.SessionKey.SYSUSER_INFO);
         return sysToPageService.index(mv,response);
+    }
+    @GetMapping("/toWelcome")
+    public ModelAndView index(ModelAndView mv){
+        mv.setViewName("common/welcome");
+        return mv;
     }
 }

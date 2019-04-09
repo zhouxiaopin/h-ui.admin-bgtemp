@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.custom.tag;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
@@ -423,7 +423,7 @@ public class MenuTreeTag extends BaseTag {
 
         SysSqlConfCustom sysSqlConfCustom = new SysSqlConfCustom();
         sysSqlConfCustom.setScCode(this.getScCode());
-        sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
+        sysSqlConfCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysSqlConfQueryVo.setSysSqlConfCustom(sysSqlConfCustom);
         ServerResponse<List<SysSqlConfCustom>> serverResponse = sysSqlConfService.queryObjs(sysSqlConfQueryVo);

@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ResponseCode;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
@@ -45,7 +45,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
             sysUserCustom.setSalt(salt);
         }
         sysUserCustom.setPassword(ShiroUtils.getMd5Pwd(salt,sysUserCustom.getPassword()));
-        sysUserCustom.setRecordStatus(Const.RecordStatus.DISABLE);
+        sysUserCustom.setRecordStatus(SysConst.RecordStatus.DISABLE);
 //        sysUserCustom.setCreateTime(new Date());
         return super.insertBefore(sysUserCustom);
     }
@@ -127,7 +127,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
         List<SysUserCustom> list = baseMapper.selectListByQueryVo(entityQueryVo);
 
         Map<String,Object> params = Maps.newHashMap();
-        params.put("recordStatus",Const.RecordStatus.ABLE);
+        params.put("recordStatus", SysConst.RecordStatus.ABLE);
         StringBuilder roleNames = new StringBuilder();
         for(int i = 0,len = list.size(); i < len; i++) {
             SysUserCustom sysUserCustom = list.get(i);
@@ -143,7 +143,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserCustom,SysUserQue
             list.get(i).setRoleName(roleNames.toString());
         }
 
-        return ServerResponse.createBySuccess(Const.ResponseMsg.QUERY_SUCCE,list);
+        return ServerResponse.createBySuccess(SysConst.ResponseMsg.QUERY_SUCCE,list);
     }
 
     @Override

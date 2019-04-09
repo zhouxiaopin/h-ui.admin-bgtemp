@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.mapper.SysSqlConfMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.*;
 import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
@@ -28,8 +28,8 @@ public class SysSqlConfServiceImpl extends BaseServiceImpl<SysSqlConfCustom, Sys
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
 
-        condition.setDictType(Const.Dict.SysSqlConf.STATEMENT_TYPE);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setDictType(SysConst.Dict.SysSqlConf.STATEMENT_TYPE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.setSysDictCustom(condition);
         List<SysDictCustom> sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);

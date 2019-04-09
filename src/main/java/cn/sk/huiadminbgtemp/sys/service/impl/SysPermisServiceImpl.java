@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.mapper.SysPermisMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
@@ -54,8 +54,8 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
 
-        condition.setDictType(Const.Dict.SysPermis.MENU_TYPE);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setDictType(SysConst.Dict.SysPermis.MENU_TYPE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.setSysDictCustom(condition);
         List<SysDictCustom> sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
@@ -66,7 +66,7 @@ public class SysPermisServiceImpl extends BaseServiceImpl<SysPermisCustom,SysPer
             menuTypeMap.put(sysDictCustom.getDictCode(),sysDictCustom.getCodeName());
         }
         //级别
-        condition.setDictType(Const.Dict.SysPermis.MENU_LEVEL);
+        condition.setDictType(SysConst.Dict.SysPermis.MENU_LEVEL);
         sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
         Map<String,String> menuLevelMap = Maps.newHashMap();
         for(int i = 0,len = sysDictCustoms.size(); i < len; i++) {

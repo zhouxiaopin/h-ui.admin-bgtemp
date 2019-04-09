@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.pojo.SysLogCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysLogQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysLogService;
@@ -39,22 +39,22 @@ public class SysLogController extends BaseController<SysLogCustom, SysLogQueryVo
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.ADD);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.UPDATE);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysLog.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysLog.BATCH_REAL_DEL);
                 break;
         }
     }

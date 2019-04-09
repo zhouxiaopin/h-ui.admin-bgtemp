@@ -3,7 +3,7 @@ package cn.sk.huiadminbgtemp.sys.common;
 /**
  * 常量类
  */
-public class Const {
+public class SysConst {
 
     public interface RecordStatus{
         String DELETE = "00";//记录删除

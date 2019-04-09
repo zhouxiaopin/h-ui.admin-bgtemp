@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.custom.tag;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
@@ -152,7 +152,7 @@ public class SelectTag extends BaseTag {
 
         SysDictCustom condition = new SysDictCustom();
         condition.setDictType(dictType);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
         sysDictQueryVo.setOrderBy(" sort asc");
@@ -184,7 +184,7 @@ public class SelectTag extends BaseTag {
 
         SysSqlConfCustom sysSqlConfCustom = new SysSqlConfCustom();
         sysSqlConfCustom.setScCode(this.getScCode());
-        sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
+        sysSqlConfCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysSqlConfQueryVo.setSysSqlConfCustom(sysSqlConfCustom);
         ServerResponse<List<SysSqlConfCustom>> serverResponse = sysSqlConfService.queryObjs(sysSqlConfQueryVo);

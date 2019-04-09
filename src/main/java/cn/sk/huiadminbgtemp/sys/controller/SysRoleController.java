@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysRoleQueryVo;
@@ -39,15 +39,15 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
         String rs = sysRoleCustom.getRecordStatus();
         ServerResponse<SysRoleCustom> serverResponse = sysRoleService.update(sysRoleCustom);
         if (serverResponse.isSuccess()) {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用成功");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用成功");
             }
         } else {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用失败");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用失败");
             }
         }
@@ -101,7 +101,7 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
 
                 sysRoleCustom.setOptId(SysUtils.getUserId());
                 //默认可用
-                sysRoleCustom.setRecordStatus(Const.RecordStatus.ABLE);
+                sysRoleCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
                 break;
             case UPDATE_OPRT://修改
                 //判断角色标识是否存在
@@ -132,25 +132,25 @@ public class SysRoleController extends BaseController<SysRoleCustom, SysRoleQuer
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.UPDATE);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysRole.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysRole.BATCH_REAL_DEL);
                 break;
         }
     }

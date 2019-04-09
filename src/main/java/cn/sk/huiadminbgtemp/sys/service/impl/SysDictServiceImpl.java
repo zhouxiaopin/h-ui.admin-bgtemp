@@ -1,16 +1,10 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
-import cn.sk.huiadminbgtemp.sys.common.Const;
-import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.mapper.SysDictMapper;
-import cn.sk.huiadminbgtemp.sys.mapper.SysUserMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
-import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
-import cn.sk.huiadminbgtemp.sys.utils.ShiroUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

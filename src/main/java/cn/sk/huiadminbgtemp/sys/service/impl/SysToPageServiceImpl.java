@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.mapper.SysDictMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysResourceMapper;
 import cn.sk.huiadminbgtemp.sys.mapper.SysRoleMapper;
@@ -62,7 +62,7 @@ public class SysToPageServiceImpl implements ISysToPageService {
 
         Map<String,Object> params = Maps.newHashMap();
         params.put("userId",sysUserInfo.getuId());
-        params.put("recordStatus",Const.RecordStatus.ABLE);
+        params.put("recordStatus", SysConst.RecordStatus.ABLE);
         List<Map<String,Object>> sysRoleCustoms = sysRoleMapper.selectListByUserId(params);
 
         Set<Integer> roleIds = Sets.newHashSet();
@@ -77,8 +77,8 @@ public class SysToPageServiceImpl implements ISysToPageService {
         if(!CollectionUtils.isEmpty(sysRoleCustoms)) {
             params.clear();
             params.put("roleIds",roleIds);
-            params.put("recordStatus", Const.RecordStatus.ABLE);
-            params.put("rType", Const.Permis.MENU);
+            params.put("recordStatus", SysConst.RecordStatus.ABLE);
+            params.put("rType", SysConst.Permis.MENU);
             params.put("orderBy", "r_sort");
 //            List<Map<String,Object>> sysPermisCustoms = sysPermisMapper.selectListByRoleId(params);
             List<Map<String,Object>> sysResourceCustoms = sysResourceMapper.selectListByRoleId(params);
@@ -92,8 +92,8 @@ public class SysToPageServiceImpl implements ISysToPageService {
 
             sysDictQueryVo.getIsNoLike().put("dictType",true);
 
-            condition.setDictType(Const.Dict.SysResource.LEFT_ICON);
-            condition.setRecordStatus(Const.RecordStatus.ABLE);
+            condition.setDictType(SysConst.Dict.SysResource.LEFT_ICON);
+            condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
             sysDictQueryVo.setSysDictCustom(condition);
             List<SysDictCustom> sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
@@ -118,7 +118,7 @@ public class SysToPageServiceImpl implements ISysToPageService {
 
                 treeNodes.add(treeNode);
             }
-            treeNodes = TreeUtil.bulid(treeNodes,Const.SysResource.DEFAULT_PARENTID.toString());
+            treeNodes = TreeUtil.bulid(treeNodes, SysConst.SysResource.DEFAULT_PARENTID.toString());
             mv.addObject("menuList", treeNodes);
         }
 

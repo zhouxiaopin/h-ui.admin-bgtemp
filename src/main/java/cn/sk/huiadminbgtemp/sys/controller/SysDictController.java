@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
@@ -39,15 +39,15 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
         String rs = sysDictCustom.getRecordStatus();
         ServerResponse<SysDictCustom> serverResponse = sysDictService.update(sysDictCustom);
         if (serverResponse.isSuccess()) {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用成功");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用成功");
             }
         } else {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用失败");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用失败");
             }
         }
@@ -94,7 +94,7 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
             }
 
             //默认可用
-            sysDictCustom.setRecordStatus(Const.RecordStatus.ABLE);
+            sysDictCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
         }
         if(StringUtils.equals(oprt,UPDATE_OPRT)) {//修改
             //判断字典编码是否存在
@@ -126,25 +126,25 @@ public class SysDictController extends BaseController<SysDictCustom, SysDictQuer
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.UPDATE);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysDict.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysDict.BATCH_REAL_DEL);
                 break;
         }
     }

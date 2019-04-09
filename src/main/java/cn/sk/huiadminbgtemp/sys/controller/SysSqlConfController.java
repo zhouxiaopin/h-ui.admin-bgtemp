@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
@@ -36,15 +36,15 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
         String rs = sysSqlConfCustom.getRecordStatus();
         ServerResponse<SysSqlConfCustom> serverResponse = sysSqlConfService.update(sysSqlConfCustom);
         if (serverResponse.isSuccess()) {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用成功");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用成功");
             }
         } else {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用失败");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用失败");
             }
         }
@@ -88,7 +88,7 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
             }
             sysSqlConfCustom.setOptId(SysUtils.getUserId());
             //默认可用
-            sysSqlConfCustom.setRecordStatus(Const.RecordStatus.ABLE);
+            sysSqlConfCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
         }
         if(StringUtils.equals(oprt,UPDATE_OPRT)) {//修改
             //判断语句编码是否存在
@@ -139,25 +139,25 @@ public class SysSqlConfController extends BaseController<SysSqlConfCustom, SysSq
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.UPDATE);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysSqlConf.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysSqlConf.BATCH_REAL_DEL);
                 break;
         }
     }

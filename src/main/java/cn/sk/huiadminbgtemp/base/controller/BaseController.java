@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.base.controller;
 
 import cn.sk.huiadminbgtemp.base.service.IBaseService;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.CustomException;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.common.SkLog;
@@ -66,7 +66,7 @@ public class BaseController<T, V> {
     protected String page(String oprt) {
         String page = getPage(oprt);
         if (null == page) {
-            throw new CustomException(Const.ResponseMsg.NO_PAGE);
+            throw new CustomException(SysConst.ResponseMsg.NO_PAGE);
         }
         return page;
     }
@@ -76,8 +76,8 @@ public class BaseController<T, V> {
     public ModelAndView initQuery(ModelAndView model) throws Exception {
         authorityValidate(QUERY_OPRT);
         model.addObject(OPRT_KEY, QUERY_OPRT);
-        model.addObject(Const.Dict.RECORDSTATUS_DICTCODE,
-                querySelectBoxVoByDictType(Const.Dict.RECORDSTATUS_DICTCODE).getData());
+        model.addObject(SysConst.Dict.RECORDSTATUS_DICTCODE,
+                querySelectBoxVoByDictType(SysConst.Dict.RECORDSTATUS_DICTCODE).getData());
         addReturnVale(QUERY_OPRT,model);
         model.setViewName(page(QUERY_OPRT));
         return model;
@@ -89,10 +89,10 @@ public class BaseController<T, V> {
         try {
             model.addObject("obj", t);
             model.addObject(OPRT_KEY, ADD_OPRT);
-            model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_SUCCE);
             addReturnVale(ADD_OPRT,model);
         } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(ADD_OPRT));
         return model;
@@ -106,7 +106,7 @@ public class BaseController<T, V> {
             init(model, entity);
             addReturnVale(UPDATE_OPRT,model);
         } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(UPDATE_OPRT));
         return model;
@@ -120,7 +120,7 @@ public class BaseController<T, V> {
             init(model, entity);
             addReturnVale(QUERYDETAIL_OPRT,model);
         } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
         model.setViewName(page(QUERYDETAIL_OPRT));
         return model;
@@ -206,12 +206,12 @@ public class BaseController<T, V> {
                 model.addObject("obj", t);
 //                model.addAttribute("jsonObj", GsonUtils.objToJsonStr(t));
                 model.addObject("jsonObj", JackJsonUtil.obj2String(t));
-                model.addObject("msg", Const.ResponseMsg.OPRT_SUCCE);
+                model.addObject("msg", SysConst.ResponseMsg.OPRT_SUCCE);
             } else {
-                model.addObject("msg", Const.ResponseMsg.RECORD_EXISTS_NO);
+                model.addObject("msg", SysConst.ResponseMsg.RECORD_EXISTS_NO);
             }
         } catch (Exception e) {
-            model.addObject("msg", Const.ResponseMsg.OPRT_FAIL);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
     }
 
@@ -235,7 +235,7 @@ public class BaseController<T, V> {
         sysDictQueryVo.getIsNoLike().put("dictType",true);
 
         condition.setDictType(dictType);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.setSysDictCustom(condition);
         ServerResponse<List<SysDictCustom>> sr = sysDictService.queryObjs(sysDictQueryVo);

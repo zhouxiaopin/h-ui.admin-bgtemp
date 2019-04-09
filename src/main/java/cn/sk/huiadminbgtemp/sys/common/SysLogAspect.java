@@ -111,7 +111,7 @@ public class SysLogAspect {
         //获取用户ip地址
         sysLogCustom.setIp(IpAdrressUtil.getIpAdrress(request));
 
-        sysLogCustom.setRecordStatus(Const.RecordStatus.ABLE);
+        sysLogCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
         //调用service保存SysLog实体类到数据库
         sysLogService.insert(sysLogCustom);
 

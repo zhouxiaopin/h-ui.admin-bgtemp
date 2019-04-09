@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.service.impl;
 
 import cn.sk.huiadminbgtemp.base.service.impl.BaseServiceImpl;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.mapper.SysResourceMapper;
 import cn.sk.huiadminbgtemp.sys.pojo.*;
@@ -50,8 +50,8 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceCustom, S
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
 
-        condition.setDictType(Const.Dict.SysResource.RES_TYPE);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setDictType(SysConst.Dict.SysResource.RES_TYPE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.setSysDictCustom(condition);
         List<SysDictCustom> sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
@@ -62,7 +62,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceCustom, S
             menuTypeMap.put(sysDictCustom.getDictCode(),sysDictCustom.getCodeName());
         }
         //级别
-        condition.setDictType(Const.Dict.SysResource.RES_LEVEL);
+        condition.setDictType(SysConst.Dict.SysResource.RES_LEVEL);
         sysDictCustoms = sysDictMapper.selectListByQueryVo(sysDictQueryVo);
         Map<String,String> menuLevelMap = Maps.newHashMap();
         for(int i = 0,len = sysDictCustoms.size(); i < len; i++) {

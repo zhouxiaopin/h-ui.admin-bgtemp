@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.custom.tag;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
@@ -142,7 +142,7 @@ public class AbtnTag extends BaseTag {
         SysDictCustom condition = new SysDictCustom();
         condition.setDictType(this.dictType);
         condition.setDictCode(this.dictCode);
-        condition.setRecordStatus(Const.RecordStatus.ABLE);
+        condition.setRecordStatus(SysConst.RecordStatus.ABLE);
 
         sysDictQueryVo.getIsNoLike().put("dictType",true);
         sysDictQueryVo.setSysDictCustom(condition);

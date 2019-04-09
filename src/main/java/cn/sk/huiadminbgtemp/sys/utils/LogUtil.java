@@ -1,6 +1,6 @@
 package cn.sk.huiadminbgtemp.sys.utils;
 
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.pojo.SysLogCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysUserCustom;
 import cn.sk.huiadminbgtemp.sys.service.ISysLogService;
@@ -62,7 +62,7 @@ public class LogUtil {
         //获取用户ip地址
         sysLogCustom.setIp(IpAdrressUtil.getIpAdrress(request));
 
-        sysLogCustom.setRecordStatus(Const.RecordStatus.ABLE);
+        sysLogCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
         //调用service保存SysLog实体类到数据库
         sysLogService.insert(sysLogCustom);
 

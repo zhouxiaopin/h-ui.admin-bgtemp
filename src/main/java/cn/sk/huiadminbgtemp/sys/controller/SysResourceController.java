@@ -1,7 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.Const;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.pojo.SysResourceCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysResourceQueryVo;
@@ -41,15 +41,15 @@ public class SysResourceController extends BaseController<SysResourceCustom, Sys
         String rs = sysResourceCustom.getRecordStatus();
         ServerResponse<SysResourceCustom> serverResponse = sysResourceService.update(sysResourceCustom);
         if (serverResponse.isSuccess()) {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用成功");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用成功");
             }
         } else {
-            if (StringUtils.equals(rs, Const.RecordStatus.ABLE)) {
+            if (StringUtils.equals(rs, SysConst.RecordStatus.ABLE)) {
                 serverResponse.setMsg("启用失败");
-            } else if (StringUtils.equals(rs, Const.RecordStatus.DISABLE)) {
+            } else if (StringUtils.equals(rs, SysConst.RecordStatus.DISABLE)) {
                 serverResponse.setMsg("禁用失败");
             }
         }
@@ -92,11 +92,11 @@ public class SysResourceController extends BaseController<SysResourceCustom, Sys
 //                }
 
                 if(ObjectUtils.isEmpty(sysResourceCustom.getParentId())) {
-                    sysResourceCustom.setParentId(Const.Permis.DEFAULT_PARENTID);
+                    sysResourceCustom.setParentId(SysConst.Permis.DEFAULT_PARENTID);
                 }
                 sysResourceCustom.setOptId(SysUtils.getUserId());
                 //默认可用
-                sysResourceCustom.setRecordStatus(Const.RecordStatus.ABLE);
+                sysResourceCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
                 break;
         }
         return super.paramValidate(oprt, sysResourceCustom);
@@ -107,25 +107,25 @@ public class SysResourceController extends BaseController<SysResourceCustom, Sys
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.ADD);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.UPDATE_RECORDSTATUS);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.UPDATE);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.UPDATE);
                 break;
             case DEL_OPRT://删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.DEL);
                 break;
             case REAL_DEL_OPRT://硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.REAL_DEL);
                 break;
             case BATCH_DEL_OPRT://批量删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.BATCH_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.BATCH_DEL);
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
-                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.SysResource.BATCH_REAL_DEL);
+                SecurityUtils.getSubject().checkPermission(SysConst.ShiroPermis.SysResource.BATCH_REAL_DEL);
                 break;
         }
     }
