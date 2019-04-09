@@ -5,6 +5,9 @@ package cn.sk.huiadminbgtemp.sys.common;
  */
 public class SysConst {
 
+    //下载文件前缀
+    public static final String DOWNLOAD_FILE_PREFIX = "static/file/";
+
     public interface RecordStatus{
         String DELETE = "00";//记录删除
         String ABLE = "01";//记录可用
@@ -87,7 +90,7 @@ public class SysConst {
 
         //系统用户
         class SysUser{
-            public static final String SYSUSER = "sysUser";
+            public static final String SYSUSER = "employee";
             public static final String ADD = SYSUSER+":"+ShiroPermis.ADD;
             public static final String UPDATE = SYSUSER+":"+ShiroPermis.UPDATE;
             public static final String UPDATE_RECORDSTATUS = SYSUSER+":"+ShiroPermis.UPDATE_RECORDSTATUS;

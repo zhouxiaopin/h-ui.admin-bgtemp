@@ -48,7 +48,7 @@ public class SysToPageServiceImpl implements ISysToPageService {
                 currentUser.logout();
             }
             try {
-                response.sendRedirect("sysUser/initLogin");
+                response.sendRedirect("employee/initLogin");
                 return null;
             } catch (IOException e) {
                 e.printStackTrace();

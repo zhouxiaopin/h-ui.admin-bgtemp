@@ -78,6 +78,7 @@
         <!--<table tableName="tb_sys_resource" domainObjectName="SysResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="tb_sys_role_resource" domainObjectName="SysRoleResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="tb_sk_base_organ" domainObjectName="Organ" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="tb_sk_base_emp" domainObjectName="Employee" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
         <!--  mybatis插件的搭建 -->
     </context>

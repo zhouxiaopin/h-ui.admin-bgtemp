@@ -29,7 +29,7 @@ public class ExceptionHandle {
             return ServerResponse.createByErrorMessage(e.getMessage());
         }else if (e instanceof UnauthenticatedException) {
             log.error("【没有登录】{}", e.getMessage());
-//            return new ModelAndView("redirect:/sysUser/initLogin");
+//            return new ModelAndView("redirect:/employee/initLogin");
             return ServerResponse.createByError(ResponseCode.NO_AUTHENTICATED);
         }else if (e instanceof UnauthorizedException) {
             log.error("【没有权限】{}", e.getMessage());

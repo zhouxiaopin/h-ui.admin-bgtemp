@@ -118,7 +118,7 @@
         <!--<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
         <!--<dd>-->
         <!--<ul>-->
-        <!--<li><a th:data-href="@{sysUser/initQuery}" data-title="系统用户管理">系统用户管理</a></li>-->
+        <!--<li><a th:data-href="@{employee/initQuery}" data-title="系统用户管理">系统用户管理</a></li>-->
         <!--&lt;!&ndash;<li><a data-href="system-base.html" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a></li>&ndash;&gt;-->
         <!--<li><a th:data-href="@{/sysRole/initQuery}" data-title="系统角色管理" href="javascript:void(0)">系统角色管理</a>-->
         <!--</li>-->
@@ -251,7 +251,7 @@
         layer.confirm('确定要退出系统吗？', function (index) {
             layer.close(index);
             window.location.href = basePath + "sysUser/sysLogout";
-            /*var url = "sysUser/logout";
+            /*var url = "employee/logout";
             var param = null;
             sk.ajaxRequest(url, param, function (r) {
 /!*                if (r.code == '0') {

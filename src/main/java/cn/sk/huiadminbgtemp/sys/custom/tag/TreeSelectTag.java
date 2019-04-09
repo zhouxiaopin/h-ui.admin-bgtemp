@@ -242,7 +242,14 @@ public class TreeSelectTag extends BaseTag {
         js.append("\");return check;}");
 
         //onCheck
-        js.append("function onCheck(e, treeId, treeNode) {var zTree = $.fn.zTree.getZTreeObj(\"");
+        js.append("function onCheck(e, treeId, treeNode) {");
+        if(!this.isParentCheck()) {
+            js.append("var check = (treeNode && !treeNode.isParent);");
+            js.append("if (!check){ sk.failFaceMsg(\"");
+            js.append(this.getParentNoCheckMsg());
+            js.append("\");return check;}");
+        }
+        js.append("var zTree = $.fn.zTree.getZTreeObj(\"");
         js.append(this.getId());
         js.append("\"),");
         if(StringUtils.isEmpty(type)) {

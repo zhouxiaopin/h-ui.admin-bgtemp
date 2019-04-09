@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 机构信息实体类的包装对象
+ * 员工信息实体类的包装对象
  */
 @Getter
 @Setter
-public class OrganQueryVo extends BaseQueryVo{
-    private OrganCustom organCustom;
+public class EmployeeQueryVo extends BaseQueryVo{
+    private EmployeeCustom employeeCustom;
 
 }

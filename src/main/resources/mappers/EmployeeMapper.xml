@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sk.huiadminbgtemp.business.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="cn.sk.huiadminbgtemp.business.pojo.Employee">
+    <constructor>
+      <idArg column="emp_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="emp_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="org_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="emp_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sex" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="mobile_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="headImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="emp_desc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="record_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    be.emp_id, be.emp_no, be.org_id, be.emp_name, be.sex, be.email, be.mobile_phone, be.headImg, be.emp_desc, be.record_status,
+    be.update_time, be.create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapCustom">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sk_base_emp be
+    where emp_id = #{empId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_sk_base_emp
+    where emp_id = #{empId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.sk.huiadminbgtemp.business.pojo.Employee">
+    insert into tb_sk_base_emp (emp_id, emp_no, org_id, 
+      emp_name, sex, email, mobile_phone, 
+      headImg, emp_desc, record_status, 
+      update_time, create_time)
+    values (#{empId,jdbcType=BIGINT}, #{empNo,jdbcType=VARCHAR}, #{orgId,jdbcType=INTEGER}, 
+      #{empName,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{headimg,jdbcType=VARCHAR}, #{empDesc,jdbcType=VARCHAR}, #{recordStatus,jdbcType=CHAR}, 
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.sk.huiadminbgtemp.business.pojo.Employee">
+    insert into tb_sk_base_emp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empId != null">
+        emp_id,
+      </if>
+      <if test="empNo != null">
+        emp_no,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="empName != null">
+        emp_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="headimg != null">
+        headImg,
+      </if>
+      <if test="empDesc != null">
+        emp_desc,
+      </if>
+      <if test="recordStatus != null">
+        record_status,
+      </if>
+        update_time,
+        create_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empId != null">
+        #{empId,jdbcType=BIGINT},
+      </if>
+      <if test="empNo != null">
+        #{empNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="empName != null">
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="empDesc != null">
+        #{empDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        #{recordStatus,jdbcType=CHAR},
+      </if>
+      now(),
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sk.huiadminbgtemp.business.pojo.Employee">
+    update tb_sk_base_emp
+    <set>
+      <if test="empNo != null">
+        emp_no = #{empNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="empName != null">
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null">
+        headImg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="empDesc != null">
+        emp_desc = #{empDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        record_status = #{recordStatus,jdbcType=CHAR},
+      </if>
+        update_time = now(),
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where emp_id = #{empId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sk.huiadminbgtemp.business.pojo.Employee">
+    update tb_sk_base_emp
+    set emp_no = #{empNo,jdbcType=VARCHAR},
+      org_id = #{orgId,jdbcType=INTEGER},
+      emp_name = #{empName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      headImg = #{headimg,jdbcType=VARCHAR},
+      emp_desc = #{empDesc,jdbcType=VARCHAR},
+      record_status = #{recordStatus,jdbcType=CHAR},
+      update_time = now(),
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where emp_id = #{empId,jdbcType=BIGINT}
+  </update>
+
+
+  <!--以下是自定义的-->
+
+  <!-- 表与实体映射 -->
+  <resultMap id="ResultMapCustom" type="EmployeeCustom" extends="BaseResultMap">
+    <!--<result property="roleName" column="role_ame" />-->
+  </resultMap>
+
+  <!-- 查询条件的sql片段 -->
+
+  <sql id="base_query_condition">
+    <if test="null != employeeCustom">
+      <!-- ${}拼接字符串，有sql注入的维修，少用-->
+      <if test="null != employeeCustom.empName and '' != employeeCustom.empName">
+        <if test="isNoLike.empName">
+          AND be.emp_name = #{employeeCustom.empName,jdbcType=VARCHAR}
+        </if>
+        <if test="!isNoLike.userName">
+          AND be.emp_name LIKE CONCAT('%',CONCAT(#{employeeCustom.empName,jdbcType=VARCHAR},'%'))
+        </if>
+      </if>
+
+    </if>
+  </sql>
+
+  <!--根据条件查询-->
+  <select id="selectListByQueryVo" parameterType="EmployeeQueryVo" resultMap="ResultMapCustom">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sk_base_emp be
+    <where>
+      <!-- 引用sql片段 的id,如果refid指定的id不在本mapper文件中,要前边加namespace -->
+      <include refid="base_query_condition"></include>
+      AND be.record_status != '00'
+    </where>
+    <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
+  </select>
+
+  <!--根据主键软删除-->
+  <update id="deleteInIds">
+    update tb_sk_base_emp
+    set record_status = #{recordStatus,jdbcType=VARCHAR}
+    <where>
+      emp_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </update>
+
+  <!--根据主键硬删除-->
+  <delete id="realDeleteInIds" >
+    delete from tb_sk_base_emp
+    <where>
+      emp_id IN
+      <foreach collection="pks" open="(" close=")" separator="," item="pk">
+        #{pk}
+      </foreach>
+    </where>
+  </delete>
+</mapper>
