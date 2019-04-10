@@ -30,6 +30,8 @@
         <span class="l">
             <sk:aBtn id="addBtn" class="btn-primary" text="添加员工" dictType="oprt_icon" dictCode="01"/>
             <sk:aBtn id="downImportTemp" class="btn-secondary" text="下载导入模板" dictType="oprt_icon" dictCode="09"/>
+            <sk:aBtn id="exportData" class="btn-success" text="导出" dictType="oprt_icon" dictCode="06"/>
+            <sk:aBtn id="importData" class="btn-warning" text="导入" dictType="oprt_icon" dictCode="07"/>
             <sk:aBtn onclick="batchDel()" class="btn-danger" text="批量删除" dictType="oprt_icon" dictCode="03"/>
             <sk:aBtn onclick="batchRealDel()" class="btn-danger" text="批量硬删除" dictType="oprt_icon" dictCode="03"/>
         </span>
@@ -122,6 +124,18 @@
             // }).appendTo($("body")).submit();
             window.location.href=basePath+"emp/downFile?realPath=excel/emp-template.xls";
             // window.location.href=basePath+"emp/downFile?realPath=static/file/excel/emp-template.xls";
+        });
+        //导出按钮
+        $('#exportData').on('click', function () {
+            window.location.href=basePath+"emp/exportData";
+            // window.location.href=basePath+"emp/downFile?realPath=static/file/excel/emp-template.xls";
+        });
+        //导入按钮
+        $('#importData').on('click', function () {
+            var url = "initImportData";
+            requestPage(url,{'oprt':skConst.Oprt.IMPORT_DATA},'导入'+modelTile, 800, 600, function () {//结束事件
+                location.reload();
+            });
         });
 
 

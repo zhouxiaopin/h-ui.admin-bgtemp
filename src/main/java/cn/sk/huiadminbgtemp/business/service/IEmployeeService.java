@@ -8,5 +8,8 @@ import cn.sk.huiadminbgtemp.business.pojo.EmployeeQueryVo;
  * 员工信息业务逻辑接口
  */
 public interface IEmployeeService extends IBaseService<EmployeeCustom, EmployeeQueryVo>{
-
+    /**
+     * 导出数据
+     */
+    void exportData();
 }

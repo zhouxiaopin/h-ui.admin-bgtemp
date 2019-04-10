@@ -43,6 +43,7 @@ public class Const {
             public static final String REAL_DEL = MODEL_NAME+":"+ SysConst.ShiroPermis.REAL_DEL;
             public static final String BATCH_DEL = MODEL_NAME+":"+ SysConst.ShiroPermis.BATCH_DEL;
             public static final String BATCH_REAL_DEL = MODEL_NAME+":"+ SysConst.ShiroPermis.BATCH_REAL_DEL;
+            public static final String IMPORT_DATA = MODEL_NAME+":importData";
         }
 
 

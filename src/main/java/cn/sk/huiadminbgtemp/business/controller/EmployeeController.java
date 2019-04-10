@@ -5,23 +5,20 @@ import cn.sk.huiadminbgtemp.business.common.Const;
 import cn.sk.huiadminbgtemp.business.pojo.EmployeeCustom;
 import cn.sk.huiadminbgtemp.business.pojo.EmployeeQueryVo;
 import cn.sk.huiadminbgtemp.business.service.IEmployeeService;
+import cn.sk.huiadminbgtemp.business.service.IFileService;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.common.SysConst;
-import lombok.extern.slf4j.Slf4j;
+import cn.sk.huiadminbgtemp.sys.utils.PoiExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 员工信息 Controller
@@ -29,11 +26,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/emp")
 @RequiresAuthentication
-@Slf4j
 public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQueryVo> {
     private static final String UPDATE_RECORDSTATUS_OPRT = "updateRecordStatus";
+    private static final String IMPORT_DATA_OPRT = "importData";
+
     @Autowired
     private IEmployeeService employeeService;
+    @Autowired
+    private IFileService fileService;
 
 
 
@@ -64,57 +64,53 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
     //下载文件
 //    @PostMapping(value = "downFile")
     @GetMapping(value = "downFile")
-    public void downFile(String realPath,HttpServletResponse response) {
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
+    public void downFile(String realPath) {
+        fileService.downFile(realPath);
+    }
+
+    //导出数据
+    @GetMapping(value = "exportData")
+    public void exportData() {
+//        fileService.exportData();
+        employeeService.exportData();
+    }
+    //进入导入数据页面
+    @GetMapping(value = "/initImportData")
+    public ModelAndView initImportData(ModelAndView model){
+        authorityValidate(IMPORT_DATA_OPRT);
         try {
-            String resourceLocation = "classpath:"+SysConst.DOWNLOAD_FILE_PREFIX+realPath;
-            if (ResourceUtils.isUrl(resourceLocation)) {
-                //获取文件
-                File file = ResourceUtils.getFile(resourceLocation);
-                //文件扩展名
-                String fileExtensionName = realPath.substring(realPath.lastIndexOf(".")+1);
-                // 文件的默认保存名
-                String fileName = UUID.randomUUID().toString()+"."+fileExtensionName;
-                // 读到流中
-                inputStream = new FileInputStream(file);
-                // 设置输出的格式
-                response.reset();
-                response.setContentType("bin");
-                response.addHeader("Content-Disposition",
-                        "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-                // 循环取出流中的数据
-                byte[] b = new byte[200];
-                int len;
-                outputStream = response.getOutputStream();
-                while ((len = inputStream.read(b)) != -1){
-                    outputStream.write(b, 0, len);
-                }
-
-            }else{
-                log.error("路径不存在");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error("下载失败");
-        }finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            model.addObject(OPRT_KEY, IMPORT_DATA_OPRT);
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_SUCCE);
+        } catch (Exception e) {
+            model.addObject("msg", SysConst.ResponseMsg.OPRT_FAIL);
         }
-
+        model.setViewName(page(IMPORT_DATA_OPRT));
+        return model;
+    }
+    //导入数据
+    @PostMapping(value = "/importData")
+    public ModelAndView importData(@RequestParam(value = "importFile", required = false) MultipartFile file){
+        authorityValidate(IMPORT_DATA_OPRT);
+        Map<String,String> titleMap = new HashMap<String,String>();
+        titleMap.put("姓名", "empName");
+        titleMap.put("员工编号", "empNo");
+        titleMap.put("机构id", "orgId");
+        titleMap.put("所属部门", "departName");
+        titleMap.put("工卡", "cardNo");
+        titleMap.put("手机电话", "phone");
+        titleMap.put("微信号", "wechatNum");
+        titleMap.put("身份证", "idcard");
+        titleMap.put("民族", "nation");
+        titleMap.put("职位", "post");
+        titleMap.put("政治面貌", "politicalStatus");
+        titleMap.put("学历", "qualification");
+        titleMap.put("电子证件照", "identifPhotoPath");
+        Map<String,Object> datas1 = PoiExcelUtil.readExcelHasPic(file,titleMap,new HashMap<>());
+        Map<String,Object> datas2 = PoiExcelUtil.readExcel(file,titleMap,new HashMap<>());
+//        List<Object[]> data = JxlExcelUtil.readExcel(file);
+        System.out.println(datas1);
+        System.out.println(datas2);
+        return null;
     }
 
 
@@ -133,6 +129,9 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
         }
         if (oprt.equals(ADD_OPRT)) {
             return prefix + "employee";
+        }
+        if (oprt.equals(IMPORT_DATA_OPRT)) {
+            return prefix + "empImport";
         }
         return super.getPage(oprt);
     }
@@ -174,6 +173,10 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
                 break;
             case BATCH_REAL_DEL_OPRT://批量硬删除
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.BATCH_REAL_DEL);
+                break;
+
+            case IMPORT_DATA_OPRT://导入数据
+//                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.IMPORT_DATA);
                 break;
         }
     }

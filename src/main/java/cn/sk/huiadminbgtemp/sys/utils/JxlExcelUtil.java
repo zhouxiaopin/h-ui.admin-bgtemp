@@ -8,6 +8,7 @@ import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.*;
 import jxl.write.biff.RowsExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -28,6 +29,47 @@ public class JxlExcelUtil {
 		Workbook rwb = null;
 		try {
 			is = new FileInputStream(new File(path));
+			rwb = Workbook.getWorkbook(is);
+			Sheet st = rwb.getSheet(0);
+			if (st != null) {
+				int rows = st.getRows();
+				int cols = st.getColumns();
+				List<Object[]> list = new ArrayList<Object[]>();
+				for (int i = 0; i < rows; i++) {
+					if (i > 0) {
+						Object[] obj = new Object[cols];
+						for (int j = 0; j < cols; j++) {
+							obj[j] = st.getCell(j, i).getContents();
+						}
+						list.add(obj);
+					}
+				}
+				return list;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			rwb.close();
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	/**
+	 * Excel读取方法
+	 *
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<Object[]> readExcel(MultipartFile file) {
+		InputStream is = null;
+		Workbook rwb = null;
+		try {
+			is = file.getInputStream();
 			rwb = Workbook.getWorkbook(is);
 			Sheet st = rwb.getSheet(0);
 			if (st != null) {

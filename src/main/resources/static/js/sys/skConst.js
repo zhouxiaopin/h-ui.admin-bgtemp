@@ -21,6 +21,7 @@ skConst.Dict = {
 
 //操作相关
 skConst.Oprt = {
+    /***相关开始***/
     QUERY_OPRT : "query",
     ADD_OPRT : "add",
     UPDATE_OPRT : "update",
@@ -30,7 +31,11 @@ skConst.Oprt = {
     BATCH_DEL_OPRT : "batchDel",
     BATCH_REAL_DEL_OPRT : "batchRealDel",
     UPDATE_RECORDSTATUS_OPRT : "updateRecordStatus",
+    IMPORT_DATA : "importData",
     SysUser:{
         UPDATE_PASSWORD_OPRT : "updatePassword"
-    }
+    },
+    /***相关结束***/
+
+
 };

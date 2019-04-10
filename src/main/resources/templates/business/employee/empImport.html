@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml">
+<head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
+    <!--title,metas,links,scripts-->
+    <title>导入员工</title>
+</head>
+<body>
+<article class="page-container">
+    <form method="post" class="form form-horizontal" id="importDataForm" th:action="@{importData}" enctype="multipart/form-data">
+    <!--<form th:action="${oprt}" method="post" class="form form-horizontal" id="sysUserForm">-->
+        <div>
+            <label id="retMsg" style="display:block;text-align: center;color: #FF0000"
+                   th:inline="text">[[${msg}]]</label>
+        </div>
+        <div class="row cl">
+            <sk:label class="col-xs-4 col-sm-4" text="员工文件："/>
+            <div class="formControls col-xs-8 col-sm-8">
+                <span class="btn-upload form-group">
+				    <input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly nullmsg="请添加附件！" style="width:200px">
+                    <a href="javascript:void(0);" class="btn btn-primary radius upload-btn">
+                        <i class="Hui-iconfont">&#xe642;</i> 浏览文件
+                    </a>
+                    <input type="file" multiple name="importFile" class="input-file">
+				</span>
+                <!--<a href="static/temp/msg.xls" ><i class="Hui-iconfont"></i> xls文件信息</a>-->
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-8 col-xs-offset-4 col-sm-offset-4">
+                <sk:button class="btn-success" type="reset" text="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+                <sk:button class="btn-primary" type="submit" text="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="common/common :: common_footer">
+</div>
+<!--/_footer 作为公共模版分离出去-->
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/static/H-ui.admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    var oprt = [[${oprt}]];
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#importDataForm").validate({
+            rules: {
+                importFile: {
+                    required: true,
+                }
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                blockPage('正在导入中 , 请稍等 ...');
+                $(form).ajaxSubmit();
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
