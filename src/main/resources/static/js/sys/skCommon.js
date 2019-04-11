@@ -417,52 +417,6 @@ function unblockPage(){
 /*****************************************************************/
 
 /***********************h-ui.admin扩展开始*************************/
-/*
-	参数解释：
-	title	标题
-	url		请求的url
-	id		需要操作的数据id
-	w		弹出层宽度（缺省调默认值）
-	h		弹出层高度（缺省调默认值）
-*/
-function layer_show_page(title,content,w,h,end){
-    if (title == null || title == '') {
-        title=false;
-    };
-    if (content == null || content == '') {
-        content="404.html";
-    };
-    if (w == null || w == '') {
-        w=800;
-    };
-    if (h == null || h == '') {
-        h=($(window).height() - 50);
-    };
-    layer.open({
-        type: 2,
-        area: [w+'px', h +'px'],
-        fix: false, //不固定
-        maxmin: true,
-        // shade:0.4,
-        title: title,
-        content: content,
-        success: function(layero, index){
-            var body = layer.getChildFrame('body pre', index);
-            try {
-                var r = JSON.parse(body.text());
-                if (r.code && r.code != '0') {
-                    sk.failMsg(r.msg);
-                    layer.close(index);
-                }else{
-
-                }
-            }catch (e) {
-
-            }
-        },
-        end: end
-    });
-}
 
 /**
  *
@@ -482,19 +436,13 @@ function requestPage(url,param,title,w,h,end){
             }
     });
 }
-function requestPageCustom(url,param,title,w,h,end){
-    sk.ajaxRequestPage(url, param, function (r) {
-        layer_show_page(title, url, w, h, end);
-        // try {
-        //     r = JSON.parse(r);
-        //     if (r.code && r.code != '0') {
-        //         sk.failMsg(r.msg);
-        //     }else{
-        //
-        //     }
-        // }catch (e) {
-        //     layer_show_page(title, url, w, h, end);
-        // }
+function requestPage2(url,authUrl,param,title,w,h,end){
+    sk.ajaxRequest(authUrl, param, function (r) {
+            if (r.code == '0') {
+                layer_show(title, url, w, h, end);
+            }else{
+                sk.failMsg(r.msg);
+            }
     });
 }
 /***********************h-ui.admin扩展结束*************************/

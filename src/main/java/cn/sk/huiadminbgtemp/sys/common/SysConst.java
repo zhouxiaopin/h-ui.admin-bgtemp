@@ -90,7 +90,7 @@ public class SysConst {
 
         //系统用户
         class SysUser{
-            public static final String SYSUSER = "employee";
+            public static final String SYSUSER = "sysUser";
             public static final String ADD = SYSUSER+":"+ShiroPermis.ADD;
             public static final String UPDATE = SYSUSER+":"+ShiroPermis.UPDATE;
             public static final String UPDATE_RECORDSTATUS = SYSUSER+":"+ShiroPermis.UPDATE_RECORDSTATUS;

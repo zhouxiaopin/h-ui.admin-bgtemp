@@ -153,13 +153,13 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
     protected void authorityValidate(String oprt) {
         switch (oprt) {
             case ADD_OPRT://添加
-//                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.ADD);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.ADD);
                 break;
             case UPDATE_RECORDSTATUS_OPRT://修改记录状态（禁用/启用）
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.UPDATE_RECORDSTATUS);
                 break;
             case UPDATE_OPRT://修改
-//                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.UPDATE);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.UPDATE);
                 break;
             case DEL_OPRT://删除
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.DEL);
@@ -173,9 +173,8 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
             case BATCH_REAL_DEL_OPRT://批量硬删除
                 SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.BATCH_REAL_DEL);
                 break;
-
             case IMPORT_DATA_OPRT://导入数据
-//                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.IMPORT_DATA);
+                SecurityUtils.getSubject().checkPermission(Const.ShiroPermis.Employee.IMPORT_DATA);
                 break;
         }
     }

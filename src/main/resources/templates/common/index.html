@@ -198,6 +198,12 @@
         });*/
     });
 
+    /*修改密码*/
+    function updatePwd(id){
+        var url = "sysUser/initUpdatePassword?uId=" + id;
+        var authUrl = "sysUser/authValidate";
+        requestPage2(url,authUrl,{'oprt':skConst.Oprt.SysUser.UPDATE_PASSWORD_OPRT},'修改密码', 500, 400);
+    }
     /*个人信息*/
     function myselfinfo() {
         layer.open({

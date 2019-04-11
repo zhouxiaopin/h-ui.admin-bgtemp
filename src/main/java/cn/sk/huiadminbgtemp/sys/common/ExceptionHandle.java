@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public Object handle(Exception e, HttpServletRequest httpServletRequest) {
-        log.error("{} Exception",httpServletRequest.getRequestURI(),e);
+    public Object handle(Exception e, HttpServletRequest request) {
+        log.error("{} Exception",request.getRequestURI(),e);
         //以后要添加判断是否是ajax请求
         if (e instanceof CustomException) {
             CustomException customException = (CustomException) e;
@@ -29,7 +29,7 @@ public class ExceptionHandle {
             return ServerResponse.createByErrorMessage(e.getMessage());
         }else if (e instanceof UnauthenticatedException) {
             log.error("【没有登录】{}", e.getMessage());
-//            return new ModelAndView("redirect:/employee/initLogin");
+//            return new ModelAndView("redirect:/sysUser/initLogin");
             return ServerResponse.createByError(ResponseCode.NO_AUTHENTICATED);
         }else if (e instanceof UnauthorizedException) {
             log.error("【没有权限】{}", e.getMessage());

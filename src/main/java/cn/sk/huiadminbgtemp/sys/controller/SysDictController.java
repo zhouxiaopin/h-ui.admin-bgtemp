@@ -1,8 +1,8 @@
 package cn.sk.huiadminbgtemp.sys.controller;
 
 import cn.sk.huiadminbgtemp.base.controller.BaseController;
-import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
+import cn.sk.huiadminbgtemp.sys.common.SysConst;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysDictQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysDictService;
