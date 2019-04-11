@@ -66,12 +66,28 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
         fileService.downFile(realPath);
     }
 
-    //导出数据
+//    导出数据-jxl方式
     @GetMapping(value = "exportData")
     public void exportData() {
-//        fileService.exportData();
         employeeService.exportData();
     }
+
+//    //导出数据
+//    @GetMapping(value = "exportData")
+//    public ModelAndView exportData(ModelAndView mv, HttpServletResponse response) {
+//        try {
+//            response.reset();
+//            String filename = URLEncoder.encode("员工列表.xls", "UTF-8");
+//            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+//            response.setHeader("Content-Disposition","attachment;filename="+filename);
+//            mv.addObject("list",employeeService.queryObjs(new EmployeeQueryVo()).getData());
+//            mv.setViewName("business/employee/empExport");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        return mv;
+//    }
+
     //进入导入数据页面
     @GetMapping(value = "/initImportData")
     public ModelAndView initImportData(ModelAndView model){
@@ -86,7 +102,8 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
         return model;
     }
     //导入数据
-    @PostMapping(value = "/importData", produces = {"text/html;charset=UTF-8"})
+//    @PostMapping(value = "/importData", produces = {"text/html;charset=UTF-8"})
+    @PostMapping(value = "/importData")
     public ModelAndView importData(@RequestParam(value = "importFile", required = false) MultipartFile file,ModelAndView mv){
         authorityValidate(IMPORT_DATA_OPRT);
         ServerResponse<Map<String,Object>> serverResponse = employeeService.importData(file);

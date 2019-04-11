@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -306,6 +307,62 @@ public class PoiExcelUtil {
 		// }
 
 	}*/
+
+
+	/**************************************/
+
+	/*************导出相关开始**************/
+	/**
+	 * Excel导出
+	 * @param os
+	 * @param title
+	 * @param colWidth
+	 * @param lists
+	 */
+	public static void writeExcel(OutputStream os, String[] title, int[] colWidth, List<List<String>> lists){
+		//创建Excel工作簿
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		//创建一个工作表sheet
+		HSSFSheet sheet = workbook.createSheet();
+		//创建第一行
+		HSSFRow row = sheet.createRow(0);
+		//设定第一行的行高
+		row.setHeightInPoints(30);
+
+		//添加第一列标题序号
+		HSSFCell cell = row.createCell(0);
+		cell.setCellValue("序号");
+		sheet.setColumnWidth(0, 10*256);
+		// 开始写入第一行(即标题栏)
+		for (int i = 0; i < title.length; i++) {
+			sheet.setColumnWidth(i+1, colWidth[i]*256);
+			cell = row.createCell(i+1);
+			cell.setCellValue(title[i]);
+		}
+		//追加数据
+		for (int i = 0,len = lists.size(); i < len; i++) {
+			List<String> rowData = lists.get(i);
+			HSSFRow nextrow = sheet.createRow(i+1);
+			for(int j = 0,length = rowData.size(); j <= length; j++) {
+				cell = nextrow.createCell(j);
+				if(j==0) {
+					cell.setCellValue(i+"");
+				}else {
+					cell.setCellValue(rowData.get(j-1));
+				}
+			}
+		}
+		try {
+			workbook.write(os);
+			os.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	/*************导出相关结束**************/
+
+	/**************************************/
+
 	
 	public static void main(String[] args) {
 		/*try {

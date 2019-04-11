@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>导出员工</title>
+    <style type="text/css">
+        table.common1 {
+            width: 100%;
+            font-size: 9pt;
+            font-family:"宋体";
+            text-align:center;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<table border="1" class="common1">
+    <tr style="height:50px">
+        <td colspan="5" align="center"><font size='5'>员工列表</font></td>
+    </tr>
+    <tr style="background-color: yellow;height:20px">
+        <th align="center"><b>序号</b></th>
+        <th align="center"><b>姓名</b></th>
+        <th align="center"><b>员工编号</b></th>
+        <th align="center"><b>机构id</b></th>
+        <th align="center"><b>手机号码</b></th>
+    </tr>
+    <tr th:each="item,itemStat: ${list}">
+        <td align="center" th:text="${itemStat.index+1}"></td>
+        <td align="left" th:text="${item.empName}"></td>
+        <td align="left" th:text="${item.empNo}"></td>
+        <td align="left" th:text="${item.orgId}"></td>
+        <td align="left" th:text="${item.mobilePhone}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

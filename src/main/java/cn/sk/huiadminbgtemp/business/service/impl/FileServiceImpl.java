@@ -82,7 +82,10 @@ public class FileServiceImpl implements IFileService {
     public void exportExcelData(File file, String[] title, int[] colWidth, List<List<String>> lists) {
         try {
             OutputStream os = new FileOutputStream(file);
+            //jxl
             JxlExcelUtil.writeExcel(os, title, colWidth, lists);
+            //poi
+//            PoiExcelUtil.writeExcel(os, title, colWidth, lists);
             FileUtils.exportFile(response,file,true);
             log.info("导出excel文件路径：{}",file.getAbsolutePath());
             log.info("导出excel数据成功");
