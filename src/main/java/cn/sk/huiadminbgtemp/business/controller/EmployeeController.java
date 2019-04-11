@@ -8,7 +8,6 @@ import cn.sk.huiadminbgtemp.business.service.IEmployeeService;
 import cn.sk.huiadminbgtemp.business.service.IFileService;
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.common.SysConst;
-import cn.sk.huiadminbgtemp.sys.utils.PoiExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -88,29 +86,13 @@ public class EmployeeController extends BaseController<EmployeeCustom, EmployeeQ
         return model;
     }
     //导入数据
-    @PostMapping(value = "/importData")
-    public ModelAndView importData(@RequestParam(value = "importFile", required = false) MultipartFile file){
+    @PostMapping(value = "/importData", produces = {"text/html;charset=UTF-8"})
+    public ModelAndView importData(@RequestParam(value = "importFile", required = false) MultipartFile file,ModelAndView mv){
         authorityValidate(IMPORT_DATA_OPRT);
-        Map<String,String> titleMap = new HashMap<String,String>();
-        titleMap.put("姓名", "empName");
-        titleMap.put("员工编号", "empNo");
-        titleMap.put("机构id", "orgId");
-        titleMap.put("所属部门", "departName");
-        titleMap.put("工卡", "cardNo");
-        titleMap.put("手机电话", "phone");
-        titleMap.put("微信号", "wechatNum");
-        titleMap.put("身份证", "idcard");
-        titleMap.put("民族", "nation");
-        titleMap.put("职位", "post");
-        titleMap.put("政治面貌", "politicalStatus");
-        titleMap.put("学历", "qualification");
-        titleMap.put("电子证件照", "identifPhotoPath");
-        Map<String,Object> datas1 = PoiExcelUtil.readExcelHasPic(file,titleMap,new HashMap<>());
-        Map<String,Object> datas2 = PoiExcelUtil.readExcel(file,titleMap,new HashMap<>());
-//        List<Object[]> data = JxlExcelUtil.readExcel(file);
-        System.out.println(datas1);
-        System.out.println(datas2);
-        return null;
+        ServerResponse<Map<String,Object>> serverResponse = employeeService.importData(file);
+        mv.setViewName("business/employee/empImportTip");
+        mv.addAllObjects(serverResponse.getData());
+        return mv;
     }
 
 

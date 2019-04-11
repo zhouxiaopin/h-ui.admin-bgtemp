@@ -65,7 +65,11 @@
             success: "valid",
             submitHandler: function (form) {
                 blockPage('正在导入中 , 请稍等 ...');
-                $(form).ajaxSubmit();
+                $("#importDataForm").ajaxSubmit(function (data) {
+                    $('body').empty().append(data);
+                });
+
+                // layer_close();
             }
         });
     });

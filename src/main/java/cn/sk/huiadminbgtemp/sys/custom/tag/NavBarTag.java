@@ -26,6 +26,8 @@ public class NavBarTag extends BaseTag {
     private static String subsClazz = "breadcrumb";
     //导航栏的文字，多个用逗号分隔
     private String navText;
+    //是否需要刷新按钮
+    private boolean hasFresh;
 
 
     public NavBarTag(String dialectPrefix) {
@@ -67,6 +69,14 @@ public class NavBarTag extends BaseTag {
         //导航栏的文字，多个用逗号分隔
         String navText = tag.getAttributeValue("navText");
         this.setNavText(navText);
+
+        //是否需要刷新按钮
+        String hasFresh = tag.getAttributeValue("hasFresh");
+        if(!StringUtils.isBlank(hasFresh)) {
+            this.setHasFresh(Boolean.valueOf(hasFresh));
+        }else{
+            this.setHasFresh(Boolean.TRUE);
+        }
     }
 
     @Override
@@ -96,10 +106,13 @@ public class NavBarTag extends BaseTag {
                 html.append(" <span class=\"c-gray en\">&gt;</span> ");
                 html.append(navTexts[i]);
             }
-
-            html.append("<a class=\"btn btn-success radius r\" style=\"line-height:1.6em;margin-top:3px\"");
-            html.append(" href=\"javascript:location.replace(location.href);\" title=\"刷新\">");
-            html.append("<i class=\"Hui-iconfont\">&#xe68f;</i></a>");
+            
+            //判断是否要刷新按钮
+            if(hasFresh) {
+                html.append("<a class=\"btn btn-success radius r\" style=\"line-height:1.6em;margin-top:3px\"");
+                html.append(" href=\"javascript:location.replace(location.href);\" title=\"刷新\">");
+                html.append("<i class=\"Hui-iconfont\">&#xe68f;</i></a>");
+            }
             //业务代码结束
 
             html.append("</");

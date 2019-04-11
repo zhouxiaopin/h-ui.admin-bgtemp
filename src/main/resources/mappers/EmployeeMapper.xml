@@ -203,6 +203,20 @@
     <include refid="cn.sk.huiadminbgtemp.base.mapper.IBaseMapper.base_order"/>
   </select>
 
+  <!--批量插入-->
+  <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="empId">
+    INSERT INTO tb_sk_base_emp (emp_id, emp_no, org_id,
+    emp_name, sex, email, mobile_phone,
+    headImg, emp_desc, record_status,
+    update_time, create_time) VALUES
+    <foreach collection="list" item="item" separator="," index="index">
+      (#{item.empId,jdbcType=BIGINT}, #{item.empNo,jdbcType=VARCHAR}, #{item.orgId,jdbcType=INTEGER},
+      #{item.empName,jdbcType=VARCHAR}, #{item.sex,jdbcType=CHAR}, #{item.email,jdbcType=VARCHAR}, #{item.mobilePhone,jdbcType=VARCHAR},
+      #{item.headimg,jdbcType=VARCHAR}, #{item.empDesc,jdbcType=VARCHAR}, #{item.recordStatus,jdbcType=CHAR},
+      now(), now())
+    </foreach>
+  </insert>
+
   <!--根据主键软删除-->
   <update id="deleteInIds">
     update tb_sk_base_emp
@@ -225,4 +239,6 @@
       </foreach>
     </where>
   </delete>
+
+
 </mapper>

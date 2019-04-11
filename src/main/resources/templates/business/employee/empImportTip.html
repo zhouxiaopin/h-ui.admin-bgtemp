@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sk="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:replace="common/common :: common_header(~{::title},~{},~{},~{})">
+    <!--title,metas,links,scripts-->
+    <title>提示信息</title>
+</head>
+<body>
+<!--刷新栏开始-->
+<sk:navBar navText="提示信息" hasFresh="false"/>
+<!--刷新栏结束-->
+
+<!--*********************-->
+
+<!--数据显示开始-->
+<div class="page-container">
+
+    <!--提示信息开始-->
+    <div class="text-c" th:utext="${#strings.isEmpty(msg)?'操作有误、请稍后再试':msg}">
+    </div>
+    <!--提示信息结束-->
+
+    <!--*********************-->
+
+
+    <!--表格区域开始-->
+    <div th:if="${not #lists.isEmpty(list)}" class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th>姓名</th>
+                <th>员工编号</th>
+                <th>机构id</th>
+                <th>手机号码</th>
+                <th>说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-c" th:each="item : ${list}">
+                <th th:text="${item.empName }"></th>
+                <th th:text="${item.empNo }"></th>
+                <th th:text="${item.orgId }"></th>
+                <th th:text="${item.mobilePhone }"></th>
+                <th th:text="${item.msg }"></th>
+            </tr>
+            <!--<tr style="text-align:center">-->
+            <!--<td colspan="16">暂无数据</td>-->
+            <!--</tr>-->
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--数据显示结束-->
+
+<!--*********************-->
+
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="common/common :: common_footer">
+</div>
+<!--/_footer 作为公共模版分离出去-->
+</body>
+</html>
