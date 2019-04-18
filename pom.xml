@@ -22,6 +22,7 @@
 		<guava.version>20.0</guava.version>
 		<mybatis.springboot.version>2.0.0</mybatis.springboot.version>
 		<commons.lang3.version>3.5</commons.lang3.version>
+		<commons.collections.version>3.2.2</commons.collections.version>
 		<jackson.mapper.asl.version>1.9.13</jackson.mapper.asl.version>
 		<fastjson.version>1.2.56</fastjson.version>
 		<joda.time.version>2.3</joda.time.version>
@@ -116,6 +117,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons.lang3.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons.collections.version}</version>
 		</dependency>
 
 		<!--jackson-->
