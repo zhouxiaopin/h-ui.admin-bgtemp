@@ -21,7 +21,7 @@ public class DruidConfig {
     @Bean
     public ServletRegistrationBean statViewServle(){
         //org.springframework.boot.context.embedded.ServletRegistrationBean提供类的进行注册.
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(new StatViewServlet(),"/druid/*");
 
         Map<String,String> initParams = Maps.newHashMap();
         //白名单
