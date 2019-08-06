@@ -20,6 +20,16 @@ public class Const {
 
     }
 
+    //统一用户api接口前缀
+    public interface Url{
+        String UA_API_URL_PREFIX = "http://172.31.211.181:10030/ua/";
+        interface Emp{
+            String EMP_TREESELECT = UA_API_URL_PREFIX + "emp/getEmpTree";
+            String QUERY_EMP_BY_EMPID = UA_API_URL_PREFIX + "emp/queryEmpByEmpId";
+        }
+
+    }
+
     //shiro权限配置
     public interface ShiroPermis{
         //机构信息

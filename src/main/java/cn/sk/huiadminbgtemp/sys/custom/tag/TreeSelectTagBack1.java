@@ -1,9 +1,7 @@
 package cn.sk.huiadminbgtemp.sys.custom.tag;
 
-
 import cn.sk.huiadminbgtemp.sys.common.ServerResponse;
 import cn.sk.huiadminbgtemp.sys.common.SysConst;
-import cn.sk.huiadminbgtemp.sys.custom.service.ITreeSelectService;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfCustom;
 import cn.sk.huiadminbgtemp.sys.pojo.SysSqlConfQueryVo;
 import cn.sk.huiadminbgtemp.sys.service.ISysSqlConfService;
@@ -28,7 +26,7 @@ import java.util.Map;
 @Setter
 @Getter
 @Slf4j
-public class TreeSelectTag extends BaseTag {
+public class TreeSelectTagBack1 extends BaseTag {
     //标签名
     private static final String TAG_NAME  = "treeSelect";
     //html标签名
@@ -59,19 +57,12 @@ public class TreeSelectTag extends BaseTag {
     private String divId = "_sk_"+System.nanoTime();
     //value对应显示的值
     private String showValue;
-
-    //是否使用外部数据
-    private boolean useOutData = Boolean.FALSE;
-    //ITreeSelectService执行的方法
-    private String exeMethod;
-
 //    {id:5, pId:0, name:"广东省", open:true}
 //    {id:4, pId:0, name:"河北省", open:true, nocheck:true},
     private ISysSqlConfService sysSqlConfService;
     private JdbcTemplate jdbcTemplate;
-    private ITreeSelectService treeSelectService;
 
-    public TreeSelectTag(String dialectPrefix) {
+    public TreeSelectTagBack1(String dialectPrefix) {
         super(
                 TemplateMode.HTML, // 此处理器将仅应用于HTML模式
                 dialectPrefix,     // 要应用于名称的匹配前缀
@@ -82,7 +73,7 @@ public class TreeSelectTag extends BaseTag {
                 PRECEDENCE);       // 优先(内部方言自己的优先)
 
     }
-    public TreeSelectTag(TemplateMode templateMode, String dialectPrefix, String elementName, boolean prefixElementName, String attributeName, boolean prefixAttributeName, int precedence) {
+    public TreeSelectTagBack1(TemplateMode templateMode, String dialectPrefix, String elementName, boolean prefixElementName, String attributeName, boolean prefixAttributeName, int precedence) {
         super(templateMode, dialectPrefix, elementName, prefixElementName, attributeName, prefixAttributeName, precedence);
     }
 
@@ -92,9 +83,6 @@ public class TreeSelectTag extends BaseTag {
         super.doProcess(context, tag, structureHandler);
         sysSqlConfService = appCtx.getBean(ISysSqlConfService.class);
         jdbcTemplate = appCtx.getBean(JdbcTemplate.class);
-        if(useOutData) {
-            treeSelectService = appCtx.getBean(ITreeSelectService.class);
-        }
 
         /*
          * 指示引擎用指定的模型替换整个元素。
@@ -140,17 +128,6 @@ public class TreeSelectTag extends BaseTag {
         if(!StringUtils.isEmpty(scCode)) {
             this.setScCode(scCode);
         }
-        //是否使用外部数据
-        String useOutData = tag.getAttributeValue("useOutData");
-        if(!StringUtils.isEmpty(useOutData)) {
-            this.setUseOutData(Boolean.valueOf(useOutData));
-        }
-        //ITreeSelectService执行的方法
-        String exeMethod = tag.getAttributeValue("exeMethod");
-        if(!StringUtils.isEmpty(exeMethod)) {
-            this.setExeMethod(exeMethod);
-        }
-
     }
 
     @Override
@@ -172,11 +149,6 @@ public class TreeSelectTag extends BaseTag {
         this.setScCode("");
         //value对应显示的值
         this.setShowValue("");
-
-        //是否使用外部数据
-        this.setUseOutData(Boolean.FALSE);
-        //ITreeSelectService执行的方法
-        this.setExeMethod("");
     }
 
     //生成html
@@ -369,7 +341,7 @@ public class TreeSelectTag extends BaseTag {
         //获取数据
         js.append(initDataName);
         js.append("=");
-        if(!StringUtils.isEmpty(this.scCode)||!StringUtils.isEmpty(this.exeMethod)) {
+        if(!StringUtils.isEmpty(this.scCode)) {
             js.append(this.genData());
         }else{
             js.append("[]");
@@ -403,42 +375,25 @@ public class TreeSelectTag extends BaseTag {
     }
     //生成数据
     private String genData(){
-        String sql = "";
-        if(!useOutData) {
-            SysSqlConfQueryVo sysSqlConfQueryVo = new SysSqlConfQueryVo();
+        SysSqlConfQueryVo sysSqlConfQueryVo = new SysSqlConfQueryVo();
 
-            SysSqlConfCustom sysSqlConfCustom = new SysSqlConfCustom();
-            sysSqlConfCustom.setScCode(this.getScCode());
-            sysSqlConfCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
+        SysSqlConfCustom sysSqlConfCustom = new SysSqlConfCustom();
+        sysSqlConfCustom.setScCode(this.getScCode());
+        sysSqlConfCustom.setRecordStatus(SysConst.RecordStatus.ABLE);
 
-            sysSqlConfQueryVo.setSysSqlConfCustom(sysSqlConfCustom);
-            ServerResponse<List<SysSqlConfCustom>> serverResponse = sysSqlConfService.queryObjs(sysSqlConfQueryVo);
-            List<SysSqlConfCustom> sysSqlConfCustoms = serverResponse.getData();
-            if(CollectionUtils.isEmpty(sysSqlConfCustoms)) {
-                log.error("sql语句没有配置:语句码为{}",sysSqlConfCustom.getScCode());
-                return null;
-            }
-
-            sql = sysSqlConfCustoms.get(0).getScStatement();
+        sysSqlConfQueryVo.setSysSqlConfCustom(sysSqlConfCustom);
+        ServerResponse<List<SysSqlConfCustom>> serverResponse = sysSqlConfService.queryObjs(sysSqlConfQueryVo);
+        List<SysSqlConfCustom> sysSqlConfCustoms = serverResponse.getData();
+        if(CollectionUtils.isEmpty(sysSqlConfCustoms)) {
+            log.error("sql语句没有配置:语句码为{}",sysSqlConfCustom.getScCode());
+            return null;
         }
-
-
+        String sql = sysSqlConfCustoms.get(0).getScStatement();
         List<Map<String,Object>> data = Lists.newArrayList();
 
         try {
-            if(!useOutData){
-                data = jdbcTemplate.queryForList(sql);
-            }else {
-                data = treeSelectService.exeMethod(exeMethod).getData();
-            }
-
-            //判断数据是否为空
-            if(CollectionUtils.isEmpty(data)) {
-                return "[]";
-            }
-
+            data = jdbcTemplate.queryForList(sql);
             //判断是否有值
-
             String value = this.getValue();
             if(!StringUtils.isEmpty(value)) {
                 String[] values = StringUtils.split(value,",");
@@ -462,8 +417,7 @@ public class TreeSelectTag extends BaseTag {
                 this.setShowValue(temp.toString());
             }
         }catch (DataAccessException e){
-//            log.error("sql语句配置错误:语句码为{}",sysSqlConfCustom.getScCode());
-            log.error("sql语句配置错误:语句码为{}",this.getScCode());
+            log.error("sql语句配置错误:语句码为{}",sysSqlConfCustom.getScCode());
         }
         if(CollectionUtils.isEmpty(data)) {
             return null;

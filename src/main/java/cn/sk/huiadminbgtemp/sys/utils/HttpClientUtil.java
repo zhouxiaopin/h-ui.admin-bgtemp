@@ -104,7 +104,79 @@ public class HttpClientUtil {
 		jObj.put("timeConsuming", timeConsuming);
 		return jObj;
 	}
-	
+	/**
+	 * Post请求
+	 * @param url
+	 * @param params
+	 * @return
+	 */
+	public static JSONObject sendPostJson(String interfaceName,String url, String params) {
+		long startTime = System.currentTimeMillis();
+		// 初始化请求接收对象
+		CloseableHttpResponse response = null;
+
+		// 【1】，创建Httpclient对象
+		CloseableHttpClient httpclient = HttpClientUtil.createDefault();
+
+		// 【2】，Post请求，创建HttpPost对象。
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.addHeader("ContentType", "application/json");
+
+		try {
+			// 设置请求参数（这里是模仿，web页的提交参数key-value格式）
+			// 擦，这里貌似最后还是转化成了 key1=value2&key2=value2&key3=value3 这样的格式
+			httpPost.setEntity(new StringEntity(params, Consts.UTF_8));
+			// httpPost.setEntity(new UrlEncodedFormEntity(list,Consts.UTF_8));
+			response = httpclient.execute(httpPost);
+			/** 请求发送成功，并得到响应 **/
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				HttpEntity httpEntity = response.getEntity();
+				String result = null;
+				try {
+					// EntityUtils里面解析流的时候，已近关闭了实体流了
+					result = EntityUtils.toString(httpEntity);
+				} catch (ParseException e) {
+					log.error("请求Post,解析resulr数据异常ParseException：", e);
+					e.printStackTrace();
+				} catch (IOException e) {
+					log.error("请求Post,解析resulr数据异常IOException：", e);
+					e.printStackTrace();
+				}
+
+				long endTime = System.currentTimeMillis();
+				String timeConsuming = DateUtils.timeDifferenceTomm(startTime,endTime);
+				log.info(interfaceName);
+				log.info("请求参数：" + params.toString());
+				log.info("返回结果：" + result);
+				log.info("耗时： " + timeConsuming);
+				log.info("------------------------------------------");
+
+//				System.out.println("=====请求返回的数据====="+result);
+				return JSONObject.parseObject(result);
+			}
+		} catch (UnsupportedEncodingException e1) {
+			log.error("请求Post异常UnsupportedEncodingException：", e1);
+			e1.printStackTrace();
+		} catch (ClientProtocolException e2) {
+			log.error("请求Post异常ClientProtocolException：", e2);
+			e2.printStackTrace();
+		} catch (IOException e) {
+			log.error("请求Post异常IOException：", e);
+			e.printStackTrace();
+		}finally{
+			try {
+				if(null != response){
+					response.close();
+				}
+				if(null != httpclient){
+					httpclient.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	/**
 	 * Post请求
 	 * @param url
