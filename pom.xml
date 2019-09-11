@@ -251,6 +251,85 @@
 					<overwrite>true</overwrite>
 				</configuration>
 			</plugin>
+
+<!--			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<layout>ZIP</layout>
+					&lt;!&ndash;去除在生产环境中不变的依赖&ndash;&gt;
+			&lt;!&ndash;<excludeGroupIds>&ndash;&gt;
+			&lt;!&ndash;org.springframework.boot,&ndash;&gt;
+			&lt;!&ndash;org.springframework,&ndash;&gt;
+			&lt;!&ndash;</excludeGroupIds>&ndash;&gt;
+			&lt;!&ndash;java -Dloader.path="libs/" -jar ticc-repair.jar&ndash;&gt;
+					<includes>
+						<include>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+						</include>
+					</includes>
+				</configuration>
+			</plugin>
+			&lt;!&ndash;打包依赖lib外置&ndash;&gt;
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/libs</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							<mainClass>cn.gzticc.repair.TiccRepairApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						&lt;!&ndash;<exclude>**/application-*.properties</exclude>&ndash;&gt;
+						<exclude>**/*.properties</exclude>
+						&lt;!&ndash;<exclude>**/*.xml</exclude>&ndash;&gt;
+						&lt;!&ndash;<exclude>**/*.yml</exclude>&ndash;&gt;
+						&lt;!&ndash;<exclude>static/**</exclude>&ndash;&gt;
+						<exclude>templates/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			&lt;!&ndash; 设置编译版本 &ndash;&gt;
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>-->
+
 		</plugins>
 	</build>
 

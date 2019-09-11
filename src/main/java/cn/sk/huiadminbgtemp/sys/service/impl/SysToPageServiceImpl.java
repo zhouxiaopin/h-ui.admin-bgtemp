@@ -119,7 +119,10 @@ public class SysToPageServiceImpl implements ISysToPageService {
                 treeNodes.add(treeNode);
             }
             treeNodes = TreeUtil.bulid(treeNodes, SysConst.SysResource.DEFAULT_PARENTID.toString());
-            mv.addObject("menuList", treeNodes);
+//            mv.addObject("menuList", treeNodes);
+            if(treeNodes.size() >= 1) {
+                mv.addObject("menuList", treeNodes);
+            }
         }
 
 //        SecurityUtils.getSubject().
